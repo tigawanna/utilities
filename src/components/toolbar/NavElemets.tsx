@@ -3,12 +3,12 @@ import { ReactModalWrapper } from './../../shared/wrappers/ReactModalWrapper';
 import { TheIcon } from './../../shared/wrappers/TheIcon';
 
 import { useState } from 'react';
-import { FaTasks, FaUserCircle } from 'react-icons/fa';
+import { FaHome, FaTasks, FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import { MdNotifications, MdOutlineDashboard } from 'react-icons/md';
 import { RiTeamFill } from 'react-icons/ri';
-import { IconContext } from 'react-icons';
+import { IconContext, IconType } from 'react-icons';
 import { useDarkTheme } from '../../shared/hooks/useDarkTheme';
 import { makeImageUrl } from '../../state/pb/config';
 import { AppUser } from '../../state/types/base';
@@ -21,10 +21,11 @@ import { AppUser } from '../../state/types/base';
 
 interface NavElemetsProps {
 user:AppUser
+sidebar:boolean
 closeModal?: () => void
 }
 
-export const NavElemets = ({user,closeModal}:NavElemetsProps) => {
+export const NavElemets = ({user,sidebar,closeModal}:NavElemetsProps) => {
 
 
 
@@ -35,7 +36,7 @@ const {modeIcon,theme,toggleTheme} = useDarkTheme()
 
 
 return (
-    <div className='w-full mx-5 h-screen dark:text-white
+    <div className='w-full  h-screen dark:text-white
     flex flex-col justify-start'>
 
 
@@ -68,7 +69,8 @@ return (
             <IconContext.Provider value={{
                 size: '1.5rem',
             }}>
-            <div className="w-full  flex justify-center items-center
+          
+            {/* <div className="w-full  flex justify-center items-center
             hover:text-blue-700">
                     <Link
                   
@@ -89,13 +91,21 @@ return (
 
 
             <div className="w-full  flex justify-center items-center
-         hover:text-blue-700">
+            hover:text-blue-700">
                 <Link 
                 className='w-fit h-fit flex items-center justify-center gap-2'
                 to="/portal"><MdOutlineDashboard/>
                         <h3 className='text-sm font-normal'>Portal</h3>
                 </Link>
-            </div>
+            </div> */}
+
+            <NavElemetLink
+            Icon={FaHome}
+            link_name="Home"
+            link_path="/"
+            sidebar={sidebar}
+
+            />
 
 
             {/* <div className="w-full  flex justify-center items-center 
@@ -120,7 +130,7 @@ return (
             <div className="w-fit h-full p-1 mx-5 flex justify-center items-center   ">
                 <TheIcon
                     Icon={modeIcon}
-                    size={"30"}
+                    size={"1.5rem"}
                     iconAction={toggleTheme}
                 />
             </div>
@@ -128,7 +138,7 @@ return (
                 {!avatar ? (
                     <TheIcon
                         Icon={FaUserCircle}
-                        size={"25"}
+                        size={"1.5rem"}
                         color={""}
                         iconAction={() => setIsOpen(true)}
                         data-testid="open-user-menu"
@@ -139,7 +149,7 @@ return (
                         src={avatar}
                         alt={""}
                         data-testid="open-user-menu"
-                        className="rounded-full  h-[40px] hover:border-accent
+                        className="rounded-full  h-[35px] hover:border-accent
                         border-2 border-slate-900 dark:border-slate-100 aspect-square"
                         onClick={() => setIsOpen(true)}
                     />
@@ -151,3 +161,22 @@ return (
 }
 
 
+interface NavElemetLinkProps {
+sidebar:boolean
+Icon:IconType
+link_path:string
+link_name:string
+}
+
+export function NavElemetLink({Icon,link_path,link_name,sidebar}:NavElemetLinkProps){
+return (
+    <div className="w-full  flex justify-center items-center
+         hover:text-blue-700">
+        <Link
+            className='w-fit h-fit flex items-center justify-center gap-2'
+            to={link_path}><Icon/>
+            {sidebar&&<h3 className='text-sm font-normal'>{link_name}</h3>}
+        </Link>
+    </div>
+);
+}

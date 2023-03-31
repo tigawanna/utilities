@@ -51,12 +51,12 @@ export const RootLayout = ({ user }: RootLayoutProps) => {
         open={open}
         closeModal={() => setOpen(false)}
       >
-        <NavElemets user={user} closeModal={() => setOpen(false)} />
+        <NavElemets user={user} closeModal={() => setOpen(false)} sidebar={open}/>
       </SideDrawer>
 
 
 
-      <main className=" w-full  min-h-screen z-20 h-full mt-[12%] md:ml-[10%] sm:mt-[10%] md:mt-[4%] ">
+      <main className=" w-full  min-h-screen z-20 h-full mt-[12%]  md:ml-[5%] sm:mt-[10%] md:mt-[4%] ">
         <Outlet />
       </main>
 
