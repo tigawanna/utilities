@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { TheIcon } from "../wrappers/TheIcon";
 import { AiOutlineCloseCircle } from "react-icons/ai/index.js";
 import { BiImageAdd } from "react-icons/bi/index.js";
-import { makeImageUrl } from "../../utils/pb/config";
+import { makeImageUrl } from "../../state/pb/config";
+
 
 
 interface ImageInputProps<T> {

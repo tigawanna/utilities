@@ -2,7 +2,8 @@ import React from 'react'
 import Modal from 'react-modal';
 import { AiOutlineClose } from 'react-icons/ai'
 import { IconContext } from "react-icons/lib";
-import useBodyScrollLock from '../../utils/hooks/useScrollLock';
+import useBodyScrollLock from '../hooks/useScrollLock';
+
 
 interface ReactModalWrapperProps {
     isOpen: boolean;

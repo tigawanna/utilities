@@ -3,11 +3,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineHome } from 'react-icons/ai';
 import { FaUserCircle } from 'react-icons/fa';
-import { TheIcon } from '@denniskinuthia/tiny-pkgs';
-import { User } from '../../utils/types';
+import { AppUser } from '../../state/types/base';
+import { TheIcon } from '../../shared/wrappers/TheIcon';
+
 
 interface ToolbarProps {
-  user: User
+  user:AppUser
 }
 
 export const Toolbar: React.FC<ToolbarProps> = () => {

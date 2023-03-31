@@ -1,10 +1,9 @@
 /* eslint-disable implicit-arrow-linebreak */
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { User } from '../../utils/types';
-
+import { AppUser } from '../../state/types/base';
 interface AuthLayoutProps {
-  user?: User | null
+  user?: AppUser
 }
 
 export const AuthLayout: React.FC<AuthLayoutProps> = () =>

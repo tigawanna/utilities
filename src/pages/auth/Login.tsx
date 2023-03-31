@@ -2,10 +2,11 @@
 import React from 'react';
 // import { useNavigate, Link } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { User } from '../../utils/types';
+import { AppUser } from '../../state/types/base';
+
 
 interface LoginProps {
-  user?: User
+  user?: AppUser
 }
 
 export const Login: React.FC<LoginProps> = () =>

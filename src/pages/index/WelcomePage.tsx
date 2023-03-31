@@ -1,20 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Hero } from '../../components/index/Hero';
-
-import { User } from '../../utils/types';
+import { AppUser } from '../../state/types/base';
 
 interface WelcomePageProps {
-  user?:User | null
+  user:AppUser
 }
 
 export const WelcomePage: React.FC<WelcomePageProps> = ({ user }) => {
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    if (user?.email) {
-      navigate('/main');
-    }
-  }, [user]);
+
 
   return (
     <div className="w-full h-full flex flex-col justify-start items center dark:bg-slate-900">

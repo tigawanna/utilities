@@ -1,6 +1,5 @@
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { QueryStateWrapper, LoadingElipse } from '@denniskinuthia/tiny-pkgs';
 import { useQuery } from '@tanstack/react-query';
 import { RootLayout } from './pages/index/RootLayout';
 import { WelcomePage } from './pages/index/WelcomePage';
@@ -9,13 +8,19 @@ import { AuthLayout } from './pages/auth/AuthLayout';
 import { Login } from './pages/auth/Login';
 import { Signup } from './pages/auth/Signup';
 import { Test } from './components/test/Test';
-import { ReactRouterError } from './shared/ReactRouterError';
+import { ReactRouterError } from './shared/extra/ReactRouterError';
+import { getUser } from './state/pb/config';
+import { QueryStateWrapper } from './shared/wrappers/QueryStateWrapper';
+import { LoaderElipse } from './shared/loaders/Loaders';
 
 function App() {
-  const user = useQuery({
+  const query = useQuery({
     queryKey:['user'],
-    queryFn:() => null
+    queryFn:getUser
   }, );
+
+  const user = query.data;
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -36,7 +41,7 @@ function App() {
             },
             {
               path: '/auth/signup',
-              element: <Signup />,
+              element: <Signup user={user}/>,
               // loader: blogPostLoader,
             },
           ],
@@ -64,9 +69,9 @@ function App() {
   ]);
 
   return (
-    <QueryStateWrapper
-      query={user}
-      loader={<LoadingElipse />}
+    <QueryStateWrapper 
+      query={query}
+      loader={<LoaderElipse />}
     >
       <div className=" dark:bg-slate-900 h-full max-h-screen
        dark:text-white dark:shadow-white"

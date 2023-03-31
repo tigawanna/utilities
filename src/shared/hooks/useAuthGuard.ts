@@ -1,8 +1,8 @@
 
 import { useEffect } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
-import { AppUser } from '../types/base';
 import { useLocation } from 'react-router-dom';
+import { AppUser } from '../../state/types/base';
 
 
 export const useAuthGuard = (user:AppUser,test_mode:boolean) => {

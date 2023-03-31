@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { User } from '../../utils/types';
+import { AppUser } from '../../state/types/base';
+
 
 interface SignupProps {
-  user?:User
+  user:AppUser
 }
 
 export const Signup: React.FC<SignupProps> = () =>

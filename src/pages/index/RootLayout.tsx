@@ -1,20 +1,16 @@
 import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet} from 'react-router-dom';
 import { Toolbar } from '../../components/toolbar/Toolbar';
-import { User } from '../../utils/types';
+import { AppUser } from '../../state/types/base';
 
 interface RootLayoutProps {
-  user : User
+  user: AppUser
   test_mode:boolean
 }
 
 export const RootLayout: React.FC<RootLayoutProps> = ({ user, test_mode }) => {
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    if (!user?.email && !test_mode) {
-      navigate('/auth');
-    }
-  }, [user?.email]);
+
+
 
   return (
     <div className="w-full h-screen max-h-screen dark:bg-slate-900">

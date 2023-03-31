@@ -1,8 +1,8 @@
 import React from 'react';
-import { User } from '../../utils/types';
+import { AppUser } from '../../state/types/base';
 
 interface TestProps {
-  user?: User
+  user:AppUser
 }
 
 export const Test: React.FC<TestProps> = () => (
