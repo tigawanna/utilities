@@ -3,7 +3,7 @@ const path = require('path');
 
 // remeber to install colors package
 // npm -D i colors
-require("colors");
+// require("colors");
 // import fs from 'fs';
 // import path from 'path';
 
@@ -35,7 +35,7 @@ interface ${componentName}LayoutProps {
 
 }
 
-export function ${componentName}Layout({}:${componentName}LayoutProps){
+export default function ${componentName}Layout({}:${componentName}LayoutProps){
   return (
     <div className='w-full h-full'>
       <Outlet/>
@@ -52,7 +52,7 @@ interface ${componentName}Props {
 
 }
 
-export function ${componentName}({}:${componentName}Props){
+export default function ${componentName}({}:${componentName}Props){
   return (
     <div className='w-full h-full min-h-screen  flex items-center justify-center'>
       ${componentName} component
