@@ -24,7 +24,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <RootLayout user={user} test_mode />,
+      element: <RootLayout user={user}  />,
       // loader:userLoader(queryClient),
       errorElement: <ReactRouterError />,
       children: [
@@ -62,10 +62,7 @@ function App() {
 
       ],
     },
-    // {
-    //   path: '/newsletter',
-    //   action: newsletterAction,
-    // },
+
   ]);
 
   return (
@@ -73,7 +70,7 @@ function App() {
       query={query}
       loader={<LoaderElipse />}
     >
-      <div className=" dark:bg-slate-900 h-full max-h-screen
+      <div className=" dark:bg-slate-900 h-full min-h-screen 
        dark:text-white dark:shadow-white"
       >
         <RouterProvider router={router} />

@@ -2,7 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+
+body::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(45, 2, 65, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color:var(--accent-color);
+}
+
+
+
 :root {
+  --primary-color: #e614b8;
+  --accent-color: #bd28db;
+
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -22,3 +44,4 @@
 .scroll-bar{
   @apply scrollbar-thin hover:scrollbar-thumb-purple-700 scrollbar-track-gray-400
 }
+
