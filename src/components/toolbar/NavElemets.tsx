@@ -12,6 +12,7 @@ import { IconContext, IconType } from 'react-icons';
 import { useDarkTheme } from '../../shared/hooks/useDarkTheme';
 import { makeImageUrl } from '../../state/pb/config';
 import { AppUser } from '../../state/types/base';
+import { GrTest } from 'react-icons/gr';
 
 
 
@@ -103,6 +104,13 @@ return (
             Icon={FaHome}
             link_name="Home"
             link_path="/"
+            sidebar={sidebar}
+
+            />
+            <NavElemetLink
+            Icon={GrTest}
+            link_name="Test"
+            link_path="/test"
             sidebar={sidebar}
 
             />

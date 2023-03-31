@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+src/state/data/bills.json
+
+src/state/data/pb-tenants.json
+src/state/data/shops.json
+src/state/data/tenants.json
