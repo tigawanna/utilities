@@ -7,9 +7,7 @@ interface WelcomePageProps {
 }
 
 export const WelcomePage: React.FC<WelcomePageProps> = ({ user }) => {
-
-
-  return (
+return (
     <div className="w-full h-full flex flex-col justify-start items center dark:bg-yellow-900">
 
       <Hero />

@@ -13,6 +13,7 @@ import { useDarkTheme } from '../../shared/hooks/useDarkTheme';
 import { makeImageUrl } from '../../state/pb/config';
 import { AppUser } from '../../state/types/base';
 import { GrTest } from 'react-icons/gr';
+import { BsShopWindow } from 'react-icons/bs';
 
 
 
@@ -71,34 +72,7 @@ return (
                 size: '1.5rem',
             }}>
           
-            {/* <div className="w-full  flex justify-center items-center
-            hover:text-blue-700">
-                    <Link
-                  
-                    className='w-fit h-fit flex items-center justify-center gap-2'
-                    to="/"><FaTasks/>
-                    <h3 className='text-sm font-normal'>Tasks</h3>
-                    </Link>
-            </div>
-
-            <div className="w-full   flex justify-center items-center
-         hover:text-blue-700">
-            <Link 
-            className='w-fit h-fit flex items-center justify-center gap-2'
-            to="/staff"><RiTeamFill/>
-            <h3 className='text-sm font-normal'>Staff</h3>
-            </Link>
-            </div>
-
-
-            <div className="w-full  flex justify-center items-center
-            hover:text-blue-700">
-                <Link 
-                className='w-fit h-fit flex items-center justify-center gap-2'
-                to="/portal"><MdOutlineDashboard/>
-                        <h3 className='text-sm font-normal'>Portal</h3>
-                </Link>
-            </div> */}
+     
 
             <NavElemetLink
             Icon={FaHome}
@@ -106,6 +80,12 @@ return (
             link_path="/"
             sidebar={sidebar}
 
+            />
+            <NavElemetLink
+            Icon={BsShopWindow}
+            link_name="Shops"
+            link_path="/shops"
+            sidebar={sidebar}
             />
             <NavElemetLink
             Icon={GrTest}

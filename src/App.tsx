@@ -1,17 +1,10 @@
 import './App.css';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {  RouterProvider } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { RootLayout } from './pages/index/RootLayout';
-import { WelcomePage } from './pages/index/WelcomePage';
-import { TestLayout } from './components/test/TestLayout';
-import { AuthLayout } from './pages/auth/AuthLayout';
-import { Login } from './pages/auth/Login';
-import { Signup } from './pages/auth/Signup';
-import { Test } from './components/test/Test';
-import { ReactRouterError } from './shared/extra/ReactRouterError';
 import { getUser } from './state/pb/config';
 import { QueryStateWrapper } from './shared/wrappers/QueryStateWrapper';
 import { LoaderElipse } from './shared/loaders/Loaders';
+import { makeRouter } from './router';
 
 function App() {
   const query = useQuery({
@@ -21,49 +14,7 @@ function App() {
 
   const user = query.data;
 
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <RootLayout user={user}  />,
-      // loader:userLoader(queryClient),
-      errorElement: <ReactRouterError />,
-      children: [
-        { index: true, element: <WelcomePage user={user} /> },
-
-        {
-          path: '/auth',
-          element: <AuthLayout user={user} />,
-          children: [
-            {
-              index: true,
-              element: <Login />,
-              // loader: deferredBlogPostsLoader,
-            },
-            {
-              path: '/auth/signup',
-              element: <Signup user={user}/>,
-              // loader: blogPostLoader,
-            },
-          ],
-        },
-
-        {
-          path: '/test',
-          element: <TestLayout user={user} />,
-          children: [
-            {
-              index: true,
-              element: <Test user={user} />,
-              // loader: deferredBlogPostsLoader,
-            },
-
-          ],
-        },
-
-      ],
-    },
-
-  ]);
+  const router = makeRouter(user)
 
   return (
     <QueryStateWrapper 
