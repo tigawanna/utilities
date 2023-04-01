@@ -12,7 +12,7 @@ return (
     <div
         key={shop.id}
         className='w-full p-2 md:w-[35%] h-full flex items-center justify-center border-shadow'>
-        <Link to={``}
+        <Link to={`${shop.id}`}
             className='w-full h-full flex flex-col items-center justify-center'>
             {/*top  */}
             <div className="w-full flex justify-between items-center px-2">

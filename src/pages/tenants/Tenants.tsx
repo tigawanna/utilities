@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { TenantCard } from "../../components/TenantCard";
+import { TenantCard } from "../../components/tenants/TenantCard";
 import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
 import { getTenants } from "../../state/api/tenant";

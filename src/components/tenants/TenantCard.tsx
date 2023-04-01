@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { TenantShops } from "../pages/tenants/TenantShops";
-import { DateOutput } from "../shared/extra/DateOutput";
-import { TenantResponse } from "../state/api/tenant";
+import { TenantShops } from "./TenantShops";
+import { DateOutput } from "../../shared/extra/DateOutput";
+import { TenantResponse } from "../../state/api/tenant";
 
 
 interface TenantCardProps {

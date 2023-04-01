@@ -15,7 +15,7 @@ return (
  {
 tenant_shops.map((tenant_shop) => {
 return(
-    <Link to={`../`} className="w-fit px-2 py-1 
+    <Link to={`../shops/${tenant_shop.id}`} className="w-fit px-2 py-1 
     flex justify-center items-center rounded border hover:bg-purple-600">
         {tenant_shop.shop_number}
     </Link>
