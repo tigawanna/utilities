@@ -14,6 +14,9 @@ import { AppUser } from "./state/types/base";
 const Shops = lazy(() => import("./pages/shops/Shops"));
 const ShopsLayout = lazy(() => import("./pages/shops/ShopsLayout"));
 
+const Tenants = lazy(() => import("./pages/tenants/Tenants"));
+const TenantsLayout = lazy(() => import("./pages/tenants/TenantsLayout"));
+
 
 export function makeRouter(user:AppUser){
     return createBrowserRouter([
@@ -32,6 +35,20 @@ export function makeRouter(user:AppUser){
                         {
                             index: true,
                             element: <Suspense fallback={<LoaderElipse />}> <Shops user={user} /></Suspense>
+                            ,
+                            // loader: deferredBlogPostsLoader,
+                        },
+
+                    ],
+                },
+                {
+                    path: '/tenants',
+                    element: <Suspense fallback={<LoaderElipse />}><TenantsLayout user={user} /></Suspense>
+                    ,
+                    children: [
+                        {
+                            index: true,
+                            element: <Suspense fallback={<LoaderElipse />}> <Tenants user={user} /></Suspense>
                             ,
                             // loader: deferredBlogPostsLoader,
                         },

@@ -1,7 +1,8 @@
+import { AppUser } from "../../state/types/base";
 
 
 interface TenantsProps {
-
+user:AppUser
 }
 
 export default function Tenants({}:TenantsProps){
