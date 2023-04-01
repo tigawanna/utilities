@@ -29,3 +29,4 @@ src/state/data/shops.json
 src/state/data/tenants.json
 .env
 
+src/state/data/pb-tenants copy.json
