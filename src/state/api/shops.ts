@@ -15,7 +15,7 @@ export interface ShopResponse {
     tenant: string
     shop_number: string
     supa_tenant: string
-    utils: string
+    utils: "elec"|"water"|"both"
     order: number
     supa_id: string
     expand:ShopExpand

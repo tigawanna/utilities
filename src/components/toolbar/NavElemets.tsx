@@ -13,7 +13,7 @@ import { useDarkTheme } from '../../shared/hooks/useDarkTheme';
 import { makeImageUrl } from '../../state/pb/config';
 import { AppUser } from '../../state/types/base';
 import { GrTest } from 'react-icons/gr';
-import { BsShopWindow } from 'react-icons/bs';
+import { BsPeople, BsShopWindow } from 'react-icons/bs';
 
 
 
@@ -85,6 +85,12 @@ return (
             Icon={BsShopWindow}
             link_name="Shops"
             link_path="/shops"
+            sidebar={sidebar}
+            />
+            <NavElemetLink
+            Icon={BsPeople}
+            link_name="Tenants"
+            link_path="/tenants"
             sidebar={sidebar}
             />
             <NavElemetLink

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ShopList } from "../../components/shops/ShopList";
+import { ShopCard } from "../../components/shops/ShopCard";
 import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
 import { getShops } from "../../state/api/shops";
@@ -29,7 +29,12 @@ export default function Shops({}:ShopsProps){
 
   return (
     <div className='w-full h-full min-h-screen  flex items-start'>
-      <ShopList shops={shops}/>
+      <div className='w-full h-[80%] p-2 flex flex-wrap justify-center gap-2 '>
+        {shops.map((shop) => {
+            return <ShopCard shop={shop} key={shop.id} />
+          })
+        }
+      </div>
     </div>
   );
 };
