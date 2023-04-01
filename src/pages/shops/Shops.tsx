@@ -28,7 +28,7 @@ export default function Shops({}:ShopsProps){
   const shops = query.data;
 
   return (
-    <div className='w-full h-full min-h-screen  flex items-center justify-center'>
+    <div className='w-full h-full min-h-screen  flex items-start'>
       <ShopList shops={shops}/>
     </div>
   );

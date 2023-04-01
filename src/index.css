@@ -19,6 +19,11 @@ body::-webkit-scrollbar-thumb {
   background-color:var(--accent-color);
 }
 
+.border-shadow{
+  @apply border rounded-xl dark:border-0
+    shadow-md shadow-slate-400
+   dark:shadow-slate-500 dark:shadow-md hover:shadow-purple-800 dark:hover:text-purple-400
+}
 
 
 :root {

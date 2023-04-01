@@ -8,22 +8,21 @@ interface ShopListProps {
 export function ShopList({shops}:ShopListProps){
 return (
     
- <div className='w-full h-full flex items-center justify-center'>
-<div className='w-full h-[80%] p-2 flex flex-wrap items-center justify-center 
-overflow-scroll gap-2'>
+ <div className='w-full h-full flex justify-center bg-yellow-200'>
+<div className='w-full h-[80%] p-2 flex flex-wrap justify-center gap-2 '>
     {
      shops.map((shop)=>{
     
         return (
             <div 
             key={shop.id}
-            className='w-full h-full flex items-center justify-center'>
+            className='w-full p-2 md:w-[35%] h-full flex items-center justify-center border-shadow'>
                 <Link to={``}
-                className='w-full h-full flex items-center justify-center'>
+                className='w-full h-full flex flex-col items-center justify-center'>
                 {/*top  */}
                 <div className="w-full flex justify-between items-center px-2">
-                <h1 className="text-xl font-bold">{shop.shop_number}</h1>
-                <h1 className="text-lg font-bold">{shop?.expand?.tenant?.name}</h1>
+                <h1 className="font-bold">{shop.shop_number}</h1>
+                <h1 className="">{shop?.expand?.tenant?.name}</h1>
                 </div>
 
                 {/*body */}

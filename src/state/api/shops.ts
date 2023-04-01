@@ -63,7 +63,7 @@ export async function updateShop(shop:ShopResponse) {
 export async function getShops() {
     try {
         const records = await pb.collection('shops').getFullList<ShopResponse>({
-            sort: '-created',
+            sort: 'order',
             expand: 'tenant',
         });
         return records
