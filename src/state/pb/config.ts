@@ -9,7 +9,9 @@ export const main_url = import.meta.env.VITE_SITE_URL
 
 export const pb = new PocketBase(pb_url);
 
-export const getUser = async () => pb.authStore.model as unknown as AppUser
+export async function getUser() {
+  return pb.authStore.model as unknown as AppUser
+}
 
 export const loginUser = async ({email,password}:{email:string; password:string}) => {
 try {
