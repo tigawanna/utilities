@@ -20,7 +20,7 @@ return (
                 <h1 className="">{shop?.expand?.tenant?.name}</h1>
             </div>
 
-            {/*body */}
+            {/*bottom */}
             <div className="w-full flex  justify-between items-center px-2">
                 <DateOutput the_date={shop.created} />
                 <UtilIcons utils={shop.utils} />
