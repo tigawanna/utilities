@@ -12,6 +12,7 @@ import { LoaderElipse } from "./shared/loaders/Loaders";
 import { AppUser } from "./state/types/base";
 
 const Shops = lazy(() => import("./pages/shops/Shops"));
+const OneShop = lazy(() => import("./pages/shops/OneShop"));
 const ShopsLayout = lazy(() => import("./pages/shops/ShopsLayout"));
 
 const Tenants = lazy(() => import("./pages/tenants/Tenants"));
@@ -38,6 +39,12 @@ export function makeRouter(user:AppUser){
                             ,
                             // loader: deferredBlogPostsLoader,
                         },
+                        {
+                            path: ':id',
+                            element: <Suspense fallback={<LoaderElipse />}> <OneShop user={user} /></Suspense>
+                            ,
+                            // loader: deferredBlogPostsLoader,
+                        },
 
                     ],
                 },
@@ -52,6 +59,7 @@ export function makeRouter(user:AppUser){
                             ,
                             // loader: deferredBlogPostsLoader,
                         },
+                 
 
                     ],
                 },
