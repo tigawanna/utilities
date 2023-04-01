@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { TenantShops } from "../pages/tenants/TenantShops";
 import { DateOutput } from "../shared/extra/DateOutput";
 import { TenantResponse } from "../state/api/tenant";
 
@@ -11,9 +12,9 @@ export function TenantCard({tenant}:TenantCardProps){
 return (
     <div
         key={tenant.id}
-        className='w-full p-2 md:w-[35%] h-full flex items-center justify-center border-shadow'>
+        className='w-full p-2 md:w-[35%] h-full flex flex-col items-center justify-center border-shadow gap-2'>
         <Link to={``}
-            className='w-full h-full flex flex-col items-center justify-center'>
+            className='w-full h-full flex flex-col items-center justify-center gap-2 hover:bg-purple-800'>
             {/*top  */}
             <div className="w-full flex justify-between items-center px-2">
                 <h1 className="font-bold">{tenant.name}</h1>
@@ -21,11 +22,11 @@ return (
             </div>
 
             {/*body */}
-            <div className="w-full flex  justify-between items-center px-2">
-                <DateOutput the_date={tenant.created} />
-     
-            </div>
+
         </Link>
+        <div className="w-full flex  justify-between items-center px-2">
+            <TenantShops tenant={tenant} />
+        </div>
     </div>
 );
 }

@@ -26,6 +26,7 @@ export default function Tenants({}:TenantsProps){
     return <div className="w-full h-full flex items-center justify-center">No Tenants</div>
   }
   const tenants = query.data;
+  console.log("tenants", tenants)
   return (
     <div className='w-full h-full min-h-screen  flex items-center justify-center'>
       <div className='w-full h-[80%] p-2 flex flex-wrap justify-center gap-2 '>
