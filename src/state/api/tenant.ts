@@ -1,5 +1,5 @@
 import { pb } from "../pb/config";
-import tenants_json from '../data/tenants.json'
+
 
 export interface TenantResponse {
     id: string
@@ -15,19 +15,45 @@ export interface TenantResponse {
 }
 
 
-export async function migrateTenantdtae() {
-    for await (const a_tenant of tenants_json) {
-        const tenant = {
-        name:a_tenant.tenant_name,
-        supa_id:a_tenant.id,
-        }
-        await addTenant(tenant)
-    }
-}
+
 
 export async function addTenant(tenant:Partial<TenantResponse>) {
     try {
     const record = await pb.collection('tenants').create<TenantResponse>(tenant);
+    return record
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export async function getTenant(id:string) {
+    try {
+        // or fetch only the first record that matches the specified filter
+        const record = await pb.collection('tenants').getFirstListItem<TenantResponse>( `id="${id}"`, {});
+        return record
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export async function getTenants() {
+    try {
+    // you can also fetch all records at once via getFullList
+    const records = await pb.collection('tenants').getFullList<TenantResponse>({
+            sort: '-created',
+        });
+    return records
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+export async function updateTenant(id:string, tenant:TenantResponse) {
+    try {
+    const record = await pb.collection('tenants').update<TenantResponse>(id,tenant);
     return record
     } catch (error) {
         console.log(error)

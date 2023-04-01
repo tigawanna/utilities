@@ -56,7 +56,7 @@ export const RootLayout = ({ user }: RootLayoutProps) => {
 
 
 
-      <main className=" w-full  min-h-screen z-20 h-full mt-[12%]  md:ml-[5%] sm:mt-[10%] md:mt-[4%] ">
+      <main className=" w-full  min-h-screen z-20 h-full mt-[12%]  md:ml-[5%] sm:mt-[10%] md:mt-[5%] ">
         <Outlet />
       </main>
 

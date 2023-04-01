@@ -1,7 +1,8 @@
 import shops_json from '../data/shops.json'
 import pb_tenants from '../data/pb-tenants.json'
-import { TenantResponse } from "./tenant";
+import tenants_json from '../data/tenants.json'
 import { addShop } from './shops';
+import { addTenant } from './tenant';
 
 
 interface OldShop {
@@ -47,5 +48,16 @@ export async function migrateShops() {
         const shop = matchTeanatToShop(a_shop)
         // @ts-ignore
     return await addShop(shop)
+    }
+}
+
+
+export async function migrateTenantdtae() {
+    for await (const a_tenant of tenants_json) {
+        const tenant = {
+            name: a_tenant.tenant_name,
+            supa_id: a_tenant.id,
+        }
+        await addTenant(tenant)
     }
 }
