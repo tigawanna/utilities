@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { AddShop } from "../../components/shops/AddShop";
 import { ShopCard } from "../../components/shops/ShopCard";
 import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
@@ -9,7 +10,7 @@ interface ShopsProps {
 user:AppUser
 }
 
-export default function Shops({}:ShopsProps){
+export default function Shops({user}:ShopsProps){
   const query = useQuery({
     queryKey: ['shops'],
     queryFn:getShops
@@ -28,13 +29,15 @@ export default function Shops({}:ShopsProps){
   const shops = query.data;
 
   return (
-    <div className='w-full h-full min-h-screen  flex items-start'>
-      <div className='w-full h-[80%] p-2 flex flex-wrap justify-center gap-2 '>
+    <div className='w-full h-full min-h-screen  flex flex-col items-start'>
+      <div className='w-full h-[80%] p-2 flex flex-wrap justify-center items-center gap-5 '>
         {shops.map((shop) => {
             return <ShopCard shop={shop} key={shop.id} />
           })
         }
+        <AddShop user={user} />
       </div>
+   
     </div>
   );
 };

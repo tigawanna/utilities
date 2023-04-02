@@ -30,8 +30,8 @@ export const FormSelect = <T,>({ error,prop,input,label,setInput,select_options,
 
     return (
         <div 
-        style={styles ?? { width: "100%" }}
-        className="flex flex-col items-center justify-center w-full">
+        style={styles}
+        className="flex flex-col items-center justify-center w-full md:w-[40%]">
             <label className="text-md capitalize  w-[90%] flex items-start">
                 {label}
             </label>

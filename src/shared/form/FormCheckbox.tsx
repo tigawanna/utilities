@@ -33,7 +33,7 @@ export const FormCheckBox = <T,>({
   }
   return (
     <div 
-    style={input_props?.style??{width:"100%"}}
+    style={input_props?.style}
     className="flex items-center justify-center gap-2">
       <label className="text-md capitalize  w-fit">
         {label}

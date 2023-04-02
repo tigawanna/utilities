@@ -42,6 +42,45 @@ export async function getTenant(id:string) {
     }
 }
 
+// export async function searchTenant(filter:string) {
+//     try {
+//         // or fetch only the first record that matches the specified filter
+//         const record = await pb.collection('tenants').getFirstListItem<TenantResponse>(filter, {
+
+//         });
+//         return record
+//     } catch (error) {
+//         console.log(error)
+//         throw error
+//     }
+// }
+
+export async function searchTenant(keyword: string) {
+    try {
+        // you can also fetch all records at once via getFullList
+        const records = await pb
+            .collection("tenants").getFullList<TenantResponse>(10 /* batch size */, {
+                sort: "-created",
+                filter: `name~"${keyword}"`,
+            });
+
+        return records.map((record:TenantResponse) => {
+            // @ts-expect-error
+            record["value"] = record.id;
+            // @ts-expect-error
+            record["label"] = record.name;
+
+            return record;
+        });
+    } catch (error: any) {
+        console.log("error searching tenant", error);
+        throw error;
+    }
+}
+
+
+
+
 export async function getTenants() {
     try {
     // you can also fetch all records at once via getFullList

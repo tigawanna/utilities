@@ -30,8 +30,8 @@ export const FormInput = <T,>({
   };
   return (
     <div 
-      style={input_props?.style ?? { width: "100%" }}
-    className="flex flex-col items-center justify-center ">
+      style={input_props?.style }
+      className="flex flex-col items-center justify-center w-full md:w-[40%] ">
       <label className="text-md capitalize  w-[90%] flex items-start">
         {label}
       </label>

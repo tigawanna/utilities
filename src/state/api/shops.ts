@@ -32,7 +32,8 @@ interface OldShop{
     is_vacant: boolean;
 }
 
-export type ShopMutationFields = Omit<ShopResponse,"collectionId"|"collectionName"|"created"|"update"|"id">
+export type ShopMutationFields = Omit<ShopResponse,
+"collectionId"|"collectionName"|"created"|"update"|"id"|"expand"|"supa_id"|"supa_tenant"|"updated">
 
 
 export async function addShop(shop:ShopMutationFields) {

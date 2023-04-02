@@ -1,5 +1,5 @@
 import { UseMutationResult } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
@@ -24,6 +24,7 @@ interface UseCustomFormProps<T,R> {
 }
 
 export function useCustomForm<T,R>({initialValues,mutation,inputValidation}:UseCustomFormProps<T,R>){
+    
     const [input, setInput] = useState<T>(initialValues);
     const [error, setError] = useState({ name: "", message: "" })
     const [success, setSuccess] = useState<R|undefined>()
