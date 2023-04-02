@@ -17,6 +17,7 @@ export interface ShopResponse {
     supa_tenant: string
     utils: "elec"|"water"|"both"
     order: number
+    is_vacant:boolean
     supa_id: string
     expand:ShopExpand
 }
@@ -48,9 +49,9 @@ export async function addShop(shop:ShopMutationFields) {
     }
 }
 
-export async function updateShop(shop:ShopResponse) {
+export async function updateShop(shop_id:string,shop: ShopMutationFields) {
     try {
-        const record = await pb.collection('shops').update<ShopResponse>(shop.id,shop,{
+        const record = await pb.collection('shops').update<ShopResponse>(shop_id,shop,{
             expand: 'tenant',
         });
         return record

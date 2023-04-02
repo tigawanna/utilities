@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { TenantShops } from "./TenantShops";
 import { TenantResponse } from "../../state/api/tenant";
-import { AddShop } from "../shops/AddShop";
+import { MutateShop } from "../shops/MutateShop";
 import { AppUser } from "../../state/types/base";
 import { FaRegEdit } from "react-icons/fa";
 
@@ -29,7 +29,7 @@ return (
         </Link>
         <div className="w-full flex  justify-between items-center px-2">
             <TenantShops tenant={tenant} />
-             <AddShop user={user} tenant={tenant} 
+             <MutateShop user={user} tenant={tenant} 
              custom_icon={{
                  Icon:FaRegEdit,
                  size:'20'

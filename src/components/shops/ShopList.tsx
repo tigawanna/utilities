@@ -25,7 +25,7 @@ export function ShopList({}:ShopListProps){
 
     const shops = query.data;
 return (
- <div className='w-full h-full flex flex-wrap items-center justify-center gap-2'>
+ <div className='p-5 w-full h-24 overflow-y-scroll scroll-bar flex flex-wrap items-center justify-center gap-2'>
  
   {shops.map((shop) => {
     return(

@@ -1,28 +1,30 @@
 import { useMutation} from "@tanstack/react-query";
 import { useEffect } from "react";
 import { PlainFormButton } from "../../shared/form/FormButton";
+import { FormCheckBox } from "../../shared/form/FormCheckbox";
 import { FormInput } from "../../shared/form/FormInput";
-import { FormSelect } from "../../shared/form/FormSelect";
+import { FormSelect, SelectOption } from "../../shared/form/FormSelect";
 import { SearchSelect } from "../../shared/form/SearchSelect";
 import { useCustomForm } from "../../shared/form/useCustomForm";
 import { concatErrors } from "../../shared/helpers/concaterrors";
 
-import { addShop,ShopMutationFields, ShopResponse } from "../../state/api/shops";
+import { addShop,ShopMutationFields, ShopResponse, updateShop } from "../../state/api/shops";
 import { searchTenant, TenantResponse } from "../../state/api/tenant";
 import { AppUser } from "../../state/types/base";
 import { ShopList } from "./ShopList";
+import { getDefaultOption, util_options } from "./shop_options";
 
 interface ShopFormProps {
-
     user: AppUser
+    updating?:boolean
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
     shop?:ShopResponse
     tenant?:TenantResponse
 }
 
-export function ShopForm({setOpen,shop,tenant}:ShopFormProps){
+export function ShopForm({setOpen,shop,tenant,updating}:ShopFormProps){
 
-    
+
 
     function genInitValues(): ShopMutationFields {
         if (shop) {
@@ -30,7 +32,8 @@ export function ShopForm({setOpen,shop,tenant}:ShopFormProps){
                 order: shop.order,
                 shop_number: shop.shop_number,
                 tenant: shop.tenant,
-                utils: shop.utils
+                utils: shop.utils,
+                is_vacant:false
             }
         }
         if (tenant) {
@@ -38,14 +41,16 @@ export function ShopForm({setOpen,shop,tenant}:ShopFormProps){
                 order: 0,
                 shop_number: 'G-12',
                 tenant:tenant.id,
-                utils: 'elec'
+                utils: 'both',
+                is_vacant:false
             }
         }
         return {
             order: 0,
             shop_number: 'G-01',
             tenant: '',
-            utils: 'elec'
+            utils: 'both',
+            is_vacant:false
         }
     }
 
@@ -61,20 +66,14 @@ export function ShopForm({setOpen,shop,tenant}:ShopFormProps){
             setError({ name: 'tenant', message: 'invalid tenant' })
             return false
         }
-        // const shop_num = shops.find(shop => shop.shop_number === inpt.shop_number)
 
-        // if(inpt.shop_number  === shop_num?.shop_number){
-        //     setError({ name: 'shop_number', message: 'shop number already exists' })
-        //     return false
-        // }
-   
         setError({ name: '', message: '' })
         return true
 
     }
 
     const mutation = useMutation({
-        mutationFn: (input: ShopMutationFields) => addShop(input),
+        mutationFn: (input: ShopMutationFields) => updating?updateShop(shop?.id as string,input):addShop(input),
         meta: {
             invalidates:[["shops"],['tenants']]
         },
@@ -83,36 +82,41 @@ export function ShopForm({setOpen,shop,tenant}:ShopFormProps){
         },
         onSuccess(data, variables, context) {
             // store.updateNotification({ type: "success", message: "leave request successfully sent" })
+            setInput({
+                order: 0,
+                shop_number: 'G-01',
+                tenant: '',
+                utils: 'both',
+                is_vacant: false
+            })
             setOpen(false)
         },
     })
     
     const { error, handleChange, input, setError, setInput, handleSubmit, success } 
-        = 
+    = 
     useCustomForm<ShopMutationFields,ShopResponse>({
     initialValues:genInitValues(),
     inputValidation,
     mutation
     })   
  
-
-
-    const util_options = [
-        { value: 'both', label: 'Both' },
-        { value: 'elec', label: 'Elec' },
-        { value: 'water', label: 'Water' },
-    ]
-
     const setTenant = (value: any) => {
         setInput((prev) => {
             return { ...prev, tenant: value };
         });
     }  ;
-console.log("input  === ",input)
+function genDefaultOptions(options:SelectOption[]) {
+if(shop){
+    return getDefaultOption(options,shop.utils)
+}
+    getDefaultOption(options, 'both')
+}
 
 return (
     <div className='w-full h-full flex flex-col items-center justify-center  bg-slate-800 rounded-lg gap-2 p-2'>
-        <ShopList />
+      
+            <ShopList />
 
         <form onSubmit={handleSubmit}
             data-testid="add-shop-form"
@@ -121,7 +125,7 @@ return (
  
 
             <SearchSelect
-            defaultkeyword={tenant?.name} 
+            defaultkeyword={tenant?.name??shop?.expand.tenant.name} 
             gettterFunction={searchTenant} 
             setValue={setTenant}
   
@@ -144,13 +148,14 @@ return (
                 label="Utils"
                 prop="utils"
                 select_options={util_options}
+                default_option={genDefaultOptions(util_options)}
                 setInput={setInput}
                 // styles={{width: "40%",}}
             />
 
 
 
-            <FormInput
+            <FormInput<ShopMutationFields>
                 error={error}
                 handleChange={handleChange}
                 input={input}
@@ -160,6 +165,17 @@ return (
                 input_props={{
                 style: {minWidth: "40%"}}}
             />
+
+            <FormCheckBox<ShopMutationFields>
+                error={error}
+                setInput={setInput}
+                input={input}
+                label="Is Vacant"
+                prop="is_vacant"
+               input_props={{
+                    // style: { minWidth: "40%" }
+                }}
+                />
             <PlainFormButton
             isSubmitting={mutation.isPending}
             disabled={mutation.isPending}

@@ -14,10 +14,13 @@ const queryClient: QueryClient = new QueryClient({
     onSuccess: async (data, variable, context, mutation) => {
 
       if (Array.isArray(mutation.meta?.invalidates)) {
-
-        return queryClient.invalidateQueries({
-          queryKey: mutation.meta?.invalidates
+        mutation.meta?.invalidates.forEach((key)=>{
+          return queryClient.invalidateQueries({
+            queryKey:key
+          })
         })
+
+
       }
 
       //  to update query cache list items by pocketbase pagianted list queries

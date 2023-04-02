@@ -8,13 +8,14 @@ interface FormSelectProps<T> {
     input: T;
     setInput: React.Dispatch<React.SetStateAction<T>>
     select_options: { value: string; label: string }[];
+    default_option?: { value: string; label: string };
     styles?: React.CSSProperties | undefined
 }
 
 
-type  SelectOption = { value: string; label: string } | null;
+export type  SelectOption = { value: string; label: string }
 
-export const FormSelect = <T,>({ error,prop,input,label,setInput,select_options,styles}: FormSelectProps<T>) => {
+export const FormSelect = <T,>({ error,prop,input,label,setInput,select_options,styles,default_option}: FormSelectProps<T>) => {
     const isError = (err: typeof error, prop: keyof T) => {
         if (err.name === prop && err.message !== "") {
             return true;
@@ -38,7 +39,7 @@ export const FormSelect = <T,>({ error,prop,input,label,setInput,select_options,
             <Select
                 aria-label={label}
                 options={select_options}
-                defaultValue={select_options[0]}
+                defaultValue={default_option??select_options[0]}
                 className="w-[90%] p-[6px] m-1 text-black
                rounded-sm dark:bg-slate-900 "
                 onChange={(e) => {

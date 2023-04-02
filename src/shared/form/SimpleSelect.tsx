@@ -2,11 +2,12 @@ import Select from 'react-select';
 interface SimpleSelectProps {
     select_options: { value: string; label: string }[];
     handleSelectChange: (e: SelectOption) => void
+    defaultValue?: SelectOption
     label: string
 }
 export type SelectOption = { value: string; label: string } | null;
 
-export function SimpleSelect({label,select_options,handleSelectChange}:SimpleSelectProps){
+export function SimpleSelect({label,select_options,handleSelectChange,defaultValue}:SimpleSelectProps){
 
 
 return (
@@ -14,7 +15,7 @@ return (
         <Select
             aria-label={label}
             options={select_options}
-            defaultValue={select_options[0]}
+            defaultValue={defaultValue??select_options[0]}
             name={label}
             className="w-[90%] p-[6px] m-1 text-black
             rounded-sm dark:bg-slate-900 "

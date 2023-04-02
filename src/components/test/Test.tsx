@@ -1,8 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { fetchAll } from '../../state/api/api';
-import { migrateShops } from '../../state/api/migrate';
+import { getBills } from '../../state/api/bills';
+import { addSupaIdtopbShops, migrateBills, migrateShops } from '../../state/api/migrate';
+import { getShops } from '../../state/api/shops';
 import { AppUser } from '../../state/types/base';
+import { BillsView } from '../bills/BillsView';
 
 interface TestProps {
   user:AppUser
@@ -11,15 +14,15 @@ interface TestProps {
 export const Test: React.FC<TestProps> = () => {
   // const [table,setTbale]=useState<"shops"|"tenants">('tenants')
   // const query = useQuery({
-  //   queryKey: ['full-list',table],
-  //   queryFn:() =>fetchAll(table),
-  //   enabled:false
+  //   queryKey: ['full-list'],
+  //   queryFn:()=>getBills(),
+  //   // enabled:false
   // })
 
 
 
   const mutation = useMutation({
-    mutationFn: migrateShops
+    mutationFn: migrateBills
   })
 
 
@@ -27,12 +30,15 @@ export const Test: React.FC<TestProps> = () => {
 // if(query.isFetching){
 //   return <div>loading</div>
 // }
+
+
+// console.log("bills ", query.data)
   // console.log("query full list", query.data)
 
-
+  // console.log("pb_shops", addSupaIdtopbShops())
 
 return (
-  <div className=" w-full   px-2 bg-slate-700  first-letter:text-white" >
+  <div className=" w-full   px-2 " >
     <button
       onClick={() => mutation.mutate()} className='p-5 bg-blue-500 text-lg'>migrate tenants
     </button>
@@ -41,5 +47,7 @@ return (
     </div>}
     {mutation.isError && <div className='w-full h-full bg-red-900 text-lg font-bold'>
       {mutation.error.message}</div>}
+
+      <BillsView/>
   </div>
 );}

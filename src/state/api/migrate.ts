@@ -1,8 +1,13 @@
 import shops_json from '../data/shops.json'
 import pb_tenants from '../data/pb-tenants.json'
+import bills_json from  '../data/bills.json'
+import pb_shops from '../data/pb_shops.json'
 import tenants_json from '../data/tenants.json'
-import { addShop } from './shops';
+
+import shops_with_supaid from '../data/shop_with_supaid.json'
+import { addShop, ShopMutationFields, ShopResponse } from './shops';
 import { addTenant } from './tenant';
+import { addBill, BillMutationFields } from './bills'
 
 
 interface OldShop {
@@ -14,6 +19,16 @@ interface OldShop {
     has_water: boolean;
     has_elec: boolean;
     is_vacant: boolean;
+}
+
+interface OldBill {
+    id: string;
+    created_at: string;
+    shop: string;
+    elec_readings: number;
+    water_readings: number;
+    month: number;
+    year: number;
 }
 
 function matchTeanatToShop(a_shop: OldShop) {
@@ -41,7 +56,20 @@ function matchTeanatToShop(a_shop: OldShop) {
     }
 }
 
+function matchPbShopToShop(pb_shop:ShopResponse) {
+    return  shops_json.find(shop => (shop.shop_number === pb_shop.shop_number))
+}
+
+export function addSupaIdtopbShops(){
+return pb_shops.map(pb_shop => {
+    // @ts-expect-error
+    pb_shop['supa_shop_id']=matchPbShopToShop(pb_shop)?.id
+    return pb_shop
+})
+}
 // ^(G-[0-9][1-9]|G-[1-9][0-9]|M[1-9]-[0-9][1-9]|M[1-9]-[1-9][0-9]|BASEMENT|NIBS)$
+
+
 
 export async function migrateShops() {
     for await (const a_shop of shops_json) {
@@ -58,6 +86,52 @@ export async function migrateTenantdtae() {
             name: a_tenant.tenant_name,
             supa_id: a_tenant.id,
         }
-        await addTenant(tenant)
+        return await addTenant(tenant)
     }
 }
+
+
+
+function matchshopToBill(bill:OldBill){
+    return shops_with_supaid.find(shop=>shop.supa_shop_id ===bill.shop)
+}
+
+
+// elec_readings
+// :
+// 39526.8
+// month
+// :
+// 1
+// water_readings
+// :
+// 39526.8
+// year
+// :
+// 2022
+
+export async function migrateBills() {
+  
+    for await (const a_bill of bills_json) {
+        const shop = matchshopToBill(a_bill)?.id as string
+        const new_bill:BillMutationFields = {
+            elec_readings:a_bill.elec_readings,
+            water_readings:a_bill.water_readings,
+            month:a_bill.month,
+            year:a_bill.year,
+            shop
+        }
+        if(shop){
+        if(new_bill.month === 3 && new_bill.year==2023 )
+            return await addBill(new_bill)
+            continue
+        }else{
+            console.log("shop not found on",a_bill)
+            return
+        }
+
+    }
+}
+
+
+

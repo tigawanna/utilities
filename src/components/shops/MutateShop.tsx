@@ -8,17 +8,18 @@ import { TenantResponse } from "../../state/api/tenant";
 import { AppUser } from "../../state/types/base";
 import { ShopForm } from "./ShopForm";
 
-interface AddShopProps {
+interface MutateShopProps {
 user:AppUser
 shop?:ShopResponse
 tenant?:TenantResponse
+updating?:boolean
 custom_icon?:{
     Icon:IconType;
     size:string;
   }
 }
 
-export function AddShop({user,shop,tenant,custom_icon}:AddShopProps){
+export function MutateShop({user,shop,tenant,custom_icon,updating}:MutateShopProps){
 const [open, setOpen] = useState(false);
 return (
  <div className='flex items-center justify-center'>
@@ -35,6 +36,7 @@ return (
         <ReactModalWrapper
             child={
                 <div className='z-50'> <ShopForm setOpen={setOpen} user={user} 
+                updating={updating}
                 shop={shop} tenant={tenant}/></div>
             }
             closeModal={() => setOpen(false)}

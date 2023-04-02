@@ -22,7 +22,7 @@ export function SearchSelect<T,>({ gettterFunction,setValue,CustomOption,default
       callback(await gettterFunction(inputValue ?? " "));
     }, 200);
   };
-console.log("default keyword  ==== ",defaultkeyword)
+
   return (
     <AsyncSelect
      defaultInputValue={defaultkeyword}
