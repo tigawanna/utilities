@@ -1,6 +1,5 @@
 import { Table } from '@mantine/core';
 import { BillResponse } from '../../state/api/bills';
-import { BillRow } from './BillRow';
 import { BillsTableRow } from './BillsTabkeRow';
 interface BillsTableProps {
 bills:BillResponse[]

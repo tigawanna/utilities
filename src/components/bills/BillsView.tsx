@@ -12,7 +12,12 @@ interface BillsViewProps {
 }
 
 export function BillsView({}:BillsViewProps){
-    const [period,setPeriod]=useState({month:1,year:2022})
+
+
+    const [period,setPeriod]=useState({
+        month:new Date().getMonth() + 1,
+        year:new Date().getFullYear()
+    })
     const query = useQuery({
         queryKey: ['shops',`${period.month}/${period.year}`],
         queryFn:()=>getBills(`month="${period.month}"&& year="${period.year}"`),
@@ -29,7 +34,7 @@ export function BillsView({}:BillsViewProps){
     }
 
 const bills = query.data;
-console.log("bills  === ",bills)
+// console.log("bills  === ",bills)
 return (
  <div className='w-full h-full flex flex-col items-center justify-center gap-2'>
 
