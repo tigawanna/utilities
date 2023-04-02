@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { SelectOption, SimpleSelect } from "../../shared/form/SimpleSelect";
-import { period_month_options, period_year_options } from "./bill_options";
+import { caclulatePeriod, period_month_options, period_year_options } from "./bill_options";
 
 export interface BillsPeriod {
     curr_month: number;
@@ -10,9 +11,11 @@ export interface BillsPeriod {
 interface PeriodPickerProps {
     period: BillsPeriod
     setPeriod: React.Dispatch<React.SetStateAction<BillsPeriod>>
+    mode: "view" | "edit" | "add"
 }
 
-export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
+export function PeriodPicker({ period, setPeriod ,mode}: PeriodPickerProps) {
+
 
     const handleMonthChange = (e: SelectOption) => {
         if (e) {
@@ -42,6 +45,10 @@ export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
             })
         }
     }
+    // useEffect(() => {
+
+    // },[period])
+    // console.log("period  ===== ",period)
     return (
         <div className='w-full h-full sticky top-10 flex flex-col items-center justify-center'>
             <div className="sticky top-10 ">{period.curr_month}/{period.curr_year} ||  {period.prev_month}/{period.prev_year}</div>

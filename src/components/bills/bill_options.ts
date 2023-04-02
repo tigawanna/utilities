@@ -30,4 +30,32 @@ export const bill_mode_options = [
 ]
 
 
+   export  function caclulatePeriod(mode: "view" | "edit" | "add"){
+        const month = new Date().getMonth() + 1;
+        const year = new Date().getFullYear();
+        
+        if(mode === "add"){
+            return {
+                curr_month: month-1,
+                curr_year: year,
+                prev_month: month-1,
+                prev_year: year
+            }
+        }
+        
+        if(month === 1){
+            return {
+                curr_month: 1,
+                curr_year:year,
+                prev_month: 12,
+                prev_year: year - 1
+            }
+        }
 
+        return {
+           curr_month: month,
+           curr_year:year,
+           prev_month:month - 1,
+           prev_year:year
+        }
+    }
