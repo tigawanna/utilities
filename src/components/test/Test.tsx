@@ -6,6 +6,7 @@ import { addSupaIdtopbShops, migrateBills, migrateShops } from '../../state/api/
 import { getShops } from '../../state/api/shops';
 import { AppUser } from '../../state/types/base';
 import { BillsView } from '../bills/BillsView';
+import { BillsYearlyView } from '../bills/BillsYearlyView';
 
 interface TestProps {
   user:AppUser
@@ -48,6 +49,7 @@ return (
     {mutation.isError && <div className='w-full h-full bg-red-900 text-lg font-bold'>
       {mutation.error.message}</div>}
 
-      <BillsView/>
+      {/* <BillsView/> */}
+      <BillsYearlyView/>
   </div>
 );}
