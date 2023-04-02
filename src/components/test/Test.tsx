@@ -49,7 +49,7 @@ return (
     {mutation.isError && <div className='w-full h-full bg-red-900 text-lg font-bold'>
       {mutation.error.message}</div>}
 
-      {/* <BillsView/> */}
-      <BillsYearlyView/>
+      <BillsView/>
+      {/* <BillsYearlyView/> */}
   </div>
 );}

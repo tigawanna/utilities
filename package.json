@@ -11,6 +11,9 @@
     "page": "node ./scripts/newRoute.cjs"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@mantine/core": "^6.0.5",
+    "@mantine/hooks": "^6.0.5",
     "@tanem/react-nprogress": "^5.0.33",
     "@tanstack/react-query": "^5.0.0-alpha.9",
     "@tanstack/react-query-devtools": "^5.0.0-alpha.9",

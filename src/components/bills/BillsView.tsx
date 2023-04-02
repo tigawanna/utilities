@@ -4,6 +4,7 @@ import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
 import { getBills } from "../../state/api/bills";
 import { BillRow } from "./BillRow";
+import { BillsTable } from "./BillsTable";
 import { PeriodPicker } from "./PeriodPicker";
 
 interface BillsViewProps {
@@ -34,9 +35,10 @@ return (
 
   <PeriodPicker period={period} setPeriod={setPeriod}/>
  <div className="border border-accent rounded sticky top-16 p-2">{bills.length}</div>
-    {bills.map((bill)=>{
+    {/* {bills.map((bill)=>{
         return(<BillRow bill={bill} key={bill.id}/>)
-    })}
+    })} */}
+    <BillsTable bills={bills}/>
  </div>
 );
 }
