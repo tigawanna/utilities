@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { fetchAll } from '../../state/api/api';
 import { getBills } from '../../state/api/bills';
-import { addSupaIdtopbShops, migrateBills, migrateShops } from '../../state/api/migrate';
+import { addSupaIdtopbShops, migrateAllBills, migrateBills, migrateShops } from '../../state/api/migrate';
 import { getShops } from '../../state/api/shops';
 import { AppUser } from '../../state/types/base';
 import { BillsView } from '../bills/BillsView';
@@ -23,7 +23,7 @@ export const Test: React.FC<TestProps> = () => {
 
 
   const mutation = useMutation({
-    mutationFn: migrateBills
+    mutationFn:migrateAllBills
   })
 
 

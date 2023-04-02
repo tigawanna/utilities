@@ -55,7 +55,7 @@ return (
         return(
         <div 
         key={month}
-        className="border p-2 w-[40%] flex flex-col gap-1">
+        className="border p-2 w-[90%] md:w-[40%] lg:w-[24%] flex flex-col gap-1">
             
             <div className="flex items-center justify-center gap-2">
             <h2>{month}</h2>

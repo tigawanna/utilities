@@ -43,7 +43,7 @@ export async function addBill(bills: BillMutationFields) {
         });
         return record
     } catch (error) {
-        console.log(error)
+        console.log("error adding bills ",error)
         throw error
     }
 }
