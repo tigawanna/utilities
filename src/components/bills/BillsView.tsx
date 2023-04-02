@@ -3,8 +3,7 @@ import { useState } from "react";
 import { SelectOption, SimpleSelect } from "../../shared/form/SimpleSelect";
 import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
-import { getBills, getMonthlyBills } from "../../state/api/bills";
-import { BillRow } from "./BillRow";
+import {getMonthlyBills } from "../../state/api/bills";
 import { BillsTable } from "./BillsTable";
 import { bill_mode_options } from "./bill_options";
 import { PeriodPicker } from "./PeriodPicker";
@@ -74,19 +73,19 @@ export function BillsView({}:BillsViewProps){
     if (!query.data) {
         return <div className="w-full h-full flex items-center justify-center">No shops</div>
     }
-// console.log("montly bills  === ",monthly_query.data)
+
 const bills = query.data;
-// console.log("bills  === ",bills)
+
 return (
  <div className='w-full h-full flex flex-col items-center justify-center gap-2'>
     <SimpleSelect
-            label="mode-select"
-            select_options={bill_mode_options}
-            handleSelectChange={handleModeChange}
+        label="mode-select"
+        select_options={bill_mode_options}
+        handleSelectChange={handleModeChange}
     />
 <PeriodPicker period={period} setPeriod={setPeriod}/>
  <div className="border border-accent rounded sticky top-16 p-2">{bills.length}</div>
- <BillsTable bills={bills}/>
+ <BillsTable bills={bills} mode={mode}/>
  </div>
 );
 }

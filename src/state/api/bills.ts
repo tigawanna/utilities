@@ -25,6 +25,10 @@ export interface MonthlyBills {
     prev_bill_id: string;
     shop_number: string;
     shop_name: string;
+    curr_year: string;
+    curr_month: string;
+    prev_year: string;
+    prev_month: string;
     list_order: string;
     current_elec: string;
     previous_elec: string;
@@ -84,7 +88,7 @@ export async function addBill(bills: BillMutationFields) {
     }
 }
 
-export async function updateShop(bill_id: string, bill: BillMutationFields) {
+export async function updateBill(bill_id: string, bill: BillMutationFields) {
     try {
         const record = await pb.collection('bills').update<BillResponse>(bill_id, bill, {
             expand: 'shop',

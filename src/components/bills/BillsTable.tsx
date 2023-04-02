@@ -3,9 +3,11 @@ import { MonthlyBills } from '../../state/api/bills';
 import { BillsTableRow } from './BillsTabkeRow';
 interface BillsTableProps {
     bills: MonthlyBills[]
+    mode: "add" | "edit" | "view"
 }
 
-export function BillsTable({bills}:BillsTableProps){
+export function BillsTable({bills,mode}:BillsTableProps){
+   
 return (
  <div className='w-full h-full flex items-center justify-center'>
         <Table striped highlightOnHover withBorder withColumnBorders>
@@ -29,7 +31,7 @@ return (
                 {
 
                     bills.map((bill)=>{
-                        return <BillsTableRow bill={bill}/>
+                        return <BillsTableRow one_bill={bill} mode={mode}/>
                     })
                 }
             </tbody>
