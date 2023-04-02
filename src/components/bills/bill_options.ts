@@ -1,3 +1,4 @@
+import { SelectOption } from "../../shared/form/SimpleSelect"
 
 export const period_month_options = [
     {value: '1', label: '1'},
@@ -21,3 +22,12 @@ export const period_year_options = [
     {value: '2023', label: '2023'},
     {value: '2024', label: '2024'},
     ]
+
+export const bill_mode_options = [
+    {value: 'view', label: 'view'},
+    {value: 'edit', label: 'edit'},
+    {value: 'add', label: 'add'},
+]
+
+
+

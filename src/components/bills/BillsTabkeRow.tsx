@@ -1,17 +1,25 @@
-import { BillResponse } from "../../state/api/bills";
+import {  MonthlyBills } from "../../state/api/bills";
 
 interface BillsTableRowProps {
- bill:BillResponse
+    bill: MonthlyBills
 }
 
 export function BillsTableRow({bill}:BillsTableRowProps){
 return (
-    <tr key={bill.id}>
-        <td>{bill.expand.shop.shop_number}</td>
-        <td>{bill.expand.shop.expand.tenant.name}</td>
-        <td>{bill.expand.shop.order}</td>
-        <td>{bill.elec_readings}</td>
-        <td>{bill.water_readings}</td>
+    <tr key={bill.shop_id}>
+        
+        <td>{bill.list_order}</td>
+        <td>{bill.shop_number}</td>
+        <td>{bill.shop_name}</td>
+
+        <td>{bill.previous_elec}</td>
+        <td>{bill.current_elec}</td>
+        <td>{bill.elec_diff}</td>
+
+        <td>{bill.previous_water}</td>
+        <td>{bill.current_water}</td>
+        <td>{bill.water_diff}</td>
+
     </tr>
 );
 }

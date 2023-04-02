@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { SelectOption, SimpleSelect } from "../../shared/form/SimpleSelect";
 import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
-import { getBills } from "../../state/api/bills";
+import { getBills, getMonthlyBills } from "../../state/api/bills";
 import { BillRow } from "./BillRow";
 import { BillsTable } from "./BillsTable";
+import { bill_mode_options } from "./bill_options";
 import { PeriodPicker } from "./PeriodPicker";
 
 interface BillsViewProps {
@@ -12,15 +14,55 @@ interface BillsViewProps {
 }
 
 export function BillsView({}:BillsViewProps){
+ 
+    const [mode, setMode] = useState<"view" | "edit" | "add">("view")
 
+    function caclulatePeriod(){
+        const month = new Date().getMonth() + 1;
+        const year = new Date().getFullYear();
+        
+        if(mode === "add"){
+            return {
+                curr_month: month-1,
+                curr_year: year,
+                prev_month: month - 1,
+                prev_year: year
+            }
+        }
+        
+        if(month === 1){
+            return {
+                curr_month: 1,
+                curr_year:year,
+                prev_month: 12,
+                prev_year: year - 1
+            }
+        }
 
-    const [period,setPeriod]=useState({
-        month:new Date().getMonth() + 1,
-        year:new Date().getFullYear()
-    })
+        return {
+           curr_month: month,
+           curr_year:year,
+           prev_month:month - 1,
+           prev_year:year
+        }
+    }
+
+    const [period,setPeriod]=useState(caclulatePeriod())
+    
+    function handleModeChange(e: SelectOption){
+        if (e) {
+        setMode(e.value as "view" | "edit" | "add")
+        }
+    }
+
+    // const query = useQuery({
+    //     queryKey: ['shops', `${period.curr_month}/${period.curr_year}${period.prev_month}/${period.prev_year}`],
+    //     queryFn:()=>getBills(`month="${period.curr_month}"&& year="${period.curr_year}"`),
+    // })
+
     const query = useQuery({
-        queryKey: ['shops',`${period.month}/${period.year}`],
-        queryFn:()=>getBills(`month="${period.month}"&& year="${period.year}"`),
+        queryKey: ['monthly-bills', `${period.curr_month}/${period.curr_year}`],
+        queryFn:()=>getMonthlyBills(period),
     })
 
     if (query.isLoading) {
@@ -32,18 +74,19 @@ export function BillsView({}:BillsViewProps){
     if (!query.data) {
         return <div className="w-full h-full flex items-center justify-center">No shops</div>
     }
-
+// console.log("montly bills  === ",monthly_query.data)
 const bills = query.data;
 // console.log("bills  === ",bills)
 return (
  <div className='w-full h-full flex flex-col items-center justify-center gap-2'>
-
-  <PeriodPicker period={period} setPeriod={setPeriod}/>
+    <SimpleSelect
+            label="mode-select"
+            select_options={bill_mode_options}
+            handleSelectChange={handleModeChange}
+    />
+<PeriodPicker period={period} setPeriod={setPeriod}/>
  <div className="border border-accent rounded sticky top-16 p-2">{bills.length}</div>
-    {/* {bills.map((bill)=>{
-        return(<BillRow bill={bill} key={bill.id}/>)
-    })} */}
-    <BillsTable bills={bills}/>
+ <BillsTable bills={bills}/>
  </div>
 );
 }
