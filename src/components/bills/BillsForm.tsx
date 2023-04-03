@@ -2,32 +2,56 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { PlainFormButton } from "../../shared/form/FormButton";
 import { FormInput } from "../../shared/form/FormInput";
-import { FormSelect } from "../../shared/form/FormSelect";
-import { useCustomForm } from "../../shared/form/useCustomForm";
 import { concatErrors } from "../../shared/helpers/concaterrors";
-import { BillMutationFields, addBill, BillResponse, MonthlyBills } from "../../state/api/bills";
-import { period_month_options } from "./bill_options";
+import { BillMutationFields, addBill, MonthlyBills, BillUpdateFields } from "../../state/api/bills";
+import { getMonthAndYear, getprevMonthandYear } from "../../utils/date-helpers";
+import { isBillingNewMonth } from "./bill_utils";
+
 
 interface BillsFormProps {
 bill:MonthlyBills
 setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+
 export function BillsForm({bill,setOpen}:BillsFormProps){
+
+    const is_new_bill = isBillingNewMonth(bill)
+
+    function genInitValues(){
+    if(is_new_bill){
+        return {
+            curr_elec: bill.previous_elec,
+            curr_water: bill.previous_water,
+            prev_elec: bill.previous_elec,
+            prev_water: bill.previous_water
+        }
+    }
+    return {
+        curr_elec: bill.current_elec,
+        curr_water: bill.current_water,
+        prev_elec: bill.previous_elec,
+        prev_water: bill.previous_water
+    }
+    }
     
-    const [initBill, setInitBill] = useState(bill)
-    function currentPeriod() {
-        const month = new Date().getMonth() + 1;
-        const year = new Date().getFullYear();
-        return { month, year }
-    }
+    const [initBill, setInitBill] = useState(genInitValues())
+    const [input, setInput] = useState(genInitValues());
+    
 
-
-    function inputValidation(input: BillMutationFields) {
-        return true
-    }
-
-    const mutation = useMutation({
+    const [error, setError] = useState({ name: "", message: "" })
+    
+    
+    function handleChange(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+        setInput((prev) => {
+            return { ...prev, [e.target.id]: e.target.value };
+        });
+        if (error.message !== "" || error.name !== "") {
+            setError({ name: "", message: "" });
+        }
+    };
+    
+    const new_bill_mutation = useMutation({
         mutationFn: (input: BillMutationFields) => addBill(input),
         meta: { invalidates: [["shops"], ['tenants']] },
         onError(error, variables, context) {
@@ -35,30 +59,73 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
         },
         onSuccess(data, variables, context) {
             setInput({
-                elec_readings: parseInt(bill.previous_elec),
-                water_readings: parseInt(bill.previous_water),
-                shop: bill.shop_id,
-                month: currentPeriod().month,
-                year: currentPeriod().year
+                curr_elec: bill.current_elec,
+                curr_water: bill.current_water,
+                prev_elec: bill.previous_elec,
+                prev_water: bill.previous_water,
             })
-    
+
             setOpen(false)
         },
     })
+    const update_bill_mutation = useMutation({
+        mutationFn: (input: BillUpdateFields) => addBill(input),
+        meta: { invalidates: [["shops"], ['tenants']] },
+        onError(error, variables, context) {
+            setError({ name: "main", message: concatErrors(error) });
+        },
+        onSuccess(data, variables, context) {
+            setInput({
+                curr_elec: bill.current_elec,
+                curr_water: bill.current_water,
+                prev_elec: bill.previous_elec,
+                prev_water: bill.previous_water,
+            })
 
-    const { error, handleChange, input, setError, setInput, handleSubmit, success }
-        =
-        useCustomForm<BillMutationFields, BillResponse>({
-            initialValues: {
-                elec_readings: parseInt(bill.previous_elec),
-                water_readings: parseInt(bill.previous_water),
+            setOpen(false)
+        },
+    })
+    function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if(is_new_bill){
+            const new_bill: BillMutationFields = {
+                elec_readings: parseInt(input.curr_elec),
+                water_readings: parseInt(input.curr_water),
                 shop: bill.shop_id,
-                month: currentPeriod().month,
-                year: currentPeriod().year
-            },
-            inputValidation,
-            mutation
-        }) 
+                month: getMonthAndYear().month,
+                year: getMonthAndYear().year
+            }
+            new_bill_mutation.mutate(new_bill)
+            return 
+        }
+        
+        if(initBill.curr_elec !== input.curr_elec || initBill.curr_water !== input.curr_water ){
+            const new_bill: BillUpdateFields = {
+                elec_readings: parseInt(input.curr_elec),
+                water_readings: parseInt(input.curr_water),
+                shop: bill.shop_id,
+                month:parseInt(bill.curr_month),
+                year:parseInt(bill.curr_year),
+                id:bill.curr_bill_id
+            }
+            update_bill_mutation.mutate(new_bill)
+
+        }
+        if (initBill.prev_elec !== input.prev_elec || initBill.prev_water !== input.prev_water){
+            const new_bill: BillUpdateFields = {
+                elec_readings: parseInt(input.prev_elec),
+                water_readings: parseInt(input.prev_water),
+                shop: bill.shop_id,
+                month: parseInt(bill.prev_month),
+                year: parseInt(bill.prev_year),
+                id: bill.prev_bill_id
+            }
+            update_bill_mutation.mutate(new_bill)
+        }
+        // setInput(genInitValues())
+
+
+    };
 
 
 return (
@@ -68,13 +135,27 @@ return (
         <div className="w-full flex flex-wrap items-center justify-center">
 
                 <div className="min-w-[40%] flex flex-col justify-center items-center">
-                    <h3 className="w-[90%]">prev: {bill.previous_elec} diff: {input.elec_readings-parseInt(bill.previous_elec)}</h3>
+         
+                    <h3 className="w-[90%]"> diff: {parseInt(input.curr_elec) - parseInt(input.prev_elec)}</h3>
                     <FormInput
                         error={error}
                         handleChange={handleChange}
                         input={input}
-                        label="Elec Readings"
-                        prop="elec_readings"
+                        label="Prev Elec"
+                        prop="prev_elec"
+                        input_props={{
+                            type: "number",
+                            style: {
+                                width: '100%'
+                            }
+                        }}
+                    />
+                    <FormInput
+                        error={error}
+                        handleChange={handleChange}
+                        input={input}
+                        label="Curr Elec"
+                        prop="curr_elec"
                         input_props={{
                             type: "number",
                             style:{
@@ -85,13 +166,26 @@ return (
                 </div>
 
                 <div className="min-w-[40%] flex flex-col  justify-center items-center">
-                    <h3 className="w-[90%]">prev: {bill.previous_water} diff: {input.water_readings - parseInt(bill.previous_water)}</h3>
+                    <h3 className="w-[90%]"> diff: {parseInt(input.curr_water) - parseInt(input.prev_water)}</h3>          
                     <FormInput
                         error={error}
                         handleChange={handleChange}
                         input={input}
-                        label="Water Readings"
-                        prop="water_readings"
+                        label="Prev Water"
+                        prop="prev_water"
+                        input_props={{
+                            type: "number",
+                            style: {
+                                width: '100%'
+                            }
+                        }}
+                    />
+                    <FormInput
+                        error={error}
+                        handleChange={handleChange}
+                        input={input}
+                        label="Curr Water"
+                        prop="curr_water"
                         input_props={{
                             type: "number",
                             style: {
@@ -103,7 +197,7 @@ return (
 
         </div>
 
-            <div className="w-full flex flex-wrap items-center justify-center">
+            {/* <div className="w-full flex flex-wrap items-center justify-center">
                 <FormSelect<BillMutationFields>
                     error={error}
                     input={input}
@@ -124,16 +218,20 @@ return (
                     setInput={setInput}
                 />
 
-            </div>
+            </div> */}
 
 
 
-
+            {is_new_bill?<PlainFormButton
+                isSubmitting={new_bill_mutation.isPending}
+                disabled={new_bill_mutation.isPending}
+                label="create"
+            />:
             <PlainFormButton
-                isSubmitting={mutation.isPending}
-                disabled={mutation.isPending}
-                label="Submit"
-            />
+                isSubmitting={update_bill_mutation.isPending}
+                disabled={update_bill_mutation.isPending}
+                label="update"
+            />}
     </form>
  </div>
 );

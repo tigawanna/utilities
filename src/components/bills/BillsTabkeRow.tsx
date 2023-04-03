@@ -31,14 +31,14 @@ export function BillsTableRow({ one_bill, updating, printing }: BillsTableRowPro
             <td>{bill.current_water}</td>
             {!printing && <td>{bill.water_diff}</td>}
 
-            {updating && <MutateBill
+            {updating &&<td><MutateBill
                 bill={bill}
 
                 custom_icon={{
                     Icon: FaRegEdit,
                     size: '15'
                 }}
-            />}
+            /></td>}
 
         </tr>
     );

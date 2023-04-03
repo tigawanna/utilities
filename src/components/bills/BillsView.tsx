@@ -7,6 +7,7 @@ import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
 import { TheIcon } from "../../shared/wrappers/TheIcon";
 import {getMonthlyBills } from "../../state/api/bills";
+import { getMonthName } from "../../utils/date-helpers";
 import { BillsTable } from "./BillsTable";
 import { caclulatePeriod } from "./bill_options";
 import { PeriodPicker } from "./PeriodPicker";
@@ -28,11 +29,7 @@ export function BillsView({}:BillsViewProps){
         }
     }
 
-    function getMonthName(month_num:number) {
-        const date = new Date();
-        date.setMonth(month_num - 1);
-        return date.toLocaleString('en-US', { month: 'long' });
-    }
+
 
 
 
@@ -87,7 +84,7 @@ return (
 
         <div className="sticky top-[10%] bg-slate-900 bg-opacity-80 w-full flex items-center justify-center">
           <PeriodPicker period={period} setPeriod={setPeriod} mode={mode} />
-            <div className="border border-accent rounded p-2 md:relative md:right-[10%]">{bills.length}</div>
+         <div className="border border-accent rounded p-2 md:relative md:right-[10%]">{bills.length}</div>
         </div>  
 
         <BillsTable bills={bills} updating={updating} printing={false}/>
