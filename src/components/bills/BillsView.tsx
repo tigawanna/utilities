@@ -9,7 +9,7 @@ import { TheIcon } from "../../shared/wrappers/TheIcon";
 import {getMonthlyBills } from "../../state/api/bills";
 import { getMonthName } from "../../utils/date-helpers";
 import { BillsTable } from "./BillsTable";
-import { caclulatePeriod } from "./bill_options";
+import { caclulatePeriod } from "./bill_utils";
 import { PeriodPicker } from "./PeriodPicker";
 
 interface BillsViewProps {
@@ -20,7 +20,10 @@ export function BillsView({}:BillsViewProps){
     const navigate = useNavigate();
     const [updating, setUpdating] = useState(true);
     const [mode, setMode] = useState<"view" | "edit" | "add">("view")
-    const [period,setPeriod]=useState(caclulatePeriod(mode))
+    
+    const month = new Date().getMonth() + 1 
+    const year = new Date().getFullYear()
+    const [period,setPeriod]=useState(caclulatePeriod(month,year))
 
 
     function handleModeChange(e: SelectOption){
@@ -33,9 +36,9 @@ export function BillsView({}:BillsViewProps){
 
 
 
-    useEffect(() => {
-        setPeriod(caclulatePeriod(mode))
-    }, [mode])
+    // useEffect(() => {
+    //     setPeriod(caclulatePeriod())
+    // }, [mode])
 
 
     const query = useQuery({

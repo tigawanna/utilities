@@ -15,10 +15,10 @@ export function getMonthName(month_num: number) {
     return date.toLocaleString('en-US', { month: 'long' });
 }
 
-export function getprevMonthandYear() {
+export function getPrevMonthandYear(month_num?:number) {
     const date = new Date();
     const curr_month = date.getMonth() - 1
-    date.setMonth( curr_month);
+    date.setMonth(month_num?month_num - 2:curr_month);
     return {
         month: date.getMonth()+1,
         year: date.getFullYear()

@@ -4,7 +4,7 @@ import { PlainFormButton } from "../../shared/form/FormButton";
 import { FormInput } from "../../shared/form/FormInput";
 import { concatErrors } from "../../shared/helpers/concaterrors";
 import { BillMutationFields, addBill, MonthlyBills, BillUpdateFields } from "../../state/api/bills";
-import { getMonthAndYear, getprevMonthandYear } from "../../utils/date-helpers";
+import { getMonthAndYear, getPrevMonthandYear } from "../../utils/date-helpers";
 import { isBillingNewMonth } from "./bill_utils";
 
 
@@ -16,6 +16,7 @@ setOpen: React.Dispatch<React.SetStateAction<boolean>>
 
 export function BillsForm({bill,setOpen}:BillsFormProps){
 
+    // console.log("prevoius month and year ",getPrevMonthandYear(2))
     const is_new_bill = isBillingNewMonth(bill)
 
     function genInitValues(){

@@ -25,11 +25,11 @@ export function BillsTableRow({ one_bill, updating, printing }: BillsTableRowPro
 
             <td>{bill.previous_elec}</td>
             <td>{bill.current_elec}</td>
-            {!printing && <td>{bill.elec_diff}</td>}
+            {!printing && <td>{Math.floor(parseInt(bill.elec_diff))}</td>}
 
             <td>{bill.previous_water}</td>
             <td>{bill.current_water}</td>
-            {!printing && <td>{bill.water_diff}</td>}
+            {!printing && <td>{Math.floor(parseInt(bill.water_diff))}</td>}
 
             {updating &&<td><MutateBill
                 bill={bill}
