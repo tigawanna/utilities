@@ -8,7 +8,7 @@ import { RqLoading } from "../../shared/wrappers/RqLoading";
 import { TheIcon } from "../../shared/wrappers/TheIcon";
 import {getMonthlyBills } from "../../state/api/bills";
 import { BillsTable } from "./BillsTable";
-import { bill_mode_options, caclulatePeriod } from "./bill_options";
+import { caclulatePeriod } from "./bill_options";
 import { PeriodPicker } from "./PeriodPicker";
 
 interface BillsViewProps {
