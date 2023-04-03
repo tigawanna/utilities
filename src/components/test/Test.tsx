@@ -40,9 +40,9 @@ export const Test: React.FC<TestProps> = () => {
 
 return (
   <div className=" w-full   px-2 " >
-    <button
+    {/* <button
       onClick={() => mutation.mutate()} className='p-5 bg-blue-500 text-lg'>migrate tenants
-    </button>
+    </button> */}
     {mutation.isPending && <div className='w-full h-full bg-purple-900 animate-pulse text-lg font-bold'>
       upload in progress
     </div>}

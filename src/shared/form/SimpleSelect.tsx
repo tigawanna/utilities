@@ -1,4 +1,5 @@
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 interface SimpleSelectProps {
     select_options: { value: string; label: string }[];
     handleSelectChange: (e: SelectOption) => void
@@ -12,7 +13,8 @@ export function SimpleSelect({label,select_options,handleSelectChange,defaultVal
 
 return (
  <div className='w-full h-full flex items-center justify-center'>
-        <Select
+        <CreatableSelect
+            
             aria-label={label}
             options={select_options}
             defaultValue={defaultValue??select_options[0]}

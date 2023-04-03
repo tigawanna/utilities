@@ -3,27 +3,29 @@ import { MonthlyBills } from '../../state/api/bills';
 import { BillsTableRow } from './BillsTabkeRow';
 interface BillsTableProps {
     bills: MonthlyBills[]
-    mode: "add" | "edit" | "view"
+    updating: boolean
+    printing: boolean
+ 
 }
 
-export function BillsTable({bills,mode}:BillsTableProps){
+export function BillsTable({bills,updating,printing}:BillsTableProps){
    
 return (
  <div className='w-full h-full flex items-center justify-center'>
         <Table striped highlightOnHover withBorder withColumnBorders>
-            <thead className='sticky top-[20%] bg-slate-900 '>
+            <thead className={updating?'sticky top-[18%] bg-slate-900':''}>
                 <tr>
-                    <th>Order</th>
+                 {!printing &&<th>Order</th>}
                     <th>Shop No</th>
                     <th>Shop Name</th>
 
                     <th>PrevElec</th>
                     <th>CurrElec</th>
-                    <th>Diff</th>
+                   {!printing &&<th>Diff</th>}
 
                     <th>PrevWater</th>
                     <th>CurrWater</th>
-                    <th>Diff</th>
+                    {!printing &&<th>Diff</th>}
         
                 </tr>
             </thead>
@@ -31,7 +33,7 @@ return (
                 {
 
                     bills.map((bill)=>{
-                        return <BillsTableRow one_bill={bill} mode={mode}/>
+                        return <BillsTableRow printing={printing} key={bill.shop_id} one_bill={bill} updating={updating}/>
                     })
                 }
             </tbody>

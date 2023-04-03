@@ -11,15 +11,18 @@ import { ReactRouterError } from "./shared/extra/ReactRouterError";
 import { LoaderElipse } from "./shared/loaders/Loaders";
 import { AppUser } from "./state/types/base";
 
+const ShopsLayout = lazy(() => import("./pages/shops/ShopsLayout"));
 const Shops = lazy(() => import("./pages/shops/Shops"));
 const OneShop = lazy(() => import("./pages/shops/OneShop"));
-const ShopsLayout = lazy(() => import("./pages/shops/ShopsLayout"));
 
-const Tenants = lazy(() => import("./pages/tenants/Tenants"));
 const TenantsLayout = lazy(() => import("./pages/tenants/TenantsLayout"));
+const Tenants = lazy(() => import("./pages/tenants/Tenants"));
+
+const PrintLayout = lazy(() => import("./pages/print/PrintLayout"));
+const Print = lazy(() => import("./pages/print/Print"));
 
 
-export function makeRouter(user:AppUser){
+export function makeRouter(user: AppUser) {
     return createBrowserRouter([
         {
             path: '/',
@@ -59,7 +62,7 @@ export function makeRouter(user:AppUser){
                             ,
                             // loader: deferredBlogPostsLoader,
                         },
-                 
+
 
                     ],
                 },
@@ -78,6 +81,17 @@ export function makeRouter(user:AppUser){
                             element: <Signup user={user} />,
                             // loader: blogPostLoader,
                         },
+                    ],
+                }, {
+                    path: '/print',
+                    element: <Suspense fallback={<LoaderElipse />}><PrintLayout  /></Suspense>,
+                    children: [
+                        {
+                            index: true,
+                            element: <Suspense fallback={<LoaderElipse />}><Print  /></Suspense>,
+                            // loader: deferredBlogPostsLoader,
+                        },
+
                     ],
                 },
 

@@ -50,11 +50,13 @@ export function PeriodPicker({ period, setPeriod ,mode}: PeriodPickerProps) {
     // },[period])
     // console.log("period  ===== ",period)
     return (
-        <div className='w-full h-full sticky top-10 flex flex-col items-center justify-center'>
-            <div className="sticky top-10 ">{period.curr_month}/{period.curr_year} ||  {period.prev_month}/{period.prev_year}</div>
-            
-            <div className='w-full h-full flex flex-wrap items-center justify-center'>
-            
+        <div className='w-full h-full  flex flex-col items-center justify-center'>
+
+            <div className='w-full h-full flex flex-wrap items-center justify-center gap-1'>
+                <div className="px-3 text-xs border border-accent rounded-xl">
+                    {period.curr_month}/{period.curr_year} ||  {period.prev_month}/{period.prev_year}
+                </div>
+
                
                 <div className="min-w-[30%] flex justify-center items-center">
                 <h3>CURR</h3>
