@@ -31,3 +31,14 @@ to install the package version that this template was made with
 [@denniskinuthia/tiny-pkgs](https://www.npmjs.com/package/@denniskinuthia/tiny-pkgs)
 
 >Note : remember to remove the .eslintignore to enable eslint for the project
+
+
+.env file 
+```env
+
+#RAW
+VITE_PB_URL=http://127.0.0.1:8090
+
+VITE_ENV=DEV
+
+```
