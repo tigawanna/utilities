@@ -30,7 +30,7 @@ export function BillsView({}:BillsViewProps){
     useEffect(()=>{
       bills_store.updatePeriod(period)  
     },[period])
-    
+
     const query = useQuery({
         queryKey:['monthly-bills',period],
         queryFn:()=>getMonthlyBills(period),
@@ -76,11 +76,12 @@ return (
 
 
         <div className="sticky top-[10%] bg-slate-900 bg-opacity-80 w-full flex items-center justify-center">
-          <PeriodPicker period={period} setPeriod={setPeriod} mode={mode} />
+         <PeriodPicker period={period} setPeriod={setPeriod} mode={mode} />
          <div className="border border-accent rounded p-2 md:relative md:right-[10%]">{bills.length}</div>
         </div>  
 
         <BillsTable bills={bills} updating={updating} printing={false} />
+      
  </div>
 );
 }

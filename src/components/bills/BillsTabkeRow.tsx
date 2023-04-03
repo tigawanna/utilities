@@ -15,10 +15,20 @@ interface BillsTableRowProps {
 export function BillsTableRow({ one_bill, updating, printing }: BillsTableRowProps) {
     const bill = one_bill
     const is_new_bill = isBillingNewMonth(bill)
+    
+    function rowColor(mode: "no_prev_no_curr" | "prev_no_curr" | "prev_curr"){
+        if(mode === "prev_no_curr"){
+            return '#43360C'
+        }
+        if(mode === "no_prev_no_curr"){
+            return '#3A0806'
+        }
+        return ''
+    }
 
     return (
         <tr key={bill.shop_id} style={{
-            backgroundColor: is_new_bill ?'#43360C':'',
+            backgroundColor:rowColor(is_new_bill),
         }}>
 
             {!printing && <td>{bill.list_order}</td>}

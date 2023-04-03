@@ -6,7 +6,7 @@ import { concatErrors } from "../../shared/helpers/concaterrors";
 import { ErrorWrapper } from "../../shared/wrappers/ErrorWrapper";
 import { BillMutationFields, addBill, MonthlyBills, BillUpdateFields, updateBill } from "../../state/api/bills";
 import { useBillsStore } from "../../state/zustand/bills";
-import { getMonthAndYear, getPrevMonthandYear } from "../../utils/date-helpers";
+import { getMonthAndYear} from "../../utils/date-helpers";
 import { isBillingNewMonth } from "./bill_utils";
 
 
@@ -20,11 +20,11 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
     
     const bills_store = useBillsStore()
     const is_new_bill = isBillingNewMonth(bill)
-
+    console.log("bills store period ==== ",bills_store.period)
     // console.log("is  new bill === ",is_new_bill)
 
     function genInitValues(){
-    if(is_new_bill){
+    if (is_new_bill === "prev_no_curr" || is_new_bill === "no_prev_no_curr"){
         return {
             curr_elec: bill.previous_elec,
             curr_water: bill.previous_water,
@@ -92,13 +92,13 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
     })
     function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
         e.preventDefault();
-        if(is_new_bill){
+        if (is_new_bill === "prev_no_curr" || is_new_bill === "no_prev_no_curr"){
             const new_bill: BillMutationFields = {
                 elec_readings: parseInt(input.curr_elec),
                 water_readings: parseInt(input.curr_water),
                 shop: bill.shop_id,
-                month: getMonthAndYear().month,
-                year: getMonthAndYear().year
+                month: bills_store.period.curr_month,
+                year: bills_store.period.curr_year
             }
             new_bill_mutation.mutate(new_bill)
             return 
@@ -113,8 +113,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
                 year:parseInt(bill.curr_year),
                 id:bill.curr_bill_id
             }
-            console.log("update bill", bill)
-            console.log("update prev new_bill", new_bill)
+            // console.log("update bill", bill)
+            // console.log("update prev new_bill", new_bill)
             update_bill_mutation.mutate(new_bill)
         }
 
@@ -127,8 +127,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
                 year: parseInt(bill.prev_year),
                 id: bill.prev_bill_id
             }
-            console.log("update bill", bill)
-            console.log("update prev new_bill", new_bill)
+            // console.log("update bill", bill)
+            // console.log("update prev new_bill", new_bill)
             update_bill_mutation.mutate(new_bill)
         }
         // setInput(genInitValues())
@@ -212,7 +212,7 @@ return (
 
 
 
-            {is_new_bill?<PlainFormButton
+            {is_new_bill==="prev_no_curr"||is_new_bill==="no_prev_no_curr"?<PlainFormButton
                 isSubmitting={new_bill_mutation.isPending}
                 disabled={new_bill_mutation.isPending}
                 label="create"
