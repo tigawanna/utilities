@@ -76,9 +76,10 @@ try {
 }
 }
 
-export async function addBill(bills: BillMutationFields) {
+export async function addBill(bill: BillMutationFields) {
+    // console.log("creating bill ", bill)
     try {
-        const record = await pb.collection('bills').create<BillResponse>(bills, {
+        const record = await pb.collection('bills').create<BillResponse>(bill, {
             expand: 'shop',
         });
         return record
@@ -89,6 +90,7 @@ export async function addBill(bills: BillMutationFields) {
 }
 
 export async function updateBill(bill: BillUpdateFields) {
+    // console.log("updating bill ",bill)
     try {
         const record = await pb.collection('bills').update<BillResponse>(bill.id, bill, {
             expand: 'shop',

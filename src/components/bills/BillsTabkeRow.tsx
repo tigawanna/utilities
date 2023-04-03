@@ -1,6 +1,7 @@
-import { useState } from "react";
+
 import { FaRegEdit } from "react-icons/fa";
 import { MonthlyBills } from "../../state/api/bills";
+import { isBillingNewMonth } from "./bill_utils";
 import { MutateBill } from "./MutateBill";
 
 interface BillsTableRowProps {
@@ -13,11 +14,12 @@ interface BillsTableRowProps {
 
 export function BillsTableRow({ one_bill, updating, printing }: BillsTableRowProps) {
     const bill = one_bill
-    const [open, setOpen] = useState(false)
-
+    const is_new_bill = isBillingNewMonth(bill)
 
     return (
-        <tr key={bill.shop_id}>
+        <tr key={bill.shop_id} style={{
+            backgroundColor: is_new_bill ?'#43360C':'',
+        }}>
 
             {!printing && <td>{bill.list_order}</td>}
             <td>{bill.shop_number}</td>

@@ -3,7 +3,9 @@ import { useState } from "react";
 import { PlainFormButton } from "../../shared/form/FormButton";
 import { FormInput } from "../../shared/form/FormInput";
 import { concatErrors } from "../../shared/helpers/concaterrors";
-import { BillMutationFields, addBill, MonthlyBills, BillUpdateFields } from "../../state/api/bills";
+import { ErrorWrapper } from "../../shared/wrappers/ErrorWrapper";
+import { BillMutationFields, addBill, MonthlyBills, BillUpdateFields, updateBill } from "../../state/api/bills";
+import { useBillsStore } from "../../state/zustand/bills";
 import { getMonthAndYear, getPrevMonthandYear } from "../../utils/date-helpers";
 import { isBillingNewMonth } from "./bill_utils";
 
@@ -15,9 +17,11 @@ setOpen: React.Dispatch<React.SetStateAction<boolean>>
 
 
 export function BillsForm({bill,setOpen}:BillsFormProps){
-
-    // console.log("prevoius month and year ",getPrevMonthandYear(2))
+    
+    const bills_store = useBillsStore()
     const is_new_bill = isBillingNewMonth(bill)
+
+    // console.log("is  new bill === ",is_new_bill)
 
     function genInitValues(){
     if(is_new_bill){
@@ -54,7 +58,7 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
     
     const new_bill_mutation = useMutation({
         mutationFn: (input: BillMutationFields) => addBill(input),
-        meta: { invalidates: [["shops"], ['tenants']] },
+        meta: { invalidates: [["monthly-bills",bills_store.period]] },
         onError(error, variables, context) {
             setError({ name: "main", message: concatErrors(error) });
         },
@@ -70,8 +74,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
         },
     })
     const update_bill_mutation = useMutation({
-        mutationFn: (input: BillUpdateFields) => addBill(input),
-        meta: { invalidates: [["shops"], ['tenants']] },
+        mutationFn: (input: BillUpdateFields) => updateBill(input),
+        meta: { invalidates: [["monthly-bills", bills_store.period]] },
         onError(error, variables, context) {
             setError({ name: "main", message: concatErrors(error) });
         },
@@ -109,9 +113,11 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
                 year:parseInt(bill.curr_year),
                 id:bill.curr_bill_id
             }
+            console.log("update bill", bill)
+            console.log("update prev new_bill", new_bill)
             update_bill_mutation.mutate(new_bill)
-
         }
+
         if (initBill.prev_elec !== input.prev_elec || initBill.prev_water !== input.prev_water){
             const new_bill: BillUpdateFields = {
                 elec_readings: parseInt(input.prev_elec),
@@ -121,6 +127,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
                 year: parseInt(bill.prev_year),
                 id: bill.prev_bill_id
             }
+            console.log("update bill", bill)
+            console.log("update prev new_bill", new_bill)
             update_bill_mutation.mutate(new_bill)
         }
         // setInput(genInitValues())
@@ -130,7 +138,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
 
 
 return (
- <div className='w-full h-full flex items-center justify-center'>
+ <div className='w-full h-full flex flex-col items-center justify-center'>
+        <div className="text-xl font-bold border-b ">{bill.shop_number}  {bill.shop_name}</div>
     <form onSubmit={handleSubmit} className="w-full flex flex-wrap justify-center items-center">
         
         <div className="w-full flex flex-wrap items-center justify-center">
@@ -198,28 +207,8 @@ return (
 
         </div>
 
-            {/* <div className="w-full flex flex-wrap items-center justify-center">
-                <FormSelect<BillMutationFields>
-                    error={error}
-                    input={input}
-                    label="Month"
-                    prop="month"
-                    select_options={period_month_options}
-                    default_option={{ value: input.month.toString(), label: input.month.toString() }}
-                    setInput={setInput}
-                />
-
-                <FormSelect<BillMutationFields>
-                    error={error}
-                    input={input}
-                    label="Year"
-                    prop="month"
-                    select_options={period_month_options}
-                    default_option={{ value: input.year.toString(), label: input.year.toString() }}
-                    setInput={setInput}
-                />
-
-            </div> */}
+        {new_bill_mutation.isError && <ErrorWrapper err={new_bill_mutation.error}/>}
+        {update_bill_mutation.isError && <ErrorWrapper err={update_bill_mutation.error}/>}
 
 
 

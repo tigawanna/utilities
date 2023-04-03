@@ -13,10 +13,12 @@ export function isBillingNewMonth(bill: MonthlyBills) {
     ) {
         return true
     }
-    else false
+    return false
 }
 
 export function caclulatePeriod(month:number,year:number):BillsPeriod {
+    const default_month = new Date().getMonth() + 1
+    const default_year = new Date().getFullYear()
     return{
         curr_month:month,
         curr_year:year,

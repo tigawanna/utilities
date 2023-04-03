@@ -7,6 +7,7 @@ import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
 import { TheIcon } from "../../shared/wrappers/TheIcon";
 import {getMonthlyBills } from "../../state/api/bills";
+import { useBillsStore } from "../../state/zustand/bills";
 import { getMonthName } from "../../utils/date-helpers";
 import { BillsTable } from "./BillsTable";
 import { caclulatePeriod } from "./bill_utils";
@@ -18,6 +19,7 @@ interface BillsViewProps {
 
 export function BillsView({}:BillsViewProps){
     const navigate = useNavigate();
+    const bills_store = useBillsStore()
     const [updating, setUpdating] = useState(true);
     const [mode, setMode] = useState<"view" | "edit" | "add">("view")
     
@@ -25,24 +27,12 @@ export function BillsView({}:BillsViewProps){
     const year = new Date().getFullYear()
     const [period,setPeriod]=useState(caclulatePeriod(month,year))
 
-
-    function handleModeChange(e: SelectOption){
-        if (e) {
-        setMode(e.value as "view" | "edit" | "add")
-        }
-    }
-
-
-
-
-
-    // useEffect(() => {
-    //     setPeriod(caclulatePeriod())
-    // }, [mode])
-
-
+    useEffect(()=>{
+      bills_store.updatePeriod(period)  
+    },[period])
+    
     const query = useQuery({
-        queryKey: ['monthly-bills',period.curr_month,period.curr_year,period.prev_month,period.prev_year],
+        queryKey:['monthly-bills',period],
         queryFn:()=>getMonthlyBills(period),
     })
 
@@ -90,7 +80,7 @@ return (
          <div className="border border-accent rounded p-2 md:relative md:right-[10%]">{bills.length}</div>
         </div>  
 
-        <BillsTable bills={bills} updating={updating} printing={false}/>
+        <BillsTable bills={bills} updating={updating} printing={false} />
  </div>
 );
 }
