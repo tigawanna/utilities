@@ -27,7 +27,7 @@ export default function Shops({user}:ShopsProps){
  }
 
   const shops = query.data;
-console.log("shops  === ",shops)
+// console.log("shops  === ",shops)
   return (
     <div className='w-full h-full min-h-screen  flex flex-col items-start'>
       <div className='w-full h-[80%] p-2 flex flex-wrap justify-center items-center gap-5 '>

@@ -1,5 +1,4 @@
 import { useMutation} from "@tanstack/react-query";
-import { useEffect } from "react";
 import { PlainFormButton } from "../../shared/form/FormButton";
 import { FormCheckBox } from "../../shared/form/FormCheckbox";
 import { FormInput } from "../../shared/form/FormInput";
@@ -23,9 +22,6 @@ interface ShopFormProps {
 }
 
 export function ShopForm({setOpen,shop,tenant,updating}:ShopFormProps){
-
-
-
     function genInitValues(): ShopMutationFields {
         if (shop) {
             return {
@@ -33,7 +29,7 @@ export function ShopForm({setOpen,shop,tenant,updating}:ShopFormProps){
                 shop_number: shop.shop_number,
                 tenant: shop.tenant,
                 utils: shop.utils,
-                is_vacant:false
+                is_vacant:shop.is_vacant
             }
         }
         if (tenant) {

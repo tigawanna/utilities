@@ -31,6 +31,7 @@ export const FormCheckBox = <T,>({
   setInput({ ...input, [prop]: e.target.checked });
   // console.log("checkbox event  =======",e.target.checked)
   }
+  // console.log("checkbox   ====== ", input)
   return (
     <div 
     style={input_props?.style}

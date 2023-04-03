@@ -15,7 +15,12 @@ export function ShopCard({shop,user}:ShopCardProps){
 return (
     <div
         key={shop.id}
+        style={{
+            // filter: shop.is_vacant ? 'blur(1px)' : '',
+            backgroundColor : shop.is_vacant?'#3A0806' : '',
+        }}
         className='w-full p-5 md:w-[35%] h-full flex flex-wrap items-center justify-center border-shadow'>
+        {shop.is_vacant &&<h1 className="font-bold text-xl">VACANT</h1>}
         <Link to={`${shop.id}`}
             className='w-full h-full flex flex-col items-center justify-center'>
             {/*top  */}

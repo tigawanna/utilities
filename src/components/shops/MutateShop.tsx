@@ -35,7 +35,8 @@ return (
 
         <ReactModalWrapper
             child={
-                <div className='z-50'> <ShopForm setOpen={setOpen} user={user} 
+                <div className='z-50'> 
+                <ShopForm setOpen={setOpen} user={user} 
                 updating={updating}
                 shop={shop} tenant={tenant}/></div>
             }
