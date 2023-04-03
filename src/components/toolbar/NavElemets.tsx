@@ -35,8 +35,6 @@ const [isOpen, setIsOpen] = useState(false);
 const avatar = makeImageUrl('staff', user?.id as string, user?.avatar as string);
 const {modeIcon,theme,toggleTheme} = useDarkTheme()
 
-
-
 return (
     <div className='w-full  h-screen dark:text-white
     flex flex-col justify-start'>
@@ -93,13 +91,14 @@ return (
             link_path="/tenants"
             sidebar={sidebar}
             />
+            
+            {import.meta.env.VITE_ENV ==="DEV"&&
             <NavElemetLink
             Icon={GrTest}
             link_name="Test"
             link_path="/test"
             sidebar={sidebar}
-
-            />
+            />}
 
 
             {/* <div className="w-full  flex justify-center items-center 
