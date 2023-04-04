@@ -1,9 +1,11 @@
 import { pb } from "../pb/config";
+import { BillResponse } from "./bills";
 import { TenantResponse } from "./tenant";
 
 
 export interface ShopExpand{
     tenant:TenantResponse
+    "bills(shop)":Omit<BillResponse,"expand">[]
 }
 
 export interface ShopResponse {
@@ -78,7 +80,8 @@ export async function getShops() {
 export async function getShop(id:string) {
     try {
         const record = await pb.collection('shops').getFirstListItem<ShopResponse>(`id="${id}"`, {
-            expand: 'tenant',
+            sort:'month',
+            expand: 'tenant,bills(shop)',
         });
         return record
     } catch (error) {
