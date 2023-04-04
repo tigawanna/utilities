@@ -110,9 +110,11 @@ if(shop){
 }
 
 return (
-    <div className='w-full h-full flex flex-col items-center justify-center  bg-slate-800 rounded-lg gap-2 p-2'>
+    <div className='w-full h-full 
+    flex flex-col items-center justify-center  
+   gap-2 p-2'>
       
-            <ShopList />
+            {/* <ShopList /> */}
 
         <form onSubmit={handleSubmit}
             data-testid="add-shop-form"

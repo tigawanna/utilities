@@ -11,7 +11,7 @@ if(!the_date){
         return <h1 className='text-xs'>--:--:--</h1>
 }
 return (
- <div className='h-full  flex flex-col  gap-1'>
+ <div className='h-full  flex flex-wrap  gap-1'>
     <h1 className='text-xs '>{dayjs(the_date).format('dddd DD-MMM-YYYY')}</h1>
     <h1 className='text-xs '>{dayjs().to(dayjs(the_date))}</h1>
  </div>

@@ -29,7 +29,7 @@ export default function Tenants({user}:TenantsProps){
   // console.log("tenants", tenants)
   return (
     <div className='w-full h-full min-h-screen  flex items-center justify-center'>
-      <div className='w-full h-[80%] p-2 flex flex-wrap justify-center gap-2 '>
+      <div className='w-full h-[80%] p-2 flex flex-wrap justify-center gap-5 '>
         {tenants.map((tenant) => {
           return <TenantCard tenant={tenant} key={tenant.id} user={user} />
         })

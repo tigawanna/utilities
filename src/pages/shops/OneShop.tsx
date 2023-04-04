@@ -33,12 +33,15 @@ const query = useQuery({
     }
 
 const shop = query.data;
-console.log("one shop resonse",shop)    
-return (
- <div className='w-full h-full flex flex-col md:flex-row items-center justify-center gap-2'>
+const shop_bills = shop.expand["bills(shop)"].sort((a, b) => ((b.year - a.year)||(b.month-a.month))); 
+
+ return (
+ <div className='w-full h-full flex flex-col  items-center justify-center gap-2'>
         <div
             key={shop.id}
-            className='w-[90%] md:w-[50%] p-5  h-full flex flex-wrap items-center justify-center border gap-5'>
+            className='w-[90%] lg:w-[70%] p-5  
+            h-full rounded-lg sticky top-[5%] bg-slate-900
+            flex flex-wrap items-center justify-center border gap-5'>
 
                 {/*top  */}
                 <div className="w-full flex flex-wrap justify-between items-center px-2">
@@ -54,7 +57,7 @@ return (
      
         </div>
         <div className='flex items-center justify-center'>
-             <ShopBillsTable bills={shop.expand["bills(shop)"]} printing={false} updating={true}/>
+             <ShopBillsTable bills={shop_bills} printing={false} updating={true} shop={shop}/>
         </div>
  </div>
 );

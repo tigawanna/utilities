@@ -26,7 +26,7 @@ export function SearchSelect<T,>({ gettterFunction,setValue,CustomOption,default
   return (
     <AsyncSelect
      defaultInputValue={defaultkeyword}
-      className="w-full"
+      className="w-full md:w-[60%]"
       defaultValue={null}
       onChange={(res) => {
         // @ts-expect-error

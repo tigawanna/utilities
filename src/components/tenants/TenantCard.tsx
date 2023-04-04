@@ -15,13 +15,13 @@ export function TenantCard({tenant,user}:TenantCardProps){
 return (
     <div
         key={tenant.id}
-        className='w-full p-2 md:w-[35%] h-full flex flex-col items-center justify-center border-shadow gap-2'>
+        className='w-full p-2 md:w-[30%] h-full flex flex-col items-center justify-center border-shadow gap-2'>
         <Link to={``}
-            className='w-full h-full flex flex-col items-center justify-center gap-2 hover:bg-purple-800'>
+            className='w-full h-full flex flex-col items-center justify-center gap-2 rounded-xl hover:text-purple-500'>
             {/*top  */}
-            <div className="w-full flex justify-between items-center px-2">
-                <h1 className="font-bold">{tenant.name}</h1>
-                <h1 className="">{tenant.details}</h1>
+            <div className="w-full flex justify-between items-center  px-2 gap-2">
+                <h2 className="font-bold ">{tenant.name}</h2>
+                <h2 className="">{tenant.details}</h2>
             </div>
 
             {/*body */}

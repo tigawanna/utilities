@@ -54,7 +54,7 @@ export function ShopBillsForm({bill,setOpen}:ShopBillsFormProps){
 
                 <div className="w-full flex flex-wrap items-center justify-center">
 
-                    <div className="min-w-[40%] flex flex-col justify-center items-center">
+                    <div className="min-w-[40%] flex flex-wrap justify-center items-center">
 
                         <FormInput
                             error={error}
@@ -84,14 +84,14 @@ export function ShopBillsForm({bill,setOpen}:ShopBillsFormProps){
                         />
     
                     </div>
-                    <div className="min-w-[40%] flex flex-col justify-center items-center">
+                    <div className="min-w-[40%] flex flex-wrap justify-center items-center">
 
                         <FormInput
                             error={error}
                             handleChange={handleChange}
                             input={input}
                             label="Month"
-                            prop="year"
+                            prop="month"
                             input_props={{
                                 type: "number",
                                 style: {

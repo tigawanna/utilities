@@ -17,7 +17,9 @@ return (
 tenant_shops.map((tenant_shop) => {
 return(
     <Link to={`../shops/${tenant_shop.id}`} className="w-fit px-2 py-1 
-    flex justify-center items-center rounded border hover:bg-purple-600 gap-2">
+    flex justify-center items-center rounded 
+    outline hover:outline-purple-600 hover:outline-2 
+    gap-2">
     <h2 className="">{tenant_shop.shop_number}</h2>
         <UtilIcons utils={tenant_shop.utils} />
         <h4 className="text-xs border rounded-full border-purple-500 p-1">{tenant_shop.order}</h4>

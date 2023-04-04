@@ -25,7 +25,7 @@ return (
  <div className='flex items-center justify-center'>
         <div
         className='flex items-center justify-center rounded-full aspect-square  
-        p-2 bg-accent text-white hover:bg-[#c09b35] 
+        p-2 
         relative bottom-[10%] right-[5%]'>
         <TheIcon 
             Icon={custom_icon?.Icon ?? FaPlus} 

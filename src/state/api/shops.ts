@@ -80,7 +80,6 @@ export async function getShops() {
 export async function getShop(id:string) {
     try {
         const record = await pb.collection('shops').getFirstListItem<ShopResponse>(`id="${id}"`, {
-            sort:'month',
             expand: 'tenant,bills(shop)',
         });
         return record

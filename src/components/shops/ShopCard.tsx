@@ -18,14 +18,15 @@ return (
             // filter: shop.is_vacant ? 'blur(1px)' : '',
             backgroundColor : shop.is_vacant?'#3A0806' : '',
         }}
-        className='w-full p-5 md:w-[35%] h-full flex flex-wrap items-center justify-center border-shadow'>
-        {shop.is_vacant &&<h1 className="font-bold text-xl">VACANT</h1>}
+        className='w-full p-5 md:w-[30%] h-full flex flex-wrap items-center justify-center border-shadow'>
+    
         <Link to={`${shop.id}`}
-            className='w-full h-full flex flex-col items-center justify-center'>
+            className='w-full h-full flex flex-col items-center justify-center hover:text-purple-500'>
             {/*top  */}
-            <div className="w-full flex flex-wrap justify-between items-center px-2">
-                <h1 className="font-bold text-md">{shop.shop_number}</h1>
-                <h1 className="text-sm font-bold">{shop?.expand?.tenant?.name}</h1>
+            <div className="w-full flex flex-wrap justify-between  items-center px-2 gap-2 ">
+                <h2 className="font-bold ">{shop.shop_number}</h2>
+                {shop.is_vacant && <h2 className="">VACANT</h2>}
+                <h2 className="font-bold">{shop?.expand?.tenant?.name}</h2>
             </div>
 
             {/*bottom */}
