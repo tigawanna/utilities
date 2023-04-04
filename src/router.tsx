@@ -6,7 +6,7 @@ import { AuthLayout } from "./pages/auth/AuthLayout";
 import { Login } from "./pages/auth/Login";
 import { Signup } from "./pages/auth/Signup";
 import { RootLayout } from "./pages/index/RootLayout";
-import { WelcomePage } from "./pages/index/WelcomePage";
+import { WelcomePage } from "./pages/index/MainPage";
 import { ReactRouterError } from "./shared/extra/ReactRouterError";
 import { LoaderElipse } from "./shared/loaders/Loaders";
 import { AppUser } from "./state/types/base";

@@ -12,7 +12,7 @@ export function BillsTable({bills,updating,printing}:BillsTableProps){
    
 return (
  <div className='w-full h-full flex items-center justify-center'>
-        <Table striped highlightOnHover withBorder withColumnBorders >
+        <Table  highlightOnHover withBorder withColumnBorders >
             <thead className={updating?'sticky top-[18%] bg-slate-900':''}>
                 <tr>
                  {!printing &&<th>Order</th>}
