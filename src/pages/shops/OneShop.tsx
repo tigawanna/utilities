@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { ShopBillsTable } from "../../components/shops/ShopBillsTable";
 import { UtilIcons } from "../../components/shops/UtilIcons";
 import { DateOutput } from "../../shared/extra/DateOutput";
+import { useDocumentTitle } from "../../shared/hooks/useDocumentTitle";
 import { RqError } from "../../shared/wrappers/RqError";
 import { RqLoading } from "../../shared/wrappers/RqLoading";
 import { getShop } from "../../state/api/shops";
@@ -21,6 +22,7 @@ const query = useQuery({
     queryKey,
     queryFn:()=>getShop(param?.id as string)
 })
+    useDocumentTitle(query.data?.shop_number as string)
 
     if (query.isLoading) {
         return <RqLoading />

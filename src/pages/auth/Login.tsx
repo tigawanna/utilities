@@ -1,37 +1,21 @@
-/* eslint-disable implicit-arrow-linebreak */
-import React from 'react';
-// import { useNavigate, Link } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { LoginForm } from '../../components/auth/LoginForm';
 import { AppUser } from '../../state/types/base';
 
 
 interface LoginProps {
-  user?: AppUser
+  user?: AppUser;
 }
 
-export const Login: React.FC<LoginProps> = () =>
+export const Login = ({ user }: LoginProps) => {
 
-// const navigate = useNavigate()
-// React.useEffect(() => {
-//   if (user?.email) {
-//     navigate('/')
-//   }
-// }, [user?.email])
 
-  (
-    <div className="w-full  h-[70%] flex flex-col items-center
-  justify-center
+  return (
 
-  "
-    >
-      <div className="w-[80%] md:w-[60%]  m-2 p-2 flex flex-col
-    items-center justify-start "
-      />
-      <Link
-        className="text-blue-500"
-        to="/auth/signup"
-      >
-        Create new account
-      </Link>
+    <div
+  className="w-full min-h-screen   h-full 
+  flex flex-col items-center justify-center  ">
+      <LoginForm />
     </div>
-  );
+
+  )
+}
