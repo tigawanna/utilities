@@ -34,3 +34,4 @@ src/state/data/bills copy.json
 src/state/data/pb_shops.json
 src/state/data/shop_with_supaid.json
 src/state/data/full_supa_bills.json
+src/state/pb_data
