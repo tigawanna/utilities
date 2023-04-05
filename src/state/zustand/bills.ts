@@ -8,6 +8,8 @@ interface BillsState {
     updatePeriod: (period:BillsPeriod) => void
     one_shop_query_key:any[]
     updateOneShopQueryKey: (key:any[]) => void
+    checked:boolean
+    setChecked: (checked:boolean) => void
 }
 
 export const useBillsStore = create<BillsState>()(
@@ -19,6 +21,8 @@ export const useBillsStore = create<BillsState>()(
                 updatePeriod: (period) => set((state) => ({period})),
                 one_shop_query_key: ['shops'],
                 updateOneShopQueryKey: (key) => set((state) => ({one_shop_query_key: key})),
+                checked: false,
+                setChecked: (checked) => set((state) => ({checked})),
             }),
             {
                 name: 'bills-storage',

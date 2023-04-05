@@ -1,6 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SelectOption, SimpleSelect } from "../../shared/form/SimpleSelect";
-import { caclulatePeriod, period_month_options, period_year_options } from "./bill_options";
+import { ToggleSwitch } from "../../shared/form/ToggleSwitch";
+import { useBillsStore } from "../../state/zustand/bills";
+import { getPrevMonthandYear } from "../../utils/date-helpers";
+import {  period_month_options, period_year_options } from "./bill_options";
 
 export interface BillsPeriod {
     curr_month: number;
@@ -11,14 +14,28 @@ export interface BillsPeriod {
 interface PeriodPickerProps {
     period: BillsPeriod
     setPeriod: React.Dispatch<React.SetStateAction<BillsPeriod>>
-    mode: "view" | "edit" | "add"
+
 }
 
-export function PeriodPicker({ period, setPeriod ,mode}: PeriodPickerProps) {
+export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
+  const bill_store  = useBillsStore()
+const [checked, setChecked] = useState(bill_store.checked)
+
+useEffect(() => {
+    bill_store.setChecked(checked)
+},[checked])
 
 
     const handleMonthChange = (e: SelectOption) => {
         if (e) {
+            if(checked){
+                setPeriod(prev => {
+                    return { 
+                        ...prev, curr_month: parseInt(e.value),
+                        prev_month:getPrevMonthandYear(parseInt(e.value)).month,
+                        prev_year: getPrevMonthandYear(parseInt(e.value)).year                     }
+                })
+            }
             setPeriod(prev => {
                 return { ...prev, curr_month: parseInt(e.value) }
             })
@@ -45,10 +62,7 @@ export function PeriodPicker({ period, setPeriod ,mode}: PeriodPickerProps) {
             })
         }
     }
-    // useEffect(() => {
 
-    // },[period])
-    // console.log("period  ===== ",period)
     return (
         <div className='w-full h-full  flex flex-col items-center justify-center'>
 
@@ -90,7 +104,10 @@ export function PeriodPicker({ period, setPeriod ,mode}: PeriodPickerProps) {
                     handleSelectChange={handlePrevYearChange} />
             </div>
         
-
+                <ToggleSwitch
+                    checked={checked}
+                    setChecked={setChecked}
+                />
             </div>
 
         </div>

@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react"
 import { MonthlyBills } from "../../state/api/bills"
+import { useBillsStore } from "../../state/zustand/bills"
 import { getPrevMonthandYear } from "../../utils/date-helpers"
 import { BillsPeriod } from "./PeriodPicker"
 
@@ -31,4 +33,20 @@ export function caclulatePeriod(month:number,year:number):BillsPeriod {
         prev_year:getPrevMonthandYear(month).year
     }
 
+}
+
+
+export function useBillsPeriod(){
+    const month = new Date().getMonth() + 1
+    const year = new Date().getFullYear()
+    const bills_store = useBillsStore()
+    const [period, setPeriod] = useState(caclulatePeriod(month, year))
+    useEffect(() => {
+        bills_store.updatePeriod(period)
+    }, [period])
+
+    return {
+        period,
+        setPeriod
+    }
 }
