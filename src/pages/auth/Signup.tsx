@@ -7,16 +7,9 @@ interface SignupProps {
   user:AppUser
 }
 
-export const Signup: React.FC<SignupProps> = () =>
-// const navigate = useNavigate()
-// React.useEffect(() => {
-//   if (user?.email) {
-//     navigate('/profile')
-//   }
-// }, [user?.email])
+export default function Signup({user}: SignupProps){
 
-  // eslint-disable-next-line implicit-arrow-linebreak
-  (
+ return (
     <div className="w-full h-[80%] flex flex-col items-center justify-center">
       <div className="w-[80%] h-fit md:w-[60%]  m-2 flex flex-col
     items-center justify-center "
@@ -29,3 +22,4 @@ export const Signup: React.FC<SignupProps> = () =>
       </Link>
     </div>
   );
+  }

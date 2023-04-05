@@ -9,7 +9,7 @@ interface AuthLayoutProps {
   user: AppUser;
 }
 
-export const AuthLayout = ({ user }: AuthLayoutProps) => {
+export default function AuthLayout({ user }: AuthLayoutProps){
   useDocumentTitle('Auth')
   const [searchBarParams, setSearchBarParams] = useSearchParams();
   const navigate = useNavigate();

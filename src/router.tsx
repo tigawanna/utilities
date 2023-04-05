@@ -1,15 +1,22 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import { Test } from "./components/test/Test";
-import { TestLayout } from "./components/test/TestLayout";
-import { AuthLayout } from "./pages/auth/AuthLayout";
-import { Login } from "./pages/auth/Login";
-import { Signup } from "./pages/auth/Signup";
-import { RootLayout } from "./pages/index/RootLayout";
-import { WelcomePage } from "./pages/index/MainPage";
+import MainPage from "./pages/index/MainPage";
+import RootLayout from "./pages/index/RootLayout";
+
+
 import { ReactRouterError } from "./shared/extra/ReactRouterError";
 import { LoaderElipse } from "./shared/loaders/Loaders";
 import { AppUser } from "./state/types/base";
+
+// const RootLayout = lazy(() => import("./pages/index/RootLayout"));
+// const MainPage = lazy(() => import("./pages/index/MainPage"));
+
+const AuthLayout = lazy(() => import("./pages/auth/AuthLayout"));
+const LoginPage = lazy(() => import("./pages/auth/Login"));
+const SignupPage = lazy(() => import("./pages/auth/Signup"));
+
+const TestLayout = lazy(() => import("./components/test/TestLayout"));
+const Test = lazy(() => import("./components/test/Test"));
 
 const ShopsLayout = lazy(() => import("./pages/shops/ShopsLayout"));
 const Shops = lazy(() => import("./pages/shops/Shops"));
@@ -30,7 +37,7 @@ export function makeRouter(user: AppUser) {
             // loader:userLoader(queryClient),
             errorElement: <ReactRouterError />,
             children: [
-                { index: true, element: <WelcomePage user={user} /> },
+                { index: true, element: <MainPage user={user} /> },
                 {
                     path: '/shops',
                     element: <Suspense fallback={<LoaderElipse />}><ShopsLayout user={user} /></Suspense>
@@ -69,16 +76,16 @@ export function makeRouter(user: AppUser) {
 
                 {
                     path: '/auth',
-                    element: <AuthLayout user={user} />,
+                    element: <Suspense fallback={<LoaderElipse />}><AuthLayout user={user} /></Suspense>,
                     children: [
                         {
                             index: true,
-                            element: <Login />,
+                            element: <Suspense fallback={<LoaderElipse />}> <LoginPage /></Suspense>,
                             // loader: deferredBlogPostsLoader,
                         },
                         {
                             path: '/auth/signup',
-                            element: <Signup user={user} />,
+                            element: <Suspense fallback={<LoaderElipse />}><SignupPage user={user} /></Suspense>,
                             // loader: blogPostLoader,
                         },
                     ],
@@ -97,11 +104,11 @@ export function makeRouter(user: AppUser) {
 
                 {
                     path: '/test',
-                    element: <TestLayout user={user} />,
+                    element: <Suspense fallback={<LoaderElipse />}><TestLayout /></Suspense>,
                     children: [
                         {
                             index: true,
-                            element: <Test user={user} />,
+                            element: <Suspense fallback={<LoaderElipse />}><Test user={user} /></Suspense>,
                             // loader: deferredBlogPostsLoader,
                         },
 

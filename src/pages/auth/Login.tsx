@@ -6,7 +6,7 @@ interface LoginProps {
   user?: AppUser;
 }
 
-export const Login = ({ user }: LoginProps) => {
+export default function Login({ user }: LoginProps){
 
 
   return (

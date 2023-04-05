@@ -6,8 +6,9 @@ interface TestLayoutProps {
   user:AppUser
 }
 
-export const TestLayout: React.FC<TestLayoutProps> = () => (
-  <div>
+export default function TestLayout(){
+return (
+<div>
     <Outlet />
-  </div>
-);
+  </div>)
+}

@@ -18,7 +18,7 @@ interface RootLayoutProps {
 
 }
 
-export const RootLayout = ({ user }: RootLayoutProps) => {
+export default function RootLayout({ user }: RootLayoutProps){
 
   useAuthGuard(user, false)
   const navigation = useNavigation()

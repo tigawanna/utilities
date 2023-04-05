@@ -9,7 +9,7 @@ interface TestProps {
   user:AppUser
 }
 
-export const Test: React.FC<TestProps> = () => {
+export default function Test({user}: TestProps) {
 
   // const [table,setTbale]=useState<"shops"|"tenants">('tenants')
   const query = useQuery({
