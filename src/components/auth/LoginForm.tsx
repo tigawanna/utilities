@@ -33,7 +33,7 @@ export const LoginForm = ({}:LoginFormProps) => {
             setError({ name: "main", message: concatErrors(error) });
         },
         meta: {
-            invalidates: ['user']
+            invalidates: [['user']]
         }
     })
     // const timeline = ['approved_on', 'funded_on', 'completed_on']

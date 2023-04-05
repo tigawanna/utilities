@@ -15,6 +15,8 @@ export const AuthLayout = ({ user }: AuthLayoutProps) => {
   const navigate = useNavigate();
   const navigate_to = searchBarParams.get('callbackUrl')
   // console.log("navigate to ==== ",navigate_to)
+  // console.log("user ==== ",user)
+  
   useEffect(() => {
     if (user?.email) {
       if (navigate_to) {
