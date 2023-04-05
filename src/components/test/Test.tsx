@@ -1,40 +1,38 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
-import { fetchAll } from '../../state/api/api';
-import { getBills } from '../../state/api/bills';
-import { addSupaIdtopbShops, migrateAllBills, migrateBills, migrateShops } from '../../state/api/migrate';
-import { getShops } from '../../state/api/shops';
+import React  from 'react';
+import { RqLoading } from '../../shared/wrappers/RqLoading';
+import { getFullList,migrateBillsToRemote, } from '../../state/api/migrate';
 import { AppUser } from '../../state/types/base';
-import { BillsView } from '../bills/BillsView';
-import { BillsYearlyView } from '../bills/BillsYearlyView';
+
 
 interface TestProps {
   user:AppUser
 }
 
 export const Test: React.FC<TestProps> = () => {
+
   // const [table,setTbale]=useState<"shops"|"tenants">('tenants')
-  // const query = useQuery({
-  //   queryKey: ['full-list'],
-  //   queryFn:()=>getBills(),
-  //   // enabled:false
-  // })
-
-
-
-  const mutation = useMutation({
-    mutationFn:migrateAllBills
+  const query = useQuery({
+    queryKey: ['full-list'],
+    queryFn:()=>getFullList('shops'),
+    enabled:false
   })
 
 
 
-// if(query.isFetching){
-//   return <div>loading</div>
-// }
+  const mutation = useMutation({
+    mutationFn:migrateBillsToRemote
+  })
+
+
+
+if(query.isFetching){
+  return <RqLoading/>
+}
 
 
 // console.log("bills ", query.data)
-  // console.log("query full list", query.data)
+  console.log("query full list", query.data)
 
   // console.log("pb_shops", addSupaIdtopbShops())
 
@@ -49,7 +47,7 @@ return (
     {mutation.isError && <div className='w-full h-full bg-red-900 text-lg font-bold'>
       {mutation.error.message}</div>}
 
-      <BillsView/>
+      {/* <BillsView/> */}
       {/* <BillsYearlyView/> */}
   </div>
 );}

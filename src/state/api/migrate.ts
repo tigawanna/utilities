@@ -1,16 +1,16 @@
 import shops_json from '../data/shops.json'
-import pb_tenants from '../data/pb-tenants.json'
-import bills_json from  '../data/bills.json'
-import pb_shops from '../data/pb_shops.json'
+// import pb_tenants from '../data/pb-tenants.json'
+// import pb_shops from '../data/pb_shops.json'
 import tenants_json from '../data/tenants.json'
 import full_supa_bills_json from '../data/full_supa_bills.json'
-
-import shops_with_supaid from '../data/shop_with_supaid.json'
-import { addShop, ShopMutationFields, ShopResponse } from './shops';
+import { addShop, ShopResponse } from './shops';
 import { addTenant } from './tenant';
 import { addBill, BillMutationFields } from './bills'
 import { pb } from '../pb/config'
 
+import pb_tenants from '../pb_data/pb_tenants.json'
+import pb_shops from '../pb_data/pb_shop.json'
+import pb_bills from '../pb_data/pb_bills.json'
 
 interface OldShop {
     id: string;
@@ -106,18 +106,7 @@ function matchshopToBill(bill:OldBill){
 }
 
 
-// elec_readings
-// :
-// 39526.8
-// month
-// :
-// 1
-// water_readings
-// :
-// 39526.8
-// year
-// :
-// 2022
+
 
 export async function migrateBills() {
 
@@ -165,4 +154,50 @@ export async function migrateAllBills() {
         return await addBill(new_bill)
     })
     return Promise.all(promises)
+}
+
+
+
+export async function migrateTenantsToRemote() {
+    pb.autoCancellation(false);
+    const promises = [];
+    for await (const a_tenant of pb_tenants) {
+        //@ts-ignore
+        promises.push(addTenant(a_tenant));
+    }
+    return await Promise.all(promises);
+}
+
+export async function migrateShopsToRemote(){
+    pb.autoCancellation(false);
+    const promises = [];
+    for await (const a_shop of pb_shops) {
+        // @ts-expect-error
+        promises.push(addShop(a_shop));
+        // return await addShop(a_shop)
+    }
+    return await Promise.all(promises);
+}
+
+export async function migrateBillsToRemote(){
+    pb.autoCancellation(false);
+    const promises = [];
+    for await (const a_bill of pb_bills) {
+        // return await addBill(a_bill)
+        promises.push(addBill(a_bill))
+    }
+    return await Promise.all(promises);
+}
+
+
+export async function getFullList(table:string) {
+    try {
+        const records = await pb.collection(table).getFullList({
+      
+        });
+        return records
+    } catch (error) {
+        console.log("error getting bills  === ", error)
+        throw error
+    }
 }

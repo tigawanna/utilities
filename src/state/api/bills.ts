@@ -41,6 +41,7 @@ export interface MonthlyBills {
 
 export type BillMutationFields = Pick<BillResponse,"elec_readings"|"water_readings"|"month"|"year"|"shop">
 export type BillUpdateFields = Pick<BillResponse, "elec_readings" | "water_readings" | "month" | "year" | "shop"|"id">
+
 export async function getBills(filter?:string){
 try {
     const records = await pb.collection('bills').getFullList<BillResponse>({

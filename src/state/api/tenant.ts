@@ -26,7 +26,7 @@ export async function addTenant(tenant:Partial<TenantResponse>) {
     const record = await pb.collection('tenants').create<TenantResponse>(tenant);
     return record
     } catch (error) {
-        console.log(error)
+        console.log("error adding tenant",error)
         throw error
     }
 }
