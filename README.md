@@ -3,11 +3,11 @@ A simple react app for utilities entry and viewing
 
 Built this app to fix the issue i had when making utilities meter readings across the building we were managing.
 
-The process would begin with a printedcout spreadsheet of the shop name with their respective meters and a spot for thier readings .
+The process would begin with a printed spreadsheet of the shop names with their respective meters and a spot for thier readings.
 
-The job aws simple , populate the empty spots. but it was very common to be doubtful because some of the meters would be foggy from the inside or just hard to read , referencing the former readings would be helpfull but doing it manually could wind up beig as eronious and require maximum attention
+The job was simple , populate the empty spots. but it was very common to be doubtful because some of the meters would be foggy from the inside or just hard to read , referencing the former readings would be helpfull but doing it manually could wind up being as eronious and require full attention
 
-so i came up with the idea of just puttingit all a database and have a dashboard for it.
+so i came up with the idea of just putting it all a database and have a dashboard for it.
 
 ### frontend 
 React SPA with vite and typescript
@@ -16,8 +16,7 @@ React SPA with vite and typescript
 - React-router-dom
 - Pocketbase SDK
   
-### backend
-- Pocketbase  
+
   
 
 getting setup 
@@ -38,7 +37,11 @@ then include the .env file
 VITE_PB_URL=http://127.0.0.1:8090
 VITE_ENV=DEV
 ```
-for pocketbase can either use my build pocketbase executable
+
+### backend
+- Pocketbase  
+
+you can either use my built pocketbase executable
 
 [Download linux executable file](https://github.com/tigawanna/devhub-backend/raw/master/pocketbase)
 
@@ -48,7 +51,7 @@ for pocketbase can either use my build pocketbase executable
 
 [source code](https://github.com/tigawanna/devhub-backend)
 
-this would be the easiest option since it has one of the custom routesthat am using
+this would be the easiest option since it has one of the custom routes that am using
 
 or you could download the [official pocketbase](https://pocketbase.io/docs/) and add the custo routes yourself 
 
@@ -209,14 +212,119 @@ export interface MonthlyBills {
 
 to power a UI like this 
 
-![bills home screen](https://github.com/tigawanna/utilities/blob/master/docs/imgs/Screenshot%202023-04-06%20183144.png)
+![bills home screen](https://github.com/tigawanna/utilities/raw/master/docs/imgs/Screenshot%202023-04-06%20183144.png)
+
+
+with pocketbase 0.14 view collections were introduced where we can compose collections into one read only view but i couldn't get it to work for my use case so i had to extend pocketbase and add custom route that will wrap this query
+
+```sql
+SELECT
+sh.id as shop_id,
+IFNULL(curr.id,"blank") as curr_bill_id,
+IFNULL(prev.id,"blank") as prev_bill_id,
+
+sh.shop_number as shop_number,
+te.name as shop_name,
+sh."order" as list_order,
+
+IFNULL(curr.month,0) as curr_month,
+IFNULL(prev.month,0) as prev_month,
+IFNULL(curr.year,0) as curr_year,
+IFNULL(prev.year,0) as prev_year,
+
+
+IFNULL(curr.elec_readings,0) as current_elec,
+IFNULL(prev.elec_readings,0) as previous_elec,
+IFNULL((curr.elec_readings - prev.elec_readings),0) elec_diff,
+IFNULL(curr.water_readings,0) as current_water,
+IFNULL(prev.water_readings,0) as previous_water,
+IFNULL((curr.water_readings - prev.water_readings),0)water_diff
 
 
 
+FROM shops sh
+LEFT JOIN bills as curr
+ON curr.shop = sh.id AND curr.month = {:curr_month} AND curr.year = {:curr_year}
+LEFT JOIN bills as prev
+ON prev.shop = sh.id AND prev.month = {:prev_month} AND prev.year = {:prev_year}
+LEFT JOIN tenants te
+ON te.id = sh.tenant
+WHERE sh.is_vacant = false
+ORDER BY sh."order";
+```
+[complete route code](https://github.com/tigawanna/devhub-backend/blob/master/bills.go)
 
 
+Then we consume it o the frontend 
+```ts
+export async function getMonthlyBills(period:BillsPeriod){
+try {
+    const records = await pb.send<MonthlyBills[]>('/monthly_bills',{params:period})
+    return records
+} catch (error) {
+    console.log("error getting monthly bills  === ", error)
+    throw error
+}
+}
+```
+> Note that the `pb.send()` method can now take a generic type  that defines the response type
 
 
+On the front end i output it into a table i made using Mantine Table and made a [period-picker](https://github.com/tigawanna/utilities/blob/49a5960a10bd0b158c65250b448fc3717953c8f7/src/components/bills/PeriodPicker.tsx) component that allows you to control which month's bills curr and prev are loaded
+
+ As for the motations , the pocketbae sdk amkes it super easy by just calling the `.add()` ,`.update()  method on the `pb.collection()` method
+
+As for the Pocketbase deployment i used [fly.io](https://fly.io) and [vercel](https://vercel.com) for the react 
+
+### extras
+
+- query invalidation : on mutations you might want to invalidate the queries so the useQuery refetches
+
+in tanstack-query v5 , we can now define a global query invalidatio pattern
+
+```ts
+const queryClient: QueryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    onSuccess: async (data, variable, context, mutation) => {
+
+      if (Array.isArray(mutation.meta?.invalidates)) {
+        mutation.meta?.invalidates.forEach((key)=>{
+          return queryClient.invalidateQueries({
+            queryKey:key
+          })
+        })
 
 
+      }}
+  }),
+
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
+
+```
+So we pass in an array of queryKrys we want invalidated , there's a bunch of [query invaliation patterns](https://tanstack.com/query/v5/docs/react/guides/query-invalidation) for example the below will invaidate all the queries with the containig `[]monthly-bills]`
+
+```ts
+    const new_bill_mutation = useMutation({
+        mutationFn: (input: BillMutationFields) => addBill(input),
+        meta: { invalidates: [["monthly-bills"]] },
+    })
+``` 
+
+- the switch on the period-picker component is to make sure the previous month and yaer changes depending on the current month picked
+
+
+- adding collection/recordrules to your pocketbase to lock it down even further ex: `@requset.auth.id!=null&&request.auth.veriied == true`
+
+- [simple helper functions](https://github.com/tigawanna/utilities/blob/01472732a137b2496021fbd873036255b5cebe82/src/utils/date-helpers.ts) for date manipilations 
+
+- [zustand global state](https://github.com/tigawanna/utilities/blob/a002642a56084016c0c55456f20747c3c5cf9cfe/src/state/zustand/bills.ts)
 
