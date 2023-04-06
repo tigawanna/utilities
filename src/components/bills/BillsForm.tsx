@@ -6,7 +6,6 @@ import { concatErrors } from "../../shared/helpers/concaterrors";
 import { ErrorWrapper } from "../../shared/wrappers/ErrorWrapper";
 import { BillMutationFields, addBill, MonthlyBills, BillUpdateFields, updateBill } from "../../state/api/bills";
 import { useBillsStore } from "../../state/zustand/bills";
-import { getMonthAndYear} from "../../utils/date-helpers";
 import { isBillingNewMonth } from "./bill_utils";
 
 
@@ -20,7 +19,7 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
     
     const bills_store = useBillsStore()
     const is_new_bill = isBillingNewMonth(bill)
-    console.log("bills store period ==== ",bills_store.period)
+    // console.log("bills store period ==== ",bills_store.period)
     // console.log("is  new bill === ",is_new_bill)
 
     function genInitValues(){
@@ -58,7 +57,7 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
     
     const new_bill_mutation = useMutation({
         mutationFn: (input: BillMutationFields) => addBill(input),
-        meta: { invalidates: [["monthly-bills",bills_store.period]] },
+        meta: { invalidates: [["monthly-bills"]] },
         onError(error, variables, context) {
             setError({ name: "main", message: concatErrors(error) });
         },
@@ -75,7 +74,7 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
     })
     const update_bill_mutation = useMutation({
         mutationFn: (input: BillUpdateFields) => updateBill(input),
-        meta: { invalidates: [["monthly-bills", bills_store.period]] },
+        meta: { invalidates: [["monthly-bills"]] },
         onError(error, variables, context) {
             setError({ name: "main", message: concatErrors(error) });
         },

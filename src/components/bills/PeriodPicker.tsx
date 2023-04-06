@@ -18,7 +18,6 @@ interface PeriodPickerProps {
 }
 
 export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
-
     const bill_store  = useBillsStore()
     const [checked, setChecked] = useState(bill_store.checked)
 

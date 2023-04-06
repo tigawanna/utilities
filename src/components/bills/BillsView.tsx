@@ -37,9 +37,9 @@ export function BillsView({period,setPeriod}:BillsViewProps){
 const bills = query.data;
 
 return (
- <div className='w-full h-full flex flex-col items-center justify-center gap-2'>
+ <div className='w-full h-full flex flex-col items-center justify-center gap-2 '>
     
-    <div className=" w-fit p-2  bg-slate-900 text-white flex gap-5 
+    <div className=" w-fit px-2 py-1  border-2  flex gap-5 
         left-[45%] right-[45%] rounded-xl sticky top-2 z-40">
             <TheIcon
                 Icon={FaPrint}
@@ -62,10 +62,10 @@ return (
                 }
             />
 
-            <div className="border border-accent rounded p-2 md:relative md:right-[10%]">{bills.length}</div>
+            <div className="border border-accent rounded p-1 ">{bills.length}</div>
 
         </div>
-        <div className="sticky top-[10%] bg-slate-900 bg-opacity-80 w-full flex items-center justify-center">
+        <div className="sticky top-[10%]  bg-slate-200 dark:bg-slate-900 w-full flex items-center justify-center">
             <PeriodPicker period={period} setPeriod={setPeriod} />
         </div>  
 

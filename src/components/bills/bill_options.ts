@@ -1,4 +1,3 @@
-import { SelectOption } from "../../shared/form/SimpleSelect"
 
 export const period_month_options = [
     {value: '1', label: '1'},
