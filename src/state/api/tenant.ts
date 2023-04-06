@@ -87,7 +87,7 @@ export async function getTenants() {
     const records = await pb.collection('tenants').getFullList<TenantResponse>({
             // sort: '-created',
             expand:'shops(tenant)'
-        });
+    });
     return records
     } catch (error) {
         console.log(error)

@@ -45,7 +45,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <ReactQueryDevtools initialIsOpen={false} />
       <React.StrictMode>
         <MantineProvider withGlobalStyles withNormalizeCSS
-          theme={{ colorScheme: 'dark' }}
+          // theme={{ colorScheme: 'dark' }}
         >
         <App />
         </MantineProvider>

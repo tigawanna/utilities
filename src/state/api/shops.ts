@@ -24,16 +24,7 @@ export interface ShopResponse {
     expand:ShopExpand
 }
 
-interface OldShop{
-    id: string;
-    created_at: string;
-    tenant: string;
-    shop_number: string;
-    order: number;
-    has_water: boolean;
-    has_elec: boolean;
-    is_vacant: boolean;
-}
+
 
 export type ShopMutationFields = Omit<ShopResponse,
 "collectionId"|"collectionName"|"created"|"update"|"id"|"expand"|"supa_id"|"supa_tenant"|"updated">
