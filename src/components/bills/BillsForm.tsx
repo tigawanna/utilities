@@ -93,8 +93,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
         e.preventDefault();
         if (is_new_bill === "prev_no_curr" || is_new_bill === "no_prev_no_curr"){
             const new_bill: BillMutationFields = {
-                elec_readings: parseInt(input.curr_elec),
-                water_readings: parseInt(input.curr_water),
+                elec_readings: parseFloat(parseFloat(input.curr_elec).toFixed(2)),
+                water_readings: parseFloat(parseFloat(input.curr_water).toFixed(2)),
                 shop: bill.shop_id,
                 month: bills_store.period.curr_month,
                 year: bills_store.period.curr_year
@@ -105,8 +105,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
         
         if(initBill.curr_elec !== input.curr_elec || initBill.curr_water !== input.curr_water ){
             const new_bill: BillUpdateFields = {
-                elec_readings: parseInt(input.curr_elec),
-                water_readings: parseInt(input.curr_water),
+                elec_readings: parseFloat(parseFloat(input.curr_elec).toFixed(2)),
+                water_readings: parseFloat(parseFloat(input.curr_water).toFixed(2)),
                 shop: bill.shop_id,
                 month:parseInt(bill.curr_month),
                 year:parseInt(bill.curr_year),
@@ -119,8 +119,8 @@ export function BillsForm({bill,setOpen}:BillsFormProps){
 
         if (initBill.prev_elec !== input.prev_elec || initBill.prev_water !== input.prev_water){
             const new_bill: BillUpdateFields = {
-                elec_readings: parseInt(input.prev_elec),
-                water_readings: parseInt(input.prev_water),
+                elec_readings: parseFloat(parseFloat(input.prev_elec).toFixed(2)),
+                water_readings: parseFloat(parseFloat(input.prev_water).toFixed(2)),
                 shop: bill.shop_id,
                 month: parseInt(bill.prev_month),
                 year: parseInt(bill.prev_year),
@@ -145,7 +145,7 @@ return (
 
                 <div className="min-w-[40%] flex flex-col justify-center items-center">
          
-                    <h3 className="w-[90%]"> diff: {parseInt(input.curr_elec) - parseInt(input.prev_elec)}</h3>
+                    <h3 className="w-[90%]"> diff: {(parseFloat(input.curr_elec) - parseFloat(input.prev_elec)).toFixed(2)}</h3>
                     <FormInput
                         error={error}
                         handleChange={handleChange}
@@ -175,7 +175,7 @@ return (
                 </div>
 
                 <div className="min-w-[40%] flex flex-col  justify-center items-center">
-                    <h3 className="w-[90%]"> diff: {parseInt(input.curr_water) - parseInt(input.prev_water)}</h3>          
+                    <h3 className="w-[90%]"> diff: {parseFloat(parseInt(input.curr_water).toFixed(2)) - parseFloat(parseInt(input.prev_water).toFixed(2))}</h3>          
                     <FormInput
                         error={error}
                         handleChange={handleChange}

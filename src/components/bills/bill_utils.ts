@@ -10,7 +10,7 @@ export function isBillingNewMonth(bill: MonthlyBills) {
         return "no_prev_no_curr"
     }
 
-    const prev_month = parseInt(bill.prev_month)
+    const prev_month = parseInt((bill.prev_month))
     const prev_year = parseInt(bill.prev_year)
     if (bill.prev_bill_id !== "blank" &&
         bill.curr_bill_id === "blank" &&

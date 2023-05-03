@@ -48,7 +48,7 @@ return (
                     navigate("/print", {
                         state: {
                           bills,
-                          title: `Bills for ${bills && getMonthName(parseInt(bills[0]?.curr_month))}`,
+                          title: `Bills for ${bills && getMonthName(parseFloat(bills[0]?.curr_month))}`,
                         },
                     });
                 }}

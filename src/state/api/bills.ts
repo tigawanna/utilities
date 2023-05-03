@@ -55,6 +55,7 @@ try {
 }
 }
 
+
 export async function getOneBill(filter:string){
 try {
     const record = await pb.collection('bills').getFirstListItem<ShopResponse>(filter, {

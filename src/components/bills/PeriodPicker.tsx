@@ -31,34 +31,34 @@ useEffect(() => {
             if(checked){
                 setPeriod(prev => {
                     return { 
-                        ...prev, curr_month: parseInt(e.value),
-                        prev_month:getPrevMonthandYear(parseInt(e.value)).month,
-                        prev_year: getPrevMonthandYear(parseInt(e.value)).year                     }
+                        ...prev, curr_month: parseFloat(e.value),
+                        prev_month:getPrevMonthandYear(parseFloat(e.value)).month,
+                        prev_year: getPrevMonthandYear(parseFloat(e.value)).year                     }
                 })
             }
             setPeriod(prev => {
-                return { ...prev, curr_month: parseInt(e.value) }
+                return { ...prev, curr_month: parseFloat(e.value) }
             })
         }
     }
     const handleYearChange = (e: SelectOption) => {
         if (e) {
             setPeriod(prev => {
-                return { ...prev, curr_year: parseInt(e.value) }
+                return { ...prev, curr_year: parseFloat(e.value) }
             })
         }
     }
     const handlePrevMonthChange = (e: SelectOption) => {
         if (e) {
             setPeriod(prev => {
-                return { ...prev, prev_month: parseInt(e.value) }
+                return { ...prev, prev_month: parseFloat(e.value) }
             })
         }
     }
     const handlePrevYearChange = (e: SelectOption) => {
         if (e) {
             setPeriod(prev => {
-                return { ...prev, prev_year: parseInt(e.value) }
+                return { ...prev, prev_year: parseFloat(e.value) }
             })
         }
     }

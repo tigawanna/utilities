@@ -1,3 +1,5 @@
+import PocketBase from 'pocketbase';
+ import {pb as local_pb} from '../pb/config'
 export function hello() {
     return 'hello'
 }
@@ -205,3 +207,72 @@ export function hello() {
 //         throw error
 //     }
 // }
+
+
+export const pb_url = import.meta.env.VITE_PB_URL
+export const pb_prod_url = import.meta.env.VITE_PROD_PB_URL
+export const main_url = import.meta.env.VITE_SITE_URL
+
+export const pb = new PocketBase(pb_prod_url);
+
+export async function getProdBills(){
+    try {
+        const records = await pb.collection("bills").getFullList({
+            
+        })
+        return records
+    } catch (error) {
+        throw error
+    }
+}
+export async function getAllRecords(table:string){
+    try {
+        const records = await pb.collection(table).getFullList({
+
+        })
+        return records
+    } catch (error) {
+        throw error
+    }
+}
+
+
+
+export async function getAllLocalRecords(table: string) {
+    // local_pb= new Pocketbase(local_pb_url);
+    try {
+        const records = await local_pb.collection(table).getFullList({
+
+        })
+        return records
+    } catch (error) {
+        throw error
+    }
+}
+
+
+
+
+export async function saveRecord(record: any, table:string){
+try{
+// pb= new Pocketbase(remote_pb_url);
+return await pb.collection(table).create(record)
+}catch(error){
+    throw error
+}
+}
+
+
+export async function migrateRecords(table:string){
+    try {
+        // pb= new Pocketbase(remote_pb_url);
+    await pb.collection('user').authWithPassword("person@gmail.com", "password");   
+    const records = await getAllLocalRecords(table)
+    pb.autoCancellation(false);
+    const promises = records.map((record) => saveRecord(record, table));
+    return await Promise.all(promises);
+
+    }catch(error){
+        throw error
+    }
+}

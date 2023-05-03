@@ -15,7 +15,7 @@ export async function getUser() {
 
 export const loginUser = async ({email,password}:{email:string; password:string}) => {
 try {
-   return await pb.collection('staff').authWithPassword(email,password);
+  return await pb.collection('staff').authWithPassword(email,password);
 } catch (error) {
   throw error;
 }
