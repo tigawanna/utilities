@@ -4,6 +4,7 @@ import { MutationCache, QueryClient, QueryClientProvider } from '@tanstack/react
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import App from './App';
 import './index.css';
+import './shadcn/lib/shadcn.css'
 import ErrorBoundary from './shared/errorboundary/ErrorBoundary';
 import { MantineProvider } from '@mantine/core';
 
