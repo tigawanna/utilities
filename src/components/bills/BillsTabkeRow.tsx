@@ -27,9 +27,7 @@ export function BillsTableRow({ one_bill, updating, printing }: BillsTableRowPro
     }
 
     return (
-        <tr key={bill.shop_id} style={{
-            backgroundColor:rowColor(is_new_bill),
-        }}>
+        <tr key={bill.shop_id} style={{backgroundColor:rowColor(is_new_bill)}}>
 
             {!printing && <td>{bill.list_order}</td>}
             <td>{bill.shop_number}</td>
