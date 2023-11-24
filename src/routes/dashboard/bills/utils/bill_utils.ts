@@ -34,24 +34,24 @@ export function caclulatePeriod(month:number,year:number):BillsPeriod {
 }
 
 
-export function useBillsPeriod(){
-    const page_ctx = usePageContext()
-    const curr_year = page_ctx.url.searchParams.get("curr_year")
-    const prev_year = page_ctx.url.searchParams.get("prev_year")
-    const curr_month = page_ctx.url.searchParams.get("curr_month")
-    const prev_month = page_ctx.url.searchParams.get("curr_month")
+// export function useBillsPeriod(){
+//     const page_ctx = usePageContext()
+//     const curr_year = page_ctx.url.searchParams.get("curr_year")
+//     const prev_year = page_ctx.url.searchParams.get("prev_year")
+//     const curr_month = page_ctx.url.searchParams.get("curr_month")
+//     const prev_month = page_ctx.url.searchParams.get("curr_month")
   
-    const month = new Date().getMonth() + 1
-    const year = new Date().getFullYear()
+//     const month = new Date().getMonth() + 1
+//     const year = new Date().getFullYear()
 
 
 
 
-    const [period, setPeriod] = useState(caclulatePeriod(month, year))
+//     const [period, setPeriod] = useState(caclulatePeriod(month, year))
 
 
-    return {
-        period,
-        setPeriod
-    }
-}
+//     return {
+//         period,
+//         setPeriod
+//     }
+// }

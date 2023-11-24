@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { SelectOption, SimpleSelect } from "../../shared/form/SimpleSelect";
-import { ToggleSwitch } from "../../shared/form/ToggleSwitch";
-import { useBillsStore } from "../../state/zustand/bills";
-import { getPrevMonthandYear } from "../../utils/date-helpers";
+
 import {  period_month_options, period_year_options } from "./bill_options";
+import { SelectOption, SimpleSelect } from "@/components/form/react-select/SimpleSelect";
+import { getPrevMonthandYear } from "@/utils/date-helpers";
 
 export interface BillsPeriod {
     curr_month: number;
@@ -18,24 +17,24 @@ interface PeriodPickerProps {
 }
 
 export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
-    const bill_store  = useBillsStore()
-    const [checked, setChecked] = useState(bill_store.checked)
 
-useEffect(() => {
-    bill_store.setChecked(checked)
-},[checked])
+//     const [checked, setChecked] = useState(bill_store.checked)
+
+// useEffect(() => {
+//     bill_store.setChecked(checked)
+// },[checked])
 
 
     const handleMonthChange = (e: SelectOption) => {
         if (e) {
-            if(checked){
+      
                 setPeriod(prev => {
                     return { 
                         ...prev, curr_month: parseFloat(e.value),
                         prev_month:getPrevMonthandYear(parseFloat(e.value)).month,
                         prev_year: getPrevMonthandYear(parseFloat(e.value)).year                     }
                 })
-            }
+            
             setPeriod(prev => {
                 return { ...prev, curr_month: parseFloat(e.value) }
             })
@@ -104,10 +103,10 @@ useEffect(() => {
                     handleSelectChange={handlePrevYearChange} />
             </div>
         
-                <ToggleSwitch
+                {/* <ToggleSwitch
                     checked={checked}
                     setChecked={setChecked}
-                />
+                /> */}
             </div>
 
         </div>
