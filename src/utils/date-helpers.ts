@@ -1,5 +1,3 @@
-import { MonthlyBills } from "../state/api/bills";
-
 //  get the month and yaer numbers from data 
 export function getMonthAndYear() {
     const date = new Date()

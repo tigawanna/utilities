@@ -1,21 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "es2020",
     "module": "ESNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "jsx": "react-jsx",
     "noEmit": true,
-    "jsx": "react-jsx"
-  },
-  "include": ["src",".eslintrc.cjs"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "baseUrl": ".",
+    "types": ["vite/client"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
 }
