@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { period_month_options, period_year_options } from "./bill_options";
+
 import {
   SelectOption,
   SimpleSelect,
 } from "@/components/form/react-select/SimpleSelect";
 import { getPrevMonthandYear } from "@/utils/date-helpers";
-import { SelectPlusInput } from "../components/parts/SelectPlusInput";
+import { period_month_options, period_year_options } from "../../utils/bill_options";
 
 export interface BillsPeriod {
   curr_month: number;
@@ -18,6 +18,8 @@ interface PeriodPickerProps {
   period: BillsPeriod;
   setPeriod: React.Dispatch<React.SetStateAction<BillsPeriod>>;
 }
+
+
 
 export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
   //     const [checked, setChecked] = useState(bill_store.checked)
@@ -70,10 +72,6 @@ export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
 
 
         <div className="min-w-[30%] flex justify-center items-center">
-            {/* <SelectPlusInput 
-            handleSelectChange={handleMonthChange} 
-            defaultValue={{value:period.curr_month.toString(),
-            label:period.curr_month.toString()}}/> */}
           <h3>CURR</h3>
           <SimpleSelect
             label="month-select"

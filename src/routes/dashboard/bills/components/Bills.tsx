@@ -3,6 +3,8 @@ import BillsJson from "./dummy.json"
 import { DataTable } from "./table/data-table";
 import { PeriodPicker } from "../utils/PeriodPicker";
 import { useBillsPeriod } from "@/utils/hooks/useBillsPeriod";
+import { BillsTable } from "./BillsTable";
+
 
 interface BillsProps {
 
@@ -25,7 +27,7 @@ export function Bills({}:BillsProps){
   return (
     <div className="w-full h-full flex flex-col gap-2  justify-center ">
       <PeriodPicker  period={period} setPeriod={setPeriod}/>
-      <DataTable columns={columns} data={bills} />
+     <BillsTable bills={bills} editing={true}/>
     </div>
   );
 }
