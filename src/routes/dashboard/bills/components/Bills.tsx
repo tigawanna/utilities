@@ -7,15 +7,24 @@ import { BillsTable } from "./BillsTable";
 import { PeriodPicker } from "./parts/PeriodPicker";
 import { useBillsQuery } from "../utils/useBillsQuery";
 import { Printer } from "lucide-react";
-import { Link } from "rakkasjs";
+import { Link, useLocation } from "rakkasjs";
 
 interface BillsProps {}
 
 export function Bills({}: BillsProps) {
   const { period, setPeriod } = useBillsPeriod();
+  const location = useLocation()
   const query = useBillsQuery();
   const bills = query?.data?.data?.result;
   // const columns = billsTableColumn(true);
+
+ const print_url = new URL(location.current)
+ print_url.pathname="/dashboard/bills/print"
+ print_url.searchParams.set("cm",period.curr_month.toString())
+ print_url.searchParams.set("cy",period.curr_year.toString())
+ print_url.searchParams.set("pm",period.prev_month.toString())
+ print_url.searchParams.set("py",period.prev_year.toString())
+
 
   return (
     <div className="w-full h-full min-h-screen flex flex-col  gap-2">
@@ -23,7 +32,10 @@ export function Bills({}: BillsProps) {
       <div className="h-full  flex flex-col justify-center items-center  p-3">
         {bills && <div className="h-full  flex flex-col justify-center items-center  p-3">
           <div className="w-full flex gap-2">
-          <Link className="hover:text-accent" href="/dashboard/bills/print">
+          <Link 
+          className="hover:text-accent" 
+          href={print_url.toString()}
+          >
           <Printer />
           </Link>
           </div>
