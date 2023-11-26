@@ -5,6 +5,7 @@ import { PrintThis } from "./components/PrinThis";
 import { PrinterIcon } from "lucide-react";
 import { useBillsQuery } from "../utils/useBillsQuery";
 import { getMonthName } from "@/utils/date-helpers";
+import { useBillsPeriod } from "@/utils/hooks/useBillsPeriod";
 
 
 interface PrintProps {
@@ -16,12 +17,12 @@ interface TheTableState {
 }
 export default function PrintBills({}:PrintProps){
   const componentRef = useRef(null);
-
-const query = useBillsQuery()
+const {period} = useBillsPeriod()
+const query = useBillsQuery(period)
 const bills = query.data?.data?.result
   
   return (
-    <div>
+    <div className="w-full p-5">
       <ReactToPrint
         trigger={() => (
           <button className="p-2 fixed top-[12%] left-[50%] z-50">

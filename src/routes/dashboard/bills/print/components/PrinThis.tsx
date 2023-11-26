@@ -30,7 +30,7 @@ export class PrintThis extends React.Component<MyProps, MyState> {
 
       const columns = billsTableColumn(false);
       return (
-        <div className="p-2 flex flex-col">
+        <div className="p-2 flex flex-col w-full">
           <div  className="capitaliza text-[15px]  m-1">{this.state.title}</div> 
           <DataTable
             columns={columns}

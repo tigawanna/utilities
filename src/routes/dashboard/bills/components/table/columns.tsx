@@ -3,6 +3,7 @@ import { ArrowDown, ArrowUp,Edit2 } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import BillsJson from "../dummy.json";
 import {  MutateBill } from "../MutateBill";
+import { isBillingNewMonth } from "../../utils/bill_utils";
 
 
 export interface BillsRow {
@@ -27,6 +28,7 @@ export interface BillsRow {
 const columnHelper = createColumnHelper<(typeof BillsJson)[number]>();
 
 export function billsTableColumn(editing = false) {
+
   return [
     // shop order
     columnHelper.accessor((row) => row.list_order, {

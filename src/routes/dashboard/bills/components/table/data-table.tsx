@@ -30,6 +30,7 @@ import { DebouncedInput } from "@/components/form/debounced-input";
 import { RankingInfo } from "@tanstack/match-sorter-utils";
 import { fuzzyFilter } from "./utils";
 import { twMerge } from "tailwind-merge";
+import { isBillingNewMonth } from "../../utils/bill_utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -47,9 +48,16 @@ declare module "@tanstack/table-core" {
   }
 }
 
-export function DataTable<TData, TValue>({ columns, data,editing=true, theadClassName }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  editing = true,
+  theadClassName,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [columnVisibility, setColumnVisibility] = React.useState({});
 
@@ -78,7 +86,7 @@ export function DataTable<TData, TValue>({ columns, data,editing=true, theadClas
       sorting,
       columnFilters,
       globalFilter,
-      columnVisibility
+      columnVisibility,
     },
   });
 
@@ -86,22 +94,39 @@ export function DataTable<TData, TValue>({ columns, data,editing=true, theadClas
     table.setColumnVisibility((prev) => {
       return {
         ...prev,
-        edit:editing,
-      }
-    })
+        edit: editing,
+      };
+    });
   }, [editing]);
+
+  function rowColor(mode: "no_prev_no_curr" | "prev_no_curr" | "prev_curr") {
+    if (mode === "prev_no_curr") {
+      return "bg-accent";
+    }
+    if (mode === "no_prev_no_curr") {
+      return "bg-error";
+    }
+    return "";
+  }
 
   return (
     <div className="flex flex-col gap-3 p-1 ">
-{editing&& <div className="sticky top-1 z-50">
-      <DebouncedInput
-        value={globalFilter ?? ""}
-        onChange={(value) => setGlobalFilter(String(value))}
-        placeholder="Search all columns..."
-      />
-      </div>}
+      {editing && (
+        <div className="sticky top-1 z-50">
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            placeholder="Search all columns..."
+          />
+        </div>
+      )}
       <Table>
-        <TableHeader className={twMerge(" sticky top-[11%] bg-base-300 font-bold",theadClassName)}>
+        <TableHeader
+          className={twMerge(
+            " sticky top-[11%] bg-base-300 font-bold",
+            theadClassName,
+          )}
+        >
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -109,7 +134,10 @@ export function DataTable<TData, TValue>({ columns, data,editing=true, theadClas
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 );
               })}
@@ -119,7 +147,11 @@ export function DataTable<TData, TValue>({ columns, data,editing=true, theadClas
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+              <TableRow
+                className={rowColor(isBillingNewMonth(row.original))}
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -1,7 +1,3 @@
-import { billsTableColumn } from "./table/columns";
-import BillsJson from "./dummy.json";
-import { DataTable } from "./table/data-table";
-
 import { useBillsPeriod } from "@/utils/hooks/useBillsPeriod";
 import { BillsTable } from "./BillsTable";
 import { PeriodPicker } from "./parts/PeriodPicker";
@@ -14,7 +10,7 @@ interface BillsProps {}
 export function Bills({}: BillsProps) {
   const { period, setPeriod } = useBillsPeriod();
   const location = useLocation()
-  const query = useBillsQuery();
+  const query = useBillsQuery(period);
   const bills = query?.data?.data?.result;
   // const columns = billsTableColumn(true);
 
@@ -30,18 +26,20 @@ export function Bills({}: BillsProps) {
     <div className="w-full h-full min-h-screen flex flex-col  gap-2">
       <PeriodPicker period={period} setPeriod={setPeriod} />
       <div className="h-full  flex flex-col justify-center items-center  p-3">
-        {bills && <div className="h-full  flex flex-col justify-center items-center  p-3">
-          <div className="w-full flex gap-2">
-          <Link 
-          className="hover:text-accent" 
-          href={print_url.toString()}
-          >
-          <Printer />
-          </Link>
+        {bills && (
+          <div className="h-full  flex flex-col justify-center items-center  p-3">
+            <div className="w-full flex gap-2">
+              <Link
+                className="hover:text-accent flex gap-4 btn btn-sm text-lg"
+                href={print_url.toString()}
+              >
+                <Printer />
+                print
+              </Link>
+            </div>
+            <BillsTable bills={bills} editing={true} />
           </div>
-          <BillsTable bills={bills} editing={true} />
-          </div>
-          }
+        )}
         <div className=" min-h-[60vh] w-full flex items-center justify-center ">
           {query.isLoading && (
             <div className=" h-full w-full flex flex-col gap-2 items-center justify-center p-3">
