@@ -2,6 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp,Edit2 } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import BillsJson from "../dummy.json";
+import {  MutateBill } from "../MutateBill";
 
 
 export interface BillsRow {
@@ -242,7 +243,7 @@ export function billsTableColumn(editing = false) {
       id: "edit",
 
       // limit decimal to 3 digits
-      cell: (info) => <Edit2 className="w-4 h-4" />,
+      cell: (info) => <MutateBill bill={info.row.original} />,
       header: ({ column }) => {
         return "Edit";
       },

@@ -14,7 +14,7 @@ setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-export function BillsForm({bill,setOpen}:BillsFormProps){
+export function BillsForm2({bill,setOpen}:BillsFormProps){
     
     const bills_store = useBillsStore()
     const is_new_bill = isBillingNewMonth(bill)
