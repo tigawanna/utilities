@@ -24,7 +24,7 @@ export function SimpleSelect({
 
         theme={(theme) => {
             const styles = getComputedStyle(document.documentElement);
-            const cssColor = styles.getPropertyValue("background-color");
+            const cssColor = styles?.getPropertyValue("background-color");
             // console.log({styles, cssColor})
             // console.log(theme)
           return {

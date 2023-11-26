@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
-import { BillsPeriod } from "./PeriodPicker"
+
 import { MonthlyBills } from "../api/bills"
 import { getPrevMonthandYear } from "@/utils/date-helpers"
-import { useLocation, usePageContext } from "rakkasjs"
+import { BillsPeriod } from "../components/parts/PeriodPicker"
+
+
 
 export function isBillingNewMonth(bill: MonthlyBills) {
 
@@ -34,24 +35,4 @@ export function caclulatePeriod(month:number,year:number):BillsPeriod {
 }
 
 
-// export function useBillsPeriod(){
-//     const page_ctx = usePageContext()
-//     const curr_year = page_ctx.url.searchParams.get("curr_year")
-//     const prev_year = page_ctx.url.searchParams.get("prev_year")
-//     const curr_month = page_ctx.url.searchParams.get("curr_month")
-//     const prev_month = page_ctx.url.searchParams.get("curr_month")
-  
-//     const month = new Date().getMonth() + 1
-//     const year = new Date().getFullYear()
 
-
-
-
-//     const [period, setPeriod] = useState(caclulatePeriod(month, year))
-
-
-//     return {
-//         period,
-//         setPeriod
-//     }
-// }

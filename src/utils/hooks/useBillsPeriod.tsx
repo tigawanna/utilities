@@ -1,8 +1,8 @@
 import { MonthlyBills } from "@/routes/dashboard/bills/api/bills";
-import { BillsPeriod } from "@/routes/dashboard/bills/utils/PeriodPicker";
 import { getPrevMonthandYear } from "../date-helpers";
 import { useState, useEffect } from "react";
 import { navigate, usePageContext } from "rakkasjs";
+import { BillsPeriod } from "@/routes/dashboard/bills/components/parts/PeriodPicker";
 
 export function isBillingNewMonth(bill: MonthlyBills) {
   if (bill.prev_bill_id === "blank" && bill.curr_bill_id === "blank") {

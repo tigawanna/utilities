@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-
-
 import {
   SelectOption,
   SimpleSelect,
@@ -67,7 +64,7 @@ export function PeriodPicker({ period, setPeriod }: PeriodPickerProps) {
   };
 
   return (
-    <div className="w-full h-full  flex flex-col items-center justify-center">
+    <div className="w-full   flex flex-col items-center justify-center">
       <div className="w-full h-full flex flex-wrap items-center justify-center gap-1">
 
 
