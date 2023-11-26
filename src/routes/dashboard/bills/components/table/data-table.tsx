@@ -92,7 +92,7 @@ export function DataTable<TData, TValue>({ columns, data,editing=true, theadClas
   }, [editing]);
 
   return (
-    <div className="flex flex-col gap-3 p-1">
+    <div className="flex flex-col gap-3 p-1 ">
 {editing&& <div className="sticky top-1 z-50">
       <DebouncedInput
         value={globalFilter ?? ""}
@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({ columns, data,editing=true, theadClas
           Next
         </Button>
       </div> */}
-      <DataTablePagination table={table} />
+      {/* <DataTablePagination table={table} /> */}
     </div>
   );
 }

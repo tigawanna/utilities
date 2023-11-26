@@ -77,7 +77,7 @@ export function billsTableColumn(editing = false) {
     // shop name
     columnHelper.accessor((row) => row.shop_name, {
       id: "shop_name",
-      cell: (info) => <i>{info.getValue()}</i>,
+      cell: (info) => <div className="max-w-[100px] overflow-clip text-sm line-clamp-1">{info.getValue()}</div>,
       header: ({ column }) => {
         if (!editing) {
           return "Shop Name";

@@ -1,10 +1,10 @@
-
-import { useLocation } from "rakkasjs";
 import { useRef } from "react";
 import { MonthlyBills } from "../api/bills";
 import ReactToPrint from "react-to-print";
 import { PrintThis } from "./components/PrinThis";
 import { PrinterIcon } from "lucide-react";
+import { useBillsQuery } from "../utils/useBillsQuery";
+import { getMonthName } from "@/utils/date-helpers";
 
 
 interface PrintProps {
@@ -16,22 +16,38 @@ interface TheTableState {
 }
 export default function PrintBills({}:PrintProps){
   const componentRef = useRef(null);
-  const { state } = useLocation();
-  const print_state = state as TheTableState
 
-  // useDocumentTitle(print_state.title)
+const query = useBillsQuery()
+const bills = query.data?.data?.result
   
   return (
     <div>
       <ReactToPrint
-        trigger={() => <button className='p-2 fixed top-[12%] left-[50%] z-50'>
-          <PrinterIcon /></button>}
+        trigger={() => (
+          <button className="p-2 fixed top-[12%] left-[50%] z-50">
+            <PrinterIcon />
+          </button>
+        )}
         content={() => componentRef.current}
       />
-      <PrintThis
-        title={print_state.title}
-        bills={print_state.bills}
-        ref={componentRef} />
+      {query.isLoading && (
+        <div className=" h-full w-full flex flex-col gap-2 items-center justify-center p-3">
+          {Array(20)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className="h-5 skeleton bg-base-300 w-full" />
+            ))}
+        </div>
+      )}
+      {bills && (
+        <PrintThis
+          title={`Bills for ${
+            bills && getMonthName(parseFloat(bills[0]?.curr_month))
+          } ${bills[0]?.curr_year}`}
+          bills={bills}
+          ref={componentRef}
+        />
+      )}
     </div>
   );
 };

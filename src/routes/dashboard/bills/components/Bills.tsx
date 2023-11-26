@@ -6,7 +6,8 @@ import { useBillsPeriod } from "@/utils/hooks/useBillsPeriod";
 import { BillsTable } from "./BillsTable";
 import { PeriodPicker } from "./parts/PeriodPicker";
 import { useBillsQuery } from "../utils/useBillsQuery";
-import { Loader } from "lucide-react";
+import { Printer } from "lucide-react";
+import { Link } from "rakkasjs";
 
 interface BillsProps {}
 
@@ -20,7 +21,15 @@ export function Bills({}: BillsProps) {
     <div className="w-full h-full min-h-screen flex flex-col  gap-2">
       <PeriodPicker period={period} setPeriod={setPeriod} />
       <div className="h-full  flex flex-col justify-center items-center  p-3">
-        {bills && <BillsTable bills={bills} editing={true} />}
+        {bills && <div className="h-full  flex flex-col justify-center items-center  p-3">
+          <div className="w-full flex gap-2">
+          <Link className="hover:text-accent" href="/dashboard/bills/print">
+          <Printer />
+          </Link>
+          </div>
+          <BillsTable bills={bills} editing={true} />
+          </div>
+          }
         <div className=" min-h-[60vh] w-full flex items-center justify-center ">
           {query.isLoading && (
             <div className=" h-full w-full flex flex-col gap-2 items-center justify-center p-3">
