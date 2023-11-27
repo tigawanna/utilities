@@ -1,11 +1,22 @@
 /* eslint-disable no-var */
 import { startClient } from "rakkasjs";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider, QueryClient, MutationCache } from "@tanstack/react-query";
 import { TypedPocketBase } from "typed-pocketbase";
 import PocketBase from "pocketbase";
 import { Schema } from "./lib/pb/db-types";
 
 const queryClient = new QueryClient({
+  mutationCache: new MutationCache({
+    onSuccess: async (data, variable, context, mutation) => {
+      if (Array.isArray(mutation.meta?.invalidates)) {
+        mutation.meta?.invalidates.forEach((key) => {
+          return queryClient.invalidateQueries({
+            queryKey: key,
+          });
+        });
+      }
+    },
+  }),
   defaultOptions: {
     queries: {
       staleTime: 100,

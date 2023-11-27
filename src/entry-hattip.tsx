@@ -1,5 +1,6 @@
 import { RequestContext, createRequestHandler } from "rakkasjs";
 import {
+  MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
@@ -94,6 +95,17 @@ export default createRequestHandler({
         });
 
         const queryClient = new QueryClient({
+          mutationCache: new MutationCache({
+            onSuccess: async (data, variable, context, mutation) => {
+              if (Array.isArray(mutation.meta?.invalidates)) {
+                mutation.meta?.invalidates.forEach((key) => {
+                  return queryClient.invalidateQueries({
+                    queryKey: key,
+                  });
+                });
+              }
+            },
+          }),
           queryCache,
           defaultOptions: {
             queries: {

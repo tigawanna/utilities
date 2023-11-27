@@ -4,6 +4,7 @@ import { PeriodPicker } from "./parts/PeriodPicker";
 import { useBillsQuery } from "../utils/useBillsQuery";
 import { Printer } from "lucide-react";
 import { Link, useLocation } from "rakkasjs";
+import { BillsCaroussel } from "./form/BillsCaroussel";
 
 interface BillsProps {}
 
@@ -36,7 +37,9 @@ export function Bills({}: BillsProps) {
                 <Printer />
                 print
               </Link>
+              <BillsCaroussel bills={bills}/>
             </div>
+
             <BillsTable bills={bills} editing={true} />
           </div>
         )}

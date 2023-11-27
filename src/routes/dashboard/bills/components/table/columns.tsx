@@ -2,7 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp,Edit2 } from "lucide-react";
 import { Button } from "@/components/shadcn/ui/button";
 import BillsJson from "../dummy.json";
-import {  MutateBill } from "../MutateBill";
+import {  MutateBill } from "../form/MutateBill";
 import { isBillingNewMonth } from "../../utils/bill_utils";
 
 

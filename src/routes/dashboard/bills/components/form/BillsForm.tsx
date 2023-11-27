@@ -12,7 +12,6 @@ import { concatErrors } from "@/utils/helpers/concaterrors";
 import { useState } from "react";
 import { useBillsPeriod } from "@/utils/hooks/useBillsPeriod";
 import { usePageContext } from "rakkasjs";
-import { PbTheTextAreaInput } from "@/lib/pb/components/form/PBTheTextAreaInput";
 import { ErrorWrapper } from "@/components/wrappers/ErrorWrapper";
 import { Button } from "@/components/shadcn/ui/button";
 import { Loader } from "lucide-react";
@@ -21,9 +20,11 @@ import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
 interface BillsFormProps {
   bill: MonthlyBills;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  next?:() => void;
 }
 
-export function BillsForm({ bill, setOpen }: BillsFormProps) {
+export function BillsForm({ bill, setOpen,next }: BillsFormProps) {
+  console.log("====== BILLS IN FORM ========== ",bill)
   const page_ctx = usePageContext();
   const pb = page_ctx.locals.pb;
   const is_new_bill = isBillingNewMonth(bill);
@@ -49,6 +50,7 @@ export function BillsForm({ bill, setOpen }: BillsFormProps) {
   const { input, setInput, handleChange, setError } = useFormHook({
     initialValues: genInitValues(),
   });
+  // console.log({input})
 
   const new_bill_mutation = useMutation({
     mutationFn: (input: BillMutationFields) => addBill(pb, input),
@@ -63,7 +65,7 @@ export function BillsForm({ bill, setOpen }: BillsFormProps) {
         prev_elec: bill.previous_elec,
         prev_water: bill.previous_water,
       });
-
+      next?.();
       setOpen(false);
     },
   });
@@ -80,7 +82,7 @@ export function BillsForm({ bill, setOpen }: BillsFormProps) {
         prev_elec: bill.previous_elec,
         prev_water: bill.previous_water,
       });
-
+      next?.()
       setOpen(false);
     },
   });

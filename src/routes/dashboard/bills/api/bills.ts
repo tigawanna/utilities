@@ -1,5 +1,7 @@
 import { PocketBaseClient } from "@/lib/pb/client";
 import { UtilityShopsResponse } from "@/lib/pb/db-types";
+import { ClientResponseError } from "pocketbase";
+import { expand } from "typed-pocketbase";
 
 
 interface BillsPeriod {
@@ -51,12 +53,12 @@ export type BillUpdateFields = Pick<BillResponse, "elec_readings" | "water_readi
 export async function getBills(pb:PocketBaseClient,filter?:string){
 try {
     const records = await pb.collection("utility_bills").getFullList({
-        expand:'shop,shop.tenant',
+        expand:expand({shop:true}),
         filter
     });
     return records
 } catch (error) {
-    console.log("error getting bills  === ",error)
+    console.log("========= ERROR GETTING BILLS ========== ",error)
     throw error
 }
 }
@@ -69,7 +71,16 @@ try {
     });
     return record
 } catch (error) {
-    console.log("error getting bill  === ", error)
+    console.log("========= ERROR GETTING ONE BILL ========== ", error)
+    throw error
+}
+}
+export async function getOneMonthlyBill(pb: PocketBaseClient,params:{prev_bill:string,curr_bill:string}){
+try {
+    const records = await pb.send<{ result: MonthlyBills}>('/custom_utilities_one_bill', { params })
+    return records
+} catch (error) {
+    console.log("========= ERROR GETTING ONE MONTHLY BILL ========== ", error)
     throw error
 }
 }
@@ -79,7 +90,7 @@ try {
     const records = await pb.send<{result:MonthlyBills[]}>('/custom_utility_bills',{params:period})
     return records
 } catch (error) {
-    console.log("error getting monthly bills  === ", error)
+    console.log("========= ERROR GETTING MONTHLY BILLS ========== ", error)
     throw error
 }
 }
@@ -88,24 +99,27 @@ export async function addBill(pb: PocketBaseClient,bill: BillMutationFields) {
     // console.log("creating bill ", bill)
     try {
         const record = await pb.collection("utility_bills").create(bill, {
-            expand: 'shop',
+            expand:expand({shop:true}),
         });
         return record
     } catch (error) {
-        console.log("error adding bills ",error)
+        console.log("========= ERROR ADDING BILL ========== ",error)
         throw error
     }
 }
 
 export async function updateBill(pb: PocketBaseClient,bill: BillUpdateFields) {
-    // console.log("updating bill ",bill)
     try {
         const record = await pb.collection("utility_bills").update(bill.id, bill, {
-            expand: 'shop',
+            expand:expand({shop:true}),
         });
         return record
     } catch (error) {
-        console.log(error)
+        console.log("========= ERROR UPDATING BILL ========== ",error)
+   
+        if(error instanceof ClientResponseError){
+            console.log("========= ClientResponseError UPDATING BILL ========== ",error.toJSON())
+        }
         throw error
     }
 }
