@@ -427,30 +427,26 @@ export type PocketbookNotificationsCollection = {
 // ===== utility_shops =====
 
 export type UtilityShopsResponse = {
-  tenant: string;
   shop_number: string;
   supa_tenant?: string;
   utils?: 'elec' | 'water' | 'both';
   order?: number;
   supa_id?: string;
   is_vacant?: boolean;
-  expand: {
-    tenant: UtilityTenantsResponse;
-  }
+  tenant?: string;
 } & BaseCollectionRecord;
 
 export type UtilityShopsCreate = {
-  tenant: string;
   shop_number: string;
   supa_tenant?: string;
   utils?: 'elec' | 'water' | 'both';
   order?: number;
   supa_id?: string;
   is_vacant?: boolean;
+  tenant?: string;
 };
 
 export type UtilityShopsUpdate = {
-  tenant?: string;
   shop_number?: string;
   supa_tenant?: string;
   utils?: 'elec' | 'water' | 'both';
@@ -459,6 +455,7 @@ export type UtilityShopsUpdate = {
   'order-'?: number;
   supa_id?: string;
   is_vacant?: boolean;
+  tenant?: string;
 };
 
 export type UtilityShopsCollection = {
@@ -474,9 +471,9 @@ export type UtilityShopsCollection = {
   };
 };
 
-// ===== utility_tenants =====
+// ===== utility_tenants_base =====
 
-export type UtilityTenantsResponse = {
+export type UtilityTenantsBaseResponse = {
   name: string;
   contact?: string;
   email?: string;
@@ -484,7 +481,7 @@ export type UtilityTenantsResponse = {
   supa_id?: string;
 } & BaseCollectionRecord;
 
-export type UtilityTenantsCreate = {
+export type UtilityTenantsBaseCreate = {
   name: string;
   contact?: string;
   email?: string;
@@ -492,7 +489,7 @@ export type UtilityTenantsCreate = {
   supa_id?: string;
 };
 
-export type UtilityTenantsUpdate = {
+export type UtilityTenantsBaseUpdate = {
   name?: string;
   contact?: string;
   email?: string;
@@ -500,16 +497,14 @@ export type UtilityTenantsUpdate = {
   supa_id?: string;
 };
 
-export type UtilityTenantsCollection = {
+export type UtilityTenantsBaseCollection = {
   type: 'base';
   collectionId: '6ur1ivky21zygnv';
-  collectionName: 'utility_tenants';
-  response: UtilityTenantsResponse;
-  create: UtilityTenantsCreate;
-  update: UtilityTenantsUpdate;
-  relations: {
-    'utility_shops(tenant)': UtilityShopsCollection[];
-  };
+  collectionName: 'utility_tenants_base';
+  response: UtilityTenantsBaseResponse;
+  create: UtilityTenantsBaseCreate;
+  update: UtilityTenantsBaseUpdate;
+  relations: {};
 };
 
 // ===== utility_bills =====
@@ -601,57 +596,6 @@ export type PocketbookPostsCollection = {
   };
 };
 
-// ===== social_user_1 =====
-
-export type SocialUser_1Response = {
-  github_username?: string;
-  linkedin_username?: string;
-  country?: string;
-  city?: string;
-  phone?: string;
-  langauges?: string;
-  avatar?: string;
-  about_me?: string;
-  github_access_token?: string;
-  keys?: any;
-} & AuthCollectionRecord;
-
-export type SocialUser_1Create = {
-  github_username?: string;
-  linkedin_username?: string;
-  country?: string;
-  city?: string;
-  phone?: string;
-  langauges?: string;
-  avatar?: string;
-  about_me?: string;
-  github_access_token?: string;
-  keys?: any;
-};
-
-export type SocialUser_1Update = {
-  github_username?: string;
-  linkedin_username?: string;
-  country?: string;
-  city?: string;
-  phone?: string;
-  langauges?: string;
-  avatar?: string;
-  about_me?: string;
-  github_access_token?: string;
-  keys?: any;
-};
-
-export type SocialUser_1Collection = {
-  type: 'auth';
-  collectionId: 'xm053rsmx3et3qm';
-  collectionName: 'social_user_1';
-  response: SocialUser_1Response;
-  create: SocialUser_1Create;
-  update: SocialUser_1Update;
-  relations: {};
-};
-
 // ===== pocketbook_friends =====
 
 export type PocketbookFriendsResponse = {
@@ -688,21 +632,54 @@ export type PocketbookFriendsCollection = {
   };
 };
 
+// ===== utility_tenants =====
+
+export type UtilityTenantsResponse = {
+  phone?: string;
+  avatar?: string;
+} & AuthCollectionRecord;
+
+export type UtilityTenantsCreate = {
+  phone?: string;
+  avatar?: string;
+};
+
+export type UtilityTenantsUpdate = {
+  phone?: string;
+  avatar?: string;
+};
+
+export type UtilityTenantsCollection = {
+  type: 'auth';
+  collectionId: 'vdjzfr0gybtmwif';
+  collectionName: 'utility_tenants';
+  response: UtilityTenantsResponse;
+  create: UtilityTenantsCreate;
+  update: UtilityTenantsUpdate;
+  relations: {
+    'utility_shops(tenant)': UtilityShopsCollection[];
+  };
+};
+
 // ===== Schema =====
 
 export type Schema = {
-  // pocketbook_user: PocketbookUserCollection;
-  // pocketbook_reactions: PocketbookReactionsCollection;
+// mashamba
   // mashamba_listings: MashambaListingsCollection;
   // mashamba_owner: MashambaOwnerCollection;
+// tasky
   // tasky_tasks: TaskyTasksCollection;
   // tasky_staff_details: TaskyStaffDetailsCollection;
+// pocketbook
+  // pocketbook_user: PocketbookUserCollection;
+  // pocketbook_reactions: PocketbookReactionsCollection;
   // pocketbook_notifications: PocketbookNotificationsCollection;
-  utility_staff: UtilityStaffCollection;
-  utility_shops: UtilityShopsCollection;
-  utility_tenants: UtilityTenantsCollection;
-  utility_bills: UtilityBillsCollection;
   // pocketbook_posts: PocketbookPostsCollection;
-  // social_user_1: SocialUser_1Collection;
   // pocketbook_friends: PocketbookFriendsCollection;
+// utility
+  utility_shops: UtilityShopsCollection;
+  utility_staff: UtilityStaffCollection;
+  utility_tenants_base: UtilityTenantsBaseCollection;
+  utility_bills: UtilityBillsCollection;
+  utility_tenants: UtilityTenantsCollection;
 };

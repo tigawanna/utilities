@@ -3,6 +3,8 @@ import { numberToArray } from "@/utils/helpers/others";
 import { useSearchWithQuery } from "@/utils/hooks/search";
 import { useQuery } from "@tanstack/react-query"
 import { navigate, usePageContext } from "rakkasjs"
+import { expand } from "typed-pocketbase";
+
 
 interface UseTenantsListProps {
     page_size?: number;
@@ -13,11 +15,12 @@ export function useTenantsList({page_size = 12}: UseTenantsListProps) {
     const searchQuery = useSearchWithQuery();
     const page_number = parseInt(page_ctx.url.searchParams.get("p") ?? "1") ?? 1;
     const query = useQuery({
-        queryKey: ["utility_tenants"],
+        queryKey: ["utility_tenants", searchQuery?.debouncedValue],
         queryFn: () => tryCatchWrapper(page_ctx.locals.pb?.
             collection("utility_tenants").getList(page_number,page_size,{
                 sort: "-created",
-                filter: `name~"${searchQuery.debouncedValue}"`,
+                filter: `username~"${searchQuery.debouncedValue}"||email~"${searchQuery.debouncedValue}"`,
+                expand:expand({"utility_shops(tenant)":true}),
             })),
     })
     function handleChange(e: any) {
