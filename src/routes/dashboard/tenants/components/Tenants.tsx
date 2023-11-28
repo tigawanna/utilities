@@ -59,7 +59,7 @@ export function Tenants({}: TenantsProps) {
                 </Avatar>
                 <div className="w-full  ">
                   <div className="max-w-[80%]  ">
-                    <h1 className="w-full text-2xl overflow-hidden overflow-ellipsis">
+                    <h1 className="w-full font-bold overflow-hidden overflow-ellipsis">
                       {item.username }
                     </h1>
                     <div className=" flex gap-1 items-center">
