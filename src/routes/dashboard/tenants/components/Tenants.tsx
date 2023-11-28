@@ -1,9 +1,10 @@
 import { ClientSuspense } from "rakkasjs";
 import { useTenantsList } from "../utils/useTenants";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { Mail, Phone, Search, User } from "lucide-react";
+import { Edit2, Mail, Phone, Search, User } from "lucide-react";
 import { NewTenantModal } from "./NewTenant";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
+import { MutateTenantModal } from "./MutateTenantModal";
 
 
 interface TenantsProps {}
@@ -42,7 +43,7 @@ export function Tenants({}: TenantsProps) {
             )}
           </ClientSuspense>
         </div>
-        <NewTenantModal />
+        <MutateTenantModal  updating={false}/>
       </div>
       {/* utilities list */}
       {tenants && (
@@ -51,16 +52,17 @@ export function Tenants({}: TenantsProps) {
             return (
               <li
                 key={item.id}
-                className="flex items-center w-[95%] sm:w-[45%] md:w-[30%]  p-2 gap-3 bg-base-200 rounded-lg"
+                className="flex items-center w-[95%] sm:w-[45%] md:w-[30%]  p-2 gap-3 bg-base-200 rounded-lg relative"
               >
                 <Avatar>
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>{item.username.slice(0, 1)}</AvatarFallback>
                 </Avatar>
+
                 <div className="w-full  ">
                   <div className="max-w-[80%]  ">
                     <h1 className="w-full font-bold overflow-hidden overflow-ellipsis">
-                      {item.username }
+                      {item.username}
                     </h1>
                     <div className=" flex gap-1 items-center">
                       <Mail className="w-4 h-4" />
@@ -75,6 +77,19 @@ export function Tenants({}: TenantsProps) {
                       </h4>
                     </div>
                   </div>
+                </div>
+                <div className="absolute top-[5%] right-[2%]">
+                  <MutateTenantModal
+                    tenant={item}
+                    updating={true}
+                    icon={
+                      <Edit2
+                        className="h-3.5 w-3.5 
+                  duration-200 transition-transform 
+                  hover:text-accent hover:scale-[200%] hover:w-5 hover:h-5"
+                      />
+                    }
+                  />
                 </div>
               </li>
             );

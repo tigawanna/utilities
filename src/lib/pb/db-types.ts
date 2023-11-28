@@ -636,17 +636,17 @@ export type PocketbookFriendsCollection = {
 
 export type UtilityTenantsResponse = {
   phone?: string;
-  avatar?: string;
+  avatar?:string; 
 } & AuthCollectionRecord;
 
 export type UtilityTenantsCreate = {
   phone?: string;
-  avatar?: string;
+  avatar?: string|File;
 };
 
 export type UtilityTenantsUpdate = {
   phone?: string;
-  avatar?: string;
+  avatar?: string | File;
 };
 
 export type UtilityTenantsCollection = {
