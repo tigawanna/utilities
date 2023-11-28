@@ -77,6 +77,18 @@ export function Tenants({}: TenantsProps) {
                       </h4>
                     </div>
                   </div>
+                  {item.expand["utility_shops(tenant)"].length > 0 && (
+                    <div className="flex gap-2 items-center justify-start">
+                      {item.expand["utility_shops(tenant)"].map((shop) => (
+                        <div className="flex gap-2 items-center justify-start" key={shop.id}>
+                          {/* <User className="w-3 h-3" /> */}
+                          <h4 className="text-xs bg-accent border border-accent px-1 rounded">
+                            {shop.shop_number}
+                          </h4>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="absolute top-[5%] right-[2%]">
                   <MutateTenantModal
