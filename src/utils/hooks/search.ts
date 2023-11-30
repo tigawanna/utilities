@@ -2,11 +2,17 @@ import { useEffect, useState, useTransition } from "react";
 import { useDebouncedValue } from "./debounce";
 import { navigate, useLocation } from "rakkasjs";
 
-export function useSearchWithQuery() {
+interface UseSearchWithQuery{
+search_query?:boolean
+default_value?:string
+}
+export function useSearchWithQuery(opts:UseSearchWithQuery={
+  search_query:true
+}) {
   const { current } = useLocation();
   const [_, startTransition] = useTransition();
   const url = current;
-  const [keyword, setKeyword] = useState(url?.searchParams?.get("q") ?? "");
+  const [keyword, setKeyword] = useState(url?.searchParams?.get("q") ?? opts.default_value ?? "");
   const { debouncedValue, isDebouncing } = useDebouncedValue(keyword, 2000);
   // useEffect(() => {
   //   if (current) {
@@ -14,7 +20,7 @@ export function useSearchWithQuery() {
   //   }
   // },[])
   useEffect(() => {
-    if (current && debouncedValue) {
+    if (current && debouncedValue && opts.search_query) {
       startTransition(() => {
         url?.searchParams?.set("q", debouncedValue);
         navigate(url);

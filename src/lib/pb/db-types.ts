@@ -429,7 +429,7 @@ export type PocketbookNotificationsCollection = {
 export type UtilityShopsResponse = {
   shop_number: string;
   supa_tenant?: string;
-  utils?: 'elec' | 'water' | 'both';
+  utils?: 'elec' | 'water' | 'both' | 'none';
   order?: number;
   supa_id?: string;
   is_vacant?: boolean;
@@ -439,7 +439,7 @@ export type UtilityShopsResponse = {
 export type UtilityShopsCreate = {
   shop_number: string;
   supa_tenant?: string;
-  utils?: 'elec' | 'water' | 'both';
+  utils?: 'elec' | 'water' | 'both' | 'none';
   order?: number;
   supa_id?: string;
   is_vacant?: boolean;
@@ -449,7 +449,7 @@ export type UtilityShopsCreate = {
 export type UtilityShopsUpdate = {
   shop_number?: string;
   supa_tenant?: string;
-  utils?: 'elec' | 'water' | 'both';
+  utils?: 'elec' | 'water' | 'both'|'none';
   order?: number;
   'order+'?: number;
   'order-'?: number;

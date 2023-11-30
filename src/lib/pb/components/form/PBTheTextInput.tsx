@@ -14,7 +14,7 @@ interface PbTheTextInputProps<T>
   editing?: boolean;
   description?: string;
   val?: string | Date | URL | number | readonly string[] | undefined;
-  error?: IUseFormError | null;
+  validation_error?: IUseFormError | null;
   pb_error?: ClientResponseError | null;
 }
 interface FieldError {
@@ -26,12 +26,13 @@ export function PbTheTextInput<T>({
   field_name,
   field_key,
   editing = true,
-  error,
+  validation_error,
+  className,
   pb_error,
   ...props
 }: PbTheTextInputProps<T>) {
-  const validatin_field_error =
-    error?.name === field_key ? error.message : undefined;
+  const validation_field_error =
+    validation_error?.name === field_key ? validation_error.message : undefined;
   const error_data = pb_error?.data?.data;
   const pb_field_error = error_data?.[field_key] as FieldError | undefined;
 
@@ -39,11 +40,12 @@ export function PbTheTextInput<T>({
     <div className="w-full flex flex-col gap-1">
       <TheTextInput
         {...props}
+        className={className}
         field_key={field_key}
         field_name={field_name}
         editing={editing}
         val={props.val ?? props.value}
-        error_message={validatin_field_error ?? pb_field_error?.message}
+        error_message={validation_field_error ?? pb_field_error?.message}
       />
     </div>
   );

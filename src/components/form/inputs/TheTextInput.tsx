@@ -23,6 +23,7 @@ export function TheTextInput<T>({
   editing = true,
   ...props
 }: TheTextInputProps<T>) {
+
   const [error_message, setError] = useState(
     props.error_message && props.error_message.length > 0
       ? props.error_message

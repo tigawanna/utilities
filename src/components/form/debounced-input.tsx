@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "@/components/shadcn/ui/input";
 import { Loader, Search } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 export function DebouncedInput({
   value: initialValue,
@@ -34,13 +35,13 @@ export function DebouncedInput({
   }, [value, debounce]);
 
   return (
-    <div className="w-full flex gap-6 items-center justify-end">
+    <div className="w-full flex gap-6 items-center justify-center">
       <div
-        className="w-[70%] md:w-[40%] flex items-center  rounded-lg border border-input px-1 
+        className={twMerge(`w-full flex items-center  rounded-lg border border-input px-1 
         focus-visible:outline-none focus-visible:ring-2 active:ring-ring 
         focus-visible:ring-offset-2 
         ring-offset-background 
-      ">
+      `,props.className)}>
         <Search className="h-5 w-5 text-muted-foreground" />
         <Input
           {...props}

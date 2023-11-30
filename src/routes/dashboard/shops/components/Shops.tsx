@@ -1,15 +1,16 @@
 import { ClientSuspense } from "rakkasjs";
-import { useTenantsList } from "../utils/useTenants";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
-import { Edit2, Mail, Phone, Search} from "lucide-react";
+import { Edit2, Mail, Phone, Search, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
-import { MutateTenantModal } from "./MutateTenantModal";
+import { useShopsList } from "../utils/useShopsQuery";
+import { MutateShopModal } from "./MutateShopModal";
 
 
-interface TenantsProps {}
 
-export function Tenants({}: TenantsProps) {
-  const { query, page_ctx, goToPage, handleChange, pages_arr, searchQuery } = useTenantsList({});
+interface ShopsProps {}
+
+export function Tenants({}: ShopsProps) {
+  const { query, page_ctx, goToPage, handleChange, pages_arr, searchQuery } = useShopsList({});
 
   const tenants = query.data?.data;
   return (
@@ -42,7 +43,7 @@ export function Tenants({}: TenantsProps) {
             )}
           </ClientSuspense>
         </div>
-        <MutateTenantModal  updating={false}/>
+        <MutateShopModal  updating={false}/>
       </div>
       {/* utilities list */}
       {tenants && (
@@ -76,22 +77,11 @@ export function Tenants({}: TenantsProps) {
                       </h4>
                     </div>
                   </div>
-                  {item.expand["utility_shops(tenant)"].length > 0 && (
-                    <div className="flex gap-2 items-center justify-start">
-                      {item.expand["utility_shops(tenant)"].map((shop) => (
-                        <div className="flex gap-2 items-center justify-start" key={shop.id}>
-                          {/* <User className="w-3 h-3" /> */}
-                          <h4 className="text-xs bg-accent border border-accent px-1 rounded">
-                            {shop.shop_number}
-                          </h4>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+   
                 </div>
                 <div className="absolute top-[5%] right-[2%]">
-                  <MutateTenantModal
-                    tenant={item}
+                  <MutateShopModal
+                    shop={item}
                     updating={true}
                     icon={
                       <Edit2

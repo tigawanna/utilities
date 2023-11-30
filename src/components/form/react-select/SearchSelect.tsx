@@ -10,7 +10,7 @@ interface SearchOwnerProps<T> {
   ) => JSX.Element | null;
 }
 
-export function SearchSelect<T,>({ gettterFunction,setValue,CustomOption,defaultkeyword}: SearchOwnerProps<T>){
+export default function SearchSelect<T,>({ gettterFunction,setValue,CustomOption,defaultkeyword}: SearchOwnerProps<T>){
 
 
   
