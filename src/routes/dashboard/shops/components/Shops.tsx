@@ -1,20 +1,48 @@
-import { ClientSuspense } from "rakkasjs";
+import { ClientSuspense, Link } from "rakkasjs";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { Edit2, Mail, Phone, Search, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
 import { useShopsList } from "../utils/useShopsQuery";
 import { MutateShopModal } from "./MutateShopModal";
+import { TypedRecord, expand, fields, sort,like } from "typed-pocketbase";
+import { UtilityShopsCollection, UtilityTenantsResponse } from "@/lib/pb/db-types";
+import { TypedRecordListQueryParams } from "@/lib/pb/typed-pocketbase";
+import { useState } from "react";
 
 
 
 interface ShopsProps {}
+type ShopsListOptions = TypedRecordListQueryParams<UtilityShopsCollection, any, any>;
 
-export function Tenants({}: ShopsProps) {
-  const { query, page_ctx, goToPage, handleChange, pages_arr, searchQuery } = useShopsList({});
 
-  const tenants = query.data?.data;
+interface SortFilters{
+  sort_direction:"-"|"+";
+  sort_by:"created"|"shop_number"|"order";
+
+}
+
+export function Shops({}: ShopsProps) {
+  
+const [sorters,SetSorters] =useState<SortFilters>({
+  sort_by:"order",
+  sort_direction:"-"
+})
+ 
+  // sort<>("")
+  const { query, page_ctx, goToPage, handleChange, pages_arr, searchQuery } =
+    useShopsList({
+      pb_query_params: {
+        sort: sort(`${sorters.sort_direction}${sorters.sort_by}`),
+        // expand: expand({ "utility_bills(shop)": true }),
+        // fields: fields("shop_number", "created"),
+        // filter: `shop_number~"${searchQuery.debouncedValue}"`,
+        expand: expand({ tenant: true }),
+     
+      },
+    });
+  const data = query?.data?.data?.items;
   return (
-    <div className="w-full h-full flex flex-col items-center gap-5">
+    <div className="w-full h-full min-h-screen flex flex-col ">
       {/* utilities search box */}
       <div className="sticky top-[10%]   flex w-full flex-wrap items-center justify-center gap-3 p-2">
         {/* <h3 className="text-2xl font-bold hidden md:flex">Education</h3> */}
@@ -43,60 +71,70 @@ export function Tenants({}: ShopsProps) {
             )}
           </ClientSuspense>
         </div>
-        <MutateShopModal  updating={false}/>
+        <MutateShopModal updating={false} />
       </div>
-      {/* utilities list */}
-      {tenants && (
-        <ul className="w-[90%] flex flex-wrap gap-2 justify-center">
-          {tenants.items.map((item) => {
+      <div className="w-full h-full flex flex-wrap gap-3 items-center justify-center">
+        {data &&
+          data.map((shop) => {
             return (
-              <li
-                key={item.id}
-                className="flex items-center w-[95%] sm:w-[45%] md:w-[30%]  p-2 gap-3 bg-base-200 rounded-lg relative"
+              <div
+                key={shop.id}
+                style={{
+                  // filter: shop.is_vacant ? 'blur(1px)' : '',
+                  backgroundColor: shop.is_vacant ? "#3A0806" : "",
+                }}
+                className="border  border-accent rounded-lg 
+                w-full p-5 md:w-[45%] lg:w-[30%] md:h-[200px] 
+                flex flex-col gap-2 shadow-lg @container hover:brightness-95" 
               >
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>{item.username.slice(0, 1)}</AvatarFallback>
-                </Avatar>
-
-                <div className="w-full  ">
-                  <div className="max-w-[80%]  ">
-                    <h1 className="w-full font-bold overflow-hidden overflow-ellipsis">
-                      {item.username}
-                    </h1>
-                    <div className=" flex gap-1 items-center">
-                      <Mail className="w-4 h-4" />
-                      <h4 className="overflow-hidden overflow-ellipsis ">
-                        {item.email}
-                      </h4>
-                    </div>
-                    <div className=" flex gap-2 items-center">
-                      <Phone className="w-3 h-3" />
-                      <h4 className="overflow-hidden overflow-ellipsis text-accent">
-                        {item.phone}
-                      </h4>
+                <Link
+                  href={`${shop.id}`}
+                  className="w-full h-full flex flex-col items-center 
+                   "
+                >
+                  {/*top  */}
+                  <div className="w-full flex flex-col items-end gap-1 ">
+                    <h2 className="font-bold text-6xl overflow-hidden break-words w-full text-end">
+                      {shop.shop_number}
+                    </h2>
+                    <div className="flex flex-col items-end gap-0">
+                      {shop.is_vacant && (
+                        <h2 className="text-accent font-bold">VACANT</h2>
+                      )}
                     </div>
                   </div>
-   
+
+                  {/*bottom */}
+                </Link>
+                <div className={"w-full flex gap-2 justify-end "}>
+                  <Link
+                    href={`/dashboard/tenants/${shop.tenant}`}
+                    className="text-2xl text-accent-content font-extralight overflow-hidden break-words hover:text-sky-400
+                   ">
+                    {shop?.expand?.tenant?.username}
+                  </Link>
                 </div>
-                <div className="absolute top-[5%] right-[2%]">
-                  <MutateShopModal
-                    shop={item}
-                    updating={true}
-                    icon={
-                      <Edit2
-                        className="h-3.5 w-3.5 
-                  duration-200 transition-transform 
-                  hover:text-accent hover:scale-[200%] hover:w-5 hover:h-5"
-                      />
-                    }
-                  />
+
+                <div className="w-full flex  justify-between items-center px-2 ">
+                  {/* <UtilIcons utils={shop.utils} /> */}
+                  <h4 className="border  rounded-full p-1 aspect-square">
+                    {shop.order}
+                  </h4>
+                  {shop && <MutateShopModal updating shop={shop} />}
+                  {/* <MutateShop
+                user={user}
+                shop={shop}
+                updating
+                custom_icon={{
+                  Icon: FaRegEdit,
+                  size: "20",
+                }}
+              /> */}
                 </div>
-              </li>
+              </div>
             );
           })}
-        </ul>
-      )}
+      </div>
     </div>
   );
 }

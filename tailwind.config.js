@@ -11,6 +11,7 @@ export default {
     require("daisyui"),
     require("tailwindcss-animate"),
     require("daisify-shadcn"),
+    require('@tailwindcss/container-queries'),
   ],
   daisyui: {
     //  3 themes

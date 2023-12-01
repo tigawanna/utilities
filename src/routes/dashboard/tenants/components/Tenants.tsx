@@ -1,17 +1,20 @@
 import { ClientSuspense } from "rakkasjs";
-import { useTenantsList } from "../utils/useTenants";
+import { useTenantsQuery } from "../utils/useTenants";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { Edit2, Mail, Phone, Search} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
 import { MutateTenantModal } from "./MutateTenantModal";
 
 
+
 interface TenantsProps {}
 
 export function Tenants({}: TenantsProps) {
-  const { query, page_ctx, goToPage, handleChange, pages_arr, searchQuery } = useTenantsList({});
-
+  const { query, page_ctx, goToPage, handleChange, pages_arr, searchQuery } =
+    useTenantsQuery({});
   const tenants = query.data?.data;
+
+
   return (
     <div className="w-full h-full flex flex-col items-center gap-5">
       {/* utilities search box */}

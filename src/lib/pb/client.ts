@@ -1,13 +1,16 @@
-import PocketBase, { OAuth2AuthConfig } from "pocketbase";
+import PocketBase, { OAuth2AuthConfig} from "pocketbase";
 import { GithubOauthResponse } from "./types";
 import { TypedPocketBase } from "typed-pocketbase";
-import { Schema,UtilityBillsUpdate,UtilityStaffCreate,UtilityStaffResponse } from "./db-types";
+import { Schema,UtilityBillsUpdate,UtilityShopsCollection,UtilityStaffCreate,UtilityStaffResponse } from "./db-types";
 import { tryCatchWrapper } from "@/utils/async";
 import { RequestContext } from "rakkasjs";
+import { TypedRecordListQueryParams } from "./typed-pocketbase";
 
 export type PocketBaseClient = TypedPocketBase<Schema>;
+
 const pb_url = import.meta.env.RAKKAS_PB_URL;
 export const pb = new PocketBase(pb_url) as TypedPocketBase<Schema>;
+
 
 export async function createUser(data: UtilityStaffCreate) {
   const res = await tryCatchWrapper(

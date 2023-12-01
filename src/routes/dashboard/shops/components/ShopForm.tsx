@@ -17,15 +17,17 @@ import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
 import { SearchTenant } from "./SearchTenant";
 import { ShopPosition } from "./ShopPosition";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
+import { TypedRecord } from "@/lib/pb/typed-pocketbase";
 
-
+// type ShopsRes = TypedRecord<
 interface ShopFormProps {
-  shop?: UtilityShopsResponse;
+  shop?: TypedRecord<UtilityShopsResponse>;
   updating?: boolean;
 }
 export type CreateShopFormFields = UtilityShopsCreate & { tenant_id: string };
 
 export function ShopForm({ shop, updating = false }: ShopFormProps) {
+  // console.log({shop})
   const { create_mutation, update_mutation } = useShopMutation();
   const { error, handleChange, input, setInput, setError, validateInputs } =
     useFormHook<CreateShopFormFields>({
@@ -35,7 +37,7 @@ export function ShopForm({ shop, updating = false }: ShopFormProps) {
         is_vacant: shop?.is_vacant,
         order: shop?.order ?? -1,
         // @ts-expect-error
-        tenant: shop?.expand?.tenant?.name,
+        tenant: shop?.expand?.tenant?.username,
         utils: shop?.utils ?? "none",
 
       },
@@ -67,7 +69,7 @@ export function ShopForm({ shop, updating = false }: ShopFormProps) {
   return (
     <div className="w-full h-full flex items-center justify-center">
       <form
-        className="w-[90%] md:w-[50%] h-full flex flex-col gap-3 items-center justify-center 
+        className="w-full h-full flex flex-col gap-3 items-center justify-center 
       bg-base-200 rounded-xl p-8"
         onSubmit={handleSubmit}
       >

@@ -1,11 +1,10 @@
-import { PageProps } from "rakkasjs"
-import { useShopsList } from "./utils/useShopsQuery"
-export default function ShopsPage({}:PageProps) {
-const {query} = useShopsList({page_size: 12})
-const data = query?.data?.data?.items
+import { PageProps } from "rakkasjs";
+import { Shops } from "./components/Shops";
 
+export default function ShopsPage({}: PageProps) {
 return (
-<div className="w-full h-full min-h-screen flex items-center justify-center">
-    shops
+<div className="w-full">
+    <Shops/>
 </div>
-)}
+  );
+}

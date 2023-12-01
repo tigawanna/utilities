@@ -9,12 +9,12 @@ import {
 import { Edit2, Plus } from "lucide-react";
 import { UtilityShopsResponse } from "@/lib/pb/db-types";
 import { ShopForm } from "./ShopForm";
-
+import { TypedRecord } from "typed-pocketbase";
 
 interface MutateShopModalProps {
   updating: boolean;
   icon?: React.ReactNode;
-  shop?: UtilityShopsResponse;
+  shop?: TypedRecord<UtilityShopsResponse>;
 }
 
 export function MutateShopModal({
@@ -42,7 +42,9 @@ export function MutateShopModal({
       <DialogContent className="w-fit max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            <h2 className="text-2xl">{updating ? "Update" : "New shop"}</h2>
+            <h2 className="text-2xl">
+              {updating ? "Update Shop" : "New shop"}
+            </h2>
           </DialogTitle>
         </DialogHeader>
 

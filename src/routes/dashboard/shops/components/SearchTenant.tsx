@@ -11,7 +11,7 @@ import { Search, X } from "lucide-react";
 import { useSearchTenants } from "../../tenants/utils/useSearchTenants";
 import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { ClientSuspense } from "rakkasjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateShopFormFields } from "./ShopForm";
 
 interface SearchTenantProps {
@@ -25,9 +25,16 @@ export function SearchTenant({ tenant, setInput }: SearchTenantProps) {
   //       keyword: "",
   //     },
   //   });
+  console.log({tenant})
   const [open, setOpen] = useState(false);
   const { handleChange, pages_arr, query, searchQuery } =
     useSearchTenants(tenant);
+
+    useEffect(()=>{
+      if(tenant && tenant.length > 0){
+        handleChange({target:{value:tenant}})
+      }
+    },[tenant])
   return (
     <div className="w-full h-full flex flex-col items-center justify-center ">
       <div className="w-full">
@@ -43,7 +50,7 @@ export function SearchTenant({ tenant, setInput }: SearchTenantProps) {
               <Search className="h-5 w-5 text-muted-foreground" />
               <Input
                 placeholder={tenant ?? "search tenant"}
-                // defaultValue={tenant}
+                defaultValue={tenant}
                 className=" border-none h-auto
           focus-visible:outline-none focus-visible:ring-0 
           focus-visible:ring-offset-0"/>
