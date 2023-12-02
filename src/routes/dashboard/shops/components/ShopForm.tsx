@@ -9,7 +9,11 @@ import {
 } from "@/components/shadcn/ui/select";
 import { useFormHook } from "@/components/form/useForm";
 import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
-import { UtilityShopsCreate, UtilityShopsResponse } from "@/lib/pb/db-types";
+import {
+  UtilityShopsCreate,
+  UtilityShopsResponse,
+  UtilityTenantsResponse,
+} from "@/lib/pb/db-types";
 import { Loader } from "lucide-react";
 import { useShopMutation } from "../utils/useShopMutation";
 import React from "react";
@@ -17,17 +21,18 @@ import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
 import { SearchTenant } from "./SearchTenant";
 import { ShopPosition } from "./ShopPosition";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";
-import { TypedRecord } from "@/lib/pb/typed-pocketbase";
+import { TypedRecord } from "typed-pocketbase";
 
 // type ShopsRes = TypedRecord<
 interface ShopFormProps {
-  shop?: TypedRecord<UtilityShopsResponse>;
+  shop?: TypedRecord<UtilityShopsResponse, { tenant: UtilityTenantsResponse }>;
   updating?: boolean;
 }
 export type CreateShopFormFields = UtilityShopsCreate & { tenant_id: string };
 
 export function ShopForm({ shop, updating = false }: ShopFormProps) {
   // console.log({shop})
+
   const { create_mutation, update_mutation } = useShopMutation();
   const { error, handleChange, input, setInput, setError, validateInputs } =
     useFormHook<CreateShopFormFields>({
@@ -36,10 +41,8 @@ export function ShopForm({ shop, updating = false }: ShopFormProps) {
         shop_number: shop?.shop_number ?? "",
         is_vacant: shop?.is_vacant,
         order: shop?.order ?? -1,
-        // @ts-expect-error
         tenant: shop?.expand?.tenant?.username,
         utils: shop?.utils ?? "none",
-
       },
     });
 

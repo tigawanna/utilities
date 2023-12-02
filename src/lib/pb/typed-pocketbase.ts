@@ -95,7 +95,7 @@ type UnpackExpand<T extends GenericCollection, E extends Expand<T>> = Simplify<{
     [K in keyof E & keyof T['relations']]: RelationToTypedRecord<T['relations'][K], E[K] extends Expand<GenericCollection> ? UnpackExpand<ArrayInnerType<T['relations'][K]>, E[K]> : {}>;
 }>;
 declare function expand<T extends GenericCollection, E extends Expand<T>>(expand: E): ExpandParam<T, UnpackExpand<T, E>>;
-
+// @ts-expect-error
 interface TypedRecordService<Collection extends GenericCollection> extends RecordService {
     getFullList<Select extends Fields<Collection> = Fields<Collection>, Expand extends GenericExpand = {}>(queryParams?: TypedRecordFullListQueryParams<Collection, Select, Expand>): Promise<TypedRecord<Simplify<Pick<Columns<Collection>, Select>>, Expand>[]>;
     getFullList<Select extends Fields<Collection> = Fields<Collection>, Expand extends GenericExpand = {}>(batch?: number, queryParams?: TypedRecordListQueryParams<Collection, Select, Expand>): Promise<TypedRecord<Simplify<Pick<Columns<Collection>, Select>>, Expand>[]>;
@@ -131,8 +131,5 @@ export interface TypedRecordListQueryParams<T extends GenericCollection, S exten
 interface TypedRecordFullListQueryParams<T extends GenericCollection, S extends Fields<T>, E extends GenericExpand> extends TypedFullListQueryParams<T, S>, TypedRecordQueryParams<T, S, E> {
 }
 
-interface TypedPocketBase<Schema extends GenericSchema> extends PocketBase {
-    collection<C extends keyof Schema>(idOrName: C): TypedRecordService<Schema[C]>;
-}
 
-export { GenericCollection, GenericSchema, TypedPocketBase, TypedRecord, and, asc, desc, eq, expand, fields, gt, gte, like, lt, lte, neq, nlike, or, sort };
+

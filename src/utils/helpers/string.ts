@@ -23,3 +23,12 @@ export function ensureNumber(val:string|number){
   }
   return val
 }
+
+export function wordToNumber(word: string): number {
+  let sum = 0;
+  for (let i = 0; i < word.length; i++) {
+    sum += word.charCodeAt(i);
+  }
+
+  return sum % 991 + 10; // 991 is a prime number close to 1000
+}

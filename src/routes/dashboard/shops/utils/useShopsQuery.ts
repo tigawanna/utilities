@@ -16,6 +16,7 @@ import {
   expand,
   fields,
   like,
+  or,
   sort,
 } from "typed-pocketbase";
 import { ShopForm } from "../components/ShopForm";
@@ -28,27 +29,29 @@ type queryParams = TypedRecordListQueryParams<UtilityShopsCollection, any, any>;
 
 interface UseShopsListProps {
   page_size?: number;
-  pb_query_params: TypedRecordListQueryParams<UtilityShopsCollection, any, any>;
+  pb_query_params?: TypedRecordListQueryParams<UtilityShopsCollection, any, any>;
 }
 
-export function useShopsList({
+export function useShopsQuery({
   page_size = 12,
   pb_query_params,
 }: UseShopsListProps) {
-  const sortter = sort<SortParam<UtilityShopsResponse>>();
+
   const page_ctx = usePageContext();
   const searchQuery = useSearchWithQuery();
   const page_number = parseInt(page_ctx.url.searchParams.get("p") ?? "1") ?? 1;
 
   const query = useQuery({
-    queryKey: ["utility_shops", searchQuery?.debouncedValue],
+    queryKey: ["utility_shops", searchQuery?.debouncedValue, page_number],
     queryFn: () =>
       tryCatchWrapper(
         page_ctx.locals.pb
           ?.collection("utility_shops")
           .getList(page_number, page_size, {
             // ...pb_query_params,
-            filter: `shop_number~"${searchQuery.debouncedValue}"`,
+            // filter: `shop_number~"${searchQuery.debouncedValue}"`,
+            filter:or(["tenant.username","~",searchQuery.debouncedValue],
+            ["shop_number","~",searchQuery.debouncedValue]),
             expand: expand({
                 tenant: true,
             })
@@ -64,5 +67,5 @@ export function useShopsList({
     page_ctx.url.searchParams.set("p", page.toString());
     navigate(page_ctx.url);
   }
-  return { query, searchQuery, page_ctx, handleChange, goToPage, pages_arr };
+  return { query, searchQuery, page_ctx,page_number, handleChange, goToPage, pages_arr };
 }

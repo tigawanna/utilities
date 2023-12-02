@@ -41,7 +41,7 @@ export function MutateTenantModal({
       <DialogContent className="w-fit max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            <h2 className="text-2xl">{updating ? "Update" : "New Tenant"}</h2>
+            <span className="text-2xl">{updating ? "Update" : "New Tenant"}</span>
           </DialogTitle>
         </DialogHeader>
 

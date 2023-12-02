@@ -7,14 +7,14 @@ import {
   DialogTrigger,
 } from "@/components/shadcn/ui/dialog";
 import { Edit2, Plus } from "lucide-react";
-import { UtilityShopsResponse } from "@/lib/pb/db-types";
+import { UtilityShopsResponse, UtilityTenantsResponse } from "@/lib/pb/db-types";
 import { ShopForm } from "./ShopForm";
 import { TypedRecord } from "typed-pocketbase";
 
 interface MutateShopModalProps {
   updating: boolean;
   icon?: React.ReactNode;
-  shop?: TypedRecord<UtilityShopsResponse>;
+  shop?: TypedRecord<UtilityShopsResponse, { tenant: UtilityTenantsResponse }>;
 }
 
 export function MutateShopModal({
@@ -42,9 +42,9 @@ export function MutateShopModal({
       <DialogContent className="w-fit max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            <h2 className="text-2xl">
+            <span className="text-2xl">
               {updating ? "Update Shop" : "New shop"}
-            </h2>
+            </span>
           </DialogTitle>
         </DialogHeader>
 

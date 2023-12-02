@@ -54,6 +54,7 @@ export function TenantForm({ tenant, updating = false }: TenantFormProps) {
       <form
         className="min-w-fit h-full flex flex-col gap-3 items-center justify-center 
       bg-base-200 rounded-xl p-8"
+      onSubmit={handleSubmit}
       >
         <PbTheImagePicker
           collection_id_or_name="utility_tenants"

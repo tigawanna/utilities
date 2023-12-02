@@ -1,6 +1,6 @@
 import { PocketBaseClient } from "@/lib/pb/client";
 import { UtilityTenantsResponse } from "@/lib/pb/db-types";
-Rec
+
 export async function searchTenant(pb:PocketBaseClient,keyword: string) {
     try {
         // you can also fetch all records at once via getFullList

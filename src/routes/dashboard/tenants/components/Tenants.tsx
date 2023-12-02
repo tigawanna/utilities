@@ -4,13 +4,14 @@ import { TheTextInput } from "@/components/form/inputs/TheTextInput";
 import { Edit2, Mail, Phone, Search} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/shadcn/ui/avatar";
 import { MutateTenantModal } from "./MutateTenantModal";
+import { wordToNumber } from "@/utils/helpers/string";
 
 
 
 interface TenantsProps {}
 
 export function Tenants({}: TenantsProps) {
-  const { query, page_ctx, goToPage, handleChange, pages_arr, searchQuery } =
+  const { query, page_number, goToPage, handleChange, pages_arr, searchQuery } =
     useTenantsQuery({});
   const tenants = query.data?.data;
 
@@ -45,7 +46,7 @@ export function Tenants({}: TenantsProps) {
             )}
           </ClientSuspense>
         </div>
-        <MutateTenantModal  updating={false}/>
+        <MutateTenantModal updating={false} />
       </div>
       {/* utilities list */}
       {tenants && (
@@ -54,10 +55,14 @@ export function Tenants({}: TenantsProps) {
             return (
               <li
                 key={item.id}
-                className="flex items-center w-[95%] sm:w-[45%] md:w-[30%]  p-2 gap-3 bg-base-200 rounded-lg relative"
+                className="flex items-center w-[95%] sm:w-[45%] lg:w-[30%]  p-2 gap-3 bg-base-200 rounded-lg relative"
               >
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarImage
+                    src={`https://picsum.photos/id/${wordToNumber(
+                      item.username,
+                    )}/30/30`}
+                  />
                   <AvatarFallback>{item.username.slice(0, 1)}</AvatarFallback>
                 </Avatar>
 
@@ -82,7 +87,10 @@ export function Tenants({}: TenantsProps) {
                   {item.expand["utility_shops(tenant)"].length > 0 && (
                     <div className="flex gap-2 items-center justify-start">
                       {item.expand["utility_shops(tenant)"].map((shop) => (
-                        <div className="flex gap-2 items-center justify-start" key={shop.id}>
+                        <div
+                          className="flex gap-2 items-center justify-start"
+                          key={shop.id}
+                        >
                           {/* <User className="w-3 h-3" /> */}
                           <h4 className="text-xs bg-accent border border-accent px-1 rounded">
                             {shop.shop_number}
@@ -110,6 +118,24 @@ export function Tenants({}: TenantsProps) {
           })}
         </ul>
       )}
+
+      <div className="join ">
+        {pages_arr.map((item) => {
+          return (
+            <button
+              key={item}
+              onClick={() => goToPage(item)}
+              className={
+                item === page_number
+                  ? "join-item btn btn-sm btn-active bg-accent"
+                  : "join-item btn btn-sm"
+              }
+            >
+              {item}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

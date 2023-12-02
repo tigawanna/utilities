@@ -1,12 +1,12 @@
 import { UtilityTenantsCreate, UtilityTenantsUpdate } from "@/lib/pb/db-types";
 import { tryCatchWrapper } from "@/utils/async";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePageContext } from "rakkasjs";
 import { toast } from "react-toastify";
 
 export function useMutateTenant() {
   const page_ctx = usePageContext();
-
+  const qc=useQueryClient()
   const create_mutation = useMutation({
     mutationFn: (tenant: UtilityTenantsCreate) => {
       return tryCatchWrapper(
@@ -17,7 +17,8 @@ export function useMutateTenant() {
       if (data.data) {
         // const navigate_to = `/dashboard/scribble/${data.data.id!}`;
         // navigate(navigate_to);
-        toast("Tenant Created", { type: "success", autoClose: false });
+        qc.invalidateQueries({queryKey:["utility_tenants"]})
+        toast("Tenant Created", { type: "success"});
       }
       if (data.error) {
         toast(data.error.message, { type: "error", autoClose: false });
@@ -26,6 +27,7 @@ export function useMutateTenant() {
     onError(error: any) {
       toast(error.message, { type: "error", autoClose: false });
     },
+    
   },
   );
 
@@ -43,7 +45,8 @@ export function useMutateTenant() {
         if (data.data) {
           // const navigate_to = `/dashboard/scribble/${data.data.id!}`;
           // navigate(navigate_to);
-          toast("Tenant Updated", { type: "success", autoClose: false });
+          qc.invalidateQueries({ queryKey: ["utility_tenants"] })
+          toast("Tenant Updated", { type: "success" });
         }
         if (data.error) {
           toast(data.error.message, { type: "error", autoClose: false });

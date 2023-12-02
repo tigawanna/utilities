@@ -11,7 +11,7 @@ interface UseTenantsListProps {
 }
 
 
-export function useTenantsQuery({page_size = 12}: UseTenantsListProps) {
+export function useTenantsQuery({page_size = 24}: UseTenantsListProps) {
 
     const page_ctx = usePageContext()
     const searchQuery = useSearchWithQuery();
@@ -35,5 +35,5 @@ export function useTenantsQuery({page_size = 12}: UseTenantsListProps) {
         page_ctx.url.searchParams.set("p", page.toString());
         navigate(page_ctx.url);
     }
-    return {query,searchQuery,page_ctx,handleChange,goToPage,pages_arr}
+    return {query,searchQuery,page_ctx,handleChange,goToPage,pages_arr,page_number}
 }

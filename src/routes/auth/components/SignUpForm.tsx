@@ -85,7 +85,7 @@ export function SignUpForm({}: SignupFormProps) {
               required
               val={input.email}
               onChange={handleChange}
-              error={error}
+              validation_error={error}
               pb_error={mutation.data?.error}
             />
             <PbTheTextInput
@@ -95,7 +95,7 @@ export function SignUpForm({}: SignupFormProps) {
               min={4}
               val={input.username}
               onChange={handleChange}
-              error={error}
+              validation_error={error}
               pb_error={mutation.data?.error}
             />
             <PbTheTextInput
@@ -106,7 +106,7 @@ export function SignUpForm({}: SignupFormProps) {
               min={8}
               onChange={handleChange}
               val={input.password}
-              error={error}
+              validation_error={error}
               pb_error={mutation.data?.error}
             />
             <PbTheTextInput
@@ -117,7 +117,7 @@ export function SignUpForm({}: SignupFormProps) {
               min={8}
               onChange={handleChange}
               val={input.passwordConfirm}
-              error={error}
+              validation_error={error}
               pb_error={mutation.data?.error}
             />
 

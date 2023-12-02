@@ -20,7 +20,7 @@ export function useSearchWithQuery(opts:UseSearchWithQuery={
   //   }
   // },[])
   useEffect(() => {
-    if (current && debouncedValue && opts.search_query) {
+    if (current && debouncedValue ) {
       startTransition(() => {
         url?.searchParams?.set("q", debouncedValue);
         navigate(url);

@@ -1,12 +1,12 @@
 import { UtilityShopsCreate, UtilityShopsUpdate } from "@/lib/pb/db-types";
 import { tryCatchWrapper } from "@/utils/async";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePageContext } from "rakkasjs";
 import { toast } from "react-toastify";
 
 export function useShopMutation() {
   const page_ctx = usePageContext();
-
+const qc = useQueryClient()
   const create_mutation = useMutation({
     mutationFn: (shop: UtilityShopsCreate) => {
       return tryCatchWrapper(
@@ -17,7 +17,8 @@ export function useShopMutation() {
       if (data.data) {
         // const navigate_to = `/dashboard/scribble/${data.data.id!}`;
         // navigate(navigate_to);
-        toast("shop created", { type: "success", autoClose: false });
+        qc.invalidateQueries({ queryKey: ["utility_shops"] });
+        toast("shop created", { type: "success"});
       }
       if (data.error) {
         toast(data.error.message, { type: "error", autoClose: false });
@@ -43,7 +44,8 @@ export function useShopMutation() {
         if (data.data) {
           // const navigate_to = `/dashboard/scribble/${data.data.id!}`;
           // navigate(navigate_to);
-          toast("shop updated", { type: "success", autoClose: false });
+          qc.invalidateQueries({ queryKey: ["utility_shops"] });
+          toast("shop updated", { type: "success" });
         }
         if (data.error) {
           toast(data.error.message, { type: "error", autoClose: false });
