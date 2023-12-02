@@ -43,10 +43,10 @@ function Layout({ children }: LayoutProps) {
 Layout.preload = (ctx: PageContext) => {
   return {
     head: {
-      title: "Scribble",
+      title: "Chez Maison",
       keywords:
-        "rich text editor, markdown, cherry, markdown based rich text editor,AI editor",
-      description: "cherry markdown based rich text editor ",
+        "bills, property managent,tenancy,monthly,billing,invoice",
+      description: "intergrated property management app  ",
     },
   };
 };
