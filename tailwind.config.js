@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+const withMT = require("@material-tailwind/react/utils/withMT");
+export default withMT({
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
 
@@ -54,51 +55,12 @@ export default {
           "--tab-border": "2px",
           "--tab-radius": ".5rem",
         },
-        // cupcake: {
-        //   ...require("daisyui/src/theming/themes")["cupcake"],
-        //   primary: "#4f4530",
-        //   "primary-content": "#ffffff",
-        //   secondary: "#850a0a",
-        //   "secondary-content": "#ffffff",
-        // },
+
       },
     ],
 
-    //  many themes
-    // themes: [
-    //   {
-    //     custom: {
-    //       ...require("daisyui/src/theming/themes")["cupcake"],
-    //       primary: "#433922",
-    //       secondary: "#34d399",
-    //       accent: "#a3e635",
-    //       neutral: "#ffe4e6",
-    //       info: "#62c2d5",
-    //       success: "#25bbac",
-    //       warning: "#c88314",
-    //       error: "#e77982",
-    //     },
-    //     cupcake: {
-    //       ...require("daisyui/src/theming/themes")["cupcake"],
-    //       primary: "#4f4530",
-    //       "primary-content": "#ffffff",
-    //       secondary: "#850a0a",
-    //       "secondary-content": "#ffffff",
-    //     },
-    //   },
-    //   "light",
-    //   "dark",
-    //   "cupcake",
-    //   "wireframe",
-    //   "black",
-    //   "acid",
-    //   "night",
-    //   "coffee",
-    //   "dim",
-    //   "nord",
-    //   "sunset",
-    // ],
+
   },
-};
+})
 
 

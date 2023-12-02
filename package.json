@@ -39,6 +39,7 @@
   "dependencies": {
     "@hattip/cookie": "^0.0.35",
     "@hattip/response": "^0.0.35",
+    "@material-tailwind/react": "^2.1.5",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
