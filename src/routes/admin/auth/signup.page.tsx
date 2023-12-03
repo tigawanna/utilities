@@ -1,7 +1,7 @@
 import { PageProps } from "rakkasjs"
-export default function SigninPage({}:PageProps) {
+export default function SignupPage({}:PageProps) {
 return (
 <div className="w-full h-full min-h-screen flex items-center justify-center">
-    Signin Page
+    Signup Page
 </div>
 )}
