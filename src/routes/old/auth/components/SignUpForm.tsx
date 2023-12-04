@@ -9,7 +9,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { tryCatchWrapper } from "@/utils/async";
 import { Loader } from "lucide-react";
-import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
+import { PbTheTextInput } from "@/lib/pb/components/shadcn/form/PBTheTextInput";
 
 interface SignupFormProps {}
 

@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/ui/select";
-import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
+import { PbTheTextInput } from "@/lib/pb/components/shadcn/form/PBTheTextInput";
 import { UtilityShopsCreate, UtilityShopsResponse } from "@/lib/pb/db-types";
 import { tryCatchWrapper } from "@/utils/async";
 import { addZeroToSingleNumber, ensureNumber } from "@/utils/helpers/string";

@@ -1,6 +1,6 @@
 import { useFormHook } from "@/components/form/useForm";
-import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
-import { PbTheImagePicker } from "@/lib/pb/components/form/PbTheImagePicker";
+import { PbTheTextInput } from "@/lib/pb/components/shadcn/form/PBTheTextInput";
+import { PbTheImagePicker } from "@/lib/pb/components/shadcn/form/PbTheImagePicker";
 import {
   UtilityTenantsCreate,
   UtilityTenantsResponse,

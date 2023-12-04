@@ -6,7 +6,18 @@ export default withMT({
 
   ],
   theme: {
-    extend: {},
+    extend: {
+      // colors: {
+      //   primary: "#34d399",
+      //   secondary: "#34d399",
+      //   accent: "#34d399",
+      //   neutral: "#34d399",
+      //   info: "#34d399",
+      //   success: "#34d399",
+      //   warning: "#34d399",
+      //   error: "#34d399",
+      // }
+    },
   },
   plugins: [
     require("daisyui"),

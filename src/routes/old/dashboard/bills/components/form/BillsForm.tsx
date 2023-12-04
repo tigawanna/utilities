@@ -15,7 +15,7 @@ import { usePageContext } from "rakkasjs";
 import { ErrorWrapper } from "@/components/wrappers/ErrorWrapper";
 import { Button } from "@/components/shadcn/ui/button";
 import { Loader } from "lucide-react";
-import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
+import { PbTheTextInput } from "@/lib/pb/components/shadcn/form/PBTheTextInput";
 
 interface BillsFormProps {
   bill: MonthlyBills;

@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/shadcn/ui/select";
 import { useFormHook } from "@/components/form/useForm";
-import { PbTheTextInput } from "@/lib/pb/components/form/PBTheTextInput";
+import { PbTheTextInput } from "@/lib/pb/components/shadcn/form/PBTheTextInput";
 import {
   UtilityShopsCreate,
   UtilityShopsResponse,
@@ -17,7 +17,7 @@ import {
 import { Loader } from "lucide-react";
 import { useShopMutation } from "../utils/useShopMutation";
 import React from "react";
-import { PBFieldWrapper } from "@/lib/pb/components/form/PBFieldWrapper";
+import { PBFieldWrapper } from "@/lib/pb/components/shadcn/form/PBFieldWrapper";
 import { SearchTenant } from "./SearchTenant";
 import { ShopPosition } from "./ShopPosition";
 import { Checkbox } from "@/components/shadcn/ui/checkbox";

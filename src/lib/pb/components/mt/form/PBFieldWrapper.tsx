@@ -23,7 +23,7 @@ export function PBFieldWrapper<T>({
   const pb_field_error = error_data?.[field_key] as FieldError | undefined;
   const error_message = validation_field_error ?? pb_field_error?.message;
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-2 p-1">
       {children}
       {error_message && (
         <span className="text-xs italic text-error">{error_message}</span>
